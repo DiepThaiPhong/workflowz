@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 85 100% 45%;
+    --primary-foreground: 0 0% 0%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 150 33% 5%;
+    --foreground: 0 0% 95%;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white dark:bg-[#0b0f0c] text-gray-900 dark:text-gray-100 font-sans antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+
+  ::selection {
+    background: #92e600;
+    color: #0b0f0c;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0b0f0c;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #92e600;
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    @apply bg-white/70 dark:bg-[#0e150d]/90 backdrop-blur-md border border-white/20 dark:border-[#92e600]/10 rounded-2xl shadow-glass dark:shadow-glass-dark;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    background: #92e600;
+    color: #0b0f0c;
+    @apply font-bold px-6 py-3 rounded-xl transition-all duration-200 hover:shadow-glow-green hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2;
+    --tw-ring-color: #92e600;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply bg-white/10 dark:bg-[#0e150d]/80 hover:bg-white/20 dark:hover:bg-[#1a2119]/80 text-gray-900 dark:text-white border border-gray-200 dark:border-[#92e600]/20 font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800 dark:bg-primary-900/40 dark:text-primary-300;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent-100 text-accent-800 dark:bg-accent-900/40 dark:text-accent-300;
+  }
+
+  .badge-blue {
+    @apply badge bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300;
+  }
+
+  /* Input */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-[#0e150d] border border-gray-200 dark:border-[#92e600]/20 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-transparent transition-all duration-200;
+    --tw-ring-color: #92e600;
+  }
+
+  /* Section */
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .gradient-text {
+    background: linear-gradient(to right, #92e600, #74b800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Chat bubble */
+  .chat-bubble-ai {
+    background: rgba(146, 230, 0, 0.08);
+    @apply text-gray-900 dark:text-white border rounded-2xl rounded-tl-md px-4 py-3 max-w-[85%];
+    border-color: rgba(146, 230, 0, 0.2);
+  }
+
+  .chat-bubble-user {
+    background: #92e600;
+    color: #0b0f0c;
+    @apply rounded-2xl rounded-tr-md px-4 py-3 max-w-[85%] ml-auto font-semibold;
+  }
+
+  /* Progress ring */
+  .progress-ring-track {
+    @apply stroke-gray-200 dark:stroke-gray-700;
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+  }
+
+  .progress-ring-fill {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke: #92e600;
+    transition: stroke-dashoffset 1.5s ease-in-out;
+  }
+
+  /* Mission card */
+  .mission-complete {
+    border-color: rgba(146, 230, 0, 0.4);
+    background: rgba(146, 230, 0, 0.04);
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-6 flex flex-col items-center text-center gap-2;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .animate-in {
+    animation: fadeIn 0.5s ease-out both;
+  }
+
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.3s; }
+  .delay-400 { animation-delay: 0.4s; }
+  .delay-500 { animation-delay: 0.5s; }
+}

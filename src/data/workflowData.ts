@@ -1,0 +1,343 @@
+import { Workflow, WorkflowBlock, WorkflowEdge, PlatformMetrics } from '../types';
+
+// ─── Sample Blocks ─────────────────────────────────────────────────────────
+const makeBlock = (
+  id: string,
+  type: WorkflowBlock['type'],
+  title: string,
+  content: string,
+  x = 0,
+  y = 0,
+  extra: Partial<WorkflowBlock> = {}
+): WorkflowBlock => ({ id, type, title, content, position: { x, y }, ...extra });
+
+// ─── Helper to make edge ──────────────────────────────────────────────────
+const edge = (id: string, source: string, target: string, label?: string): WorkflowEdge =>
+  ({ id, source, target, label });
+
+// ─── Workflow 1: Viết Email Chuyên Nghiệp ─────────────────────────────────
+export const WORKFLOW_EMAIL: Workflow = {
+  id: 'wf-email',
+  title: 'Viết Email Chuyên Nghiệp',
+  titleEn: 'Write a Professional Email',
+  description: 'Quy trình AI giúp bạn viết email công việc rõ ràng, chuyên nghiệp trong 5 bước.',
+  descriptionEn: 'AI-guided workflow to write clear, professional work emails in 5 steps.',
+  category: 'writing',
+  tags: ['email', 'communication', 'office'],
+  blocks: [
+    makeBlock('b1', 'instruction', 'Bắt đầu', 'Chào mừng! Workflow này sẽ giúp bạn viết một email chuyên nghiệp. Hãy chuẩn bị thông tin cần thiết.', 0, 0),
+    makeBlock('b2', 'input', 'Người nhận', 'Nhập tên và chức vụ người nhận', 250, 0, { placeholder: 'VD: Anh Minh - Giám đốc Marketing' }),
+    makeBlock('b3', 'input', 'Nội dung chính', 'Bạn muốn truyền đạt điều gì?', 0, 140, { placeholder: 'VD: Đề xuất hợp tác dự án X' }),
+    makeBlock('b4', 'aiPrompt', 'AI viết email', 'Viết một email chuyên nghiệp bằng tiếng Việt gửi đến {{b2}} về chủ đề: {{b3}}. Email phải lịch sự, ngắn gọn và kết thúc bằng lời kêu gọi hành động.', 250, 140, { aiModel: 'gemini' }),
+    makeBlock('b5', 'output', 'Email hoàn chỉnh', 'Email của bạn đã sẵn sàng!', 125, 280, { outputFormat: 'text' }),
+  ],
+  edges: [
+    edge('e1-2', 'b1', 'b2'), edge('e1-3', 'b1', 'b3'),
+    edge('e2-4', 'b2', 'b4'), edge('e3-4', 'b3', 'b4'),
+    edge('e4-5', 'b4', 'b5'),
+  ],
+  creatorId: 'creator-1',
+  creatorName: 'AI Mentor SkillBridge',
+  thumbnail: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=400&q=80',
+  price: 0,
+  currency: 'VND',
+  runCount: 1245,
+  completionRate: 87,
+  rating: 4.8,
+  ratingCount: 312,
+  isDraft: false,
+  isPublished: true,
+  createdAt: '2026-01-15T00:00:00Z',
+  updatedAt: '2026-03-01T00:00:00Z',
+  estimatedMinutes: 8,
+  interactionMode: 'step-by-step',
+  outputArtifactFormat: 'text',
+};
+
+// ─── Workflow 2: Tạo CV Xin Việc ──────────────────────────────────────────
+export const WORKFLOW_CV: Workflow = {
+  id: 'wf-cv',
+  title: 'Tạo CV Xin Việc Chuẩn',
+  titleEn: 'Build a Job-Ready Resume',
+  description: 'Điền thông tin cá nhân và kinh nghiệm, AI sẽ tạo CV chuyên nghiệp cho bạn.',
+  descriptionEn: 'Fill in your info and experience, AI generates your professional CV.',
+  category: 'business',
+  tags: ['cv', 'career', 'job'],
+  blocks: [
+    makeBlock('c1', 'instruction', 'Hướng dẫn', 'Workflow tạo CV sẽ hỏi bạn từng bước về kinh nghiệm và kỹ năng.', 0, 0),
+    makeBlock('c2', 'input', 'Thông tin cá nhân', 'Họ tên, email, số điện thoại', 0, 120, { placeholder: 'Nguyễn Văn A, nguyenvana@email.com, 0901234567' }),
+    makeBlock('c3', 'input', 'Kinh nghiệm làm việc', 'Liệt kê công ty & vị trí', 300, 120, { placeholder: 'Marketing Executive tại ABC (2023-2025)' }),
+    makeBlock('c4', 'input', 'Kỹ năng nổi bật', 'Kỹ năng kỹ thuật và mềm', 150, 240, { placeholder: 'Python, Excel, Giao tiếp, Quản lý dự án' }),
+    makeBlock('c5', 'aiPrompt', 'Tạo CV', 'Tạo CV chuyên nghiệp với thông tin: Cá nhân: {{c2}}, Kinh nghiệm: {{c3}}, Kỹ năng: {{c4}}. Định dạng markdown chuẩn.', 150, 360, { aiModel: 'gemini' }),
+    makeBlock('c6', 'output', 'CV của bạn', 'CV hoàn chỉnh – sẵn sàng để copy!', 150, 480, { outputFormat: 'markdown' }),
+  ],
+  edges: [
+    edge('ce1', 'c1', 'c2'), edge('ce2', 'c1', 'c3'),
+    edge('ce3', 'c2', 'c4'), edge('ce4', 'c3', 'c4'),
+    edge('ce5', 'c4', 'c5'), edge('ce6', 'c5', 'c6'),
+  ],
+  creatorId: 'creator-1',
+  creatorName: 'WorkFlowz Team',
+  thumbnail: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80',
+  price: 0,
+  currency: 'VND',
+  runCount: 2891,
+  completionRate: 79,
+  rating: 4.9,
+  ratingCount: 567,
+  isDraft: false,
+  isPublished: true,
+  createdAt: '2026-01-20T00:00:00Z',
+  updatedAt: '2026-03-05T00:00:00Z',
+  estimatedMinutes: 15,
+  interactionMode: 'qa',
+  outputArtifactFormat: 'text',
+};
+
+// ─── Workflow 3: Lên Kế Hoạch Kinh Doanh ─────────────────────────────────
+export const WORKFLOW_BUSINESS: Workflow = {
+  id: 'wf-business',
+  title: 'Lên Kế Hoạch Kinh Doanh',
+  titleEn: 'Create a Business Plan',
+  description: 'Từ ý tưởng đến kế hoạch kinh doanh đầy đủ với AI phân tích thị trường.',
+  descriptionEn: 'From idea to full business plan with AI market analysis.',
+  category: 'business',
+  tags: ['business', 'startup', 'planning'],
+  blocks: [
+    makeBlock('bp1', 'instruction', 'Khởi đầu', 'Hãy mô tả ý tưởng kinh doanh của bạn. AI sẽ giúp tạo kế hoạch đầy đủ.', 0, 0),
+    makeBlock('bp2', 'input', 'Ý tưởng kinh doanh', 'Mô tả ngắn về ý tưởng', 0, 120, { placeholder: 'App giao đồ ăn cho khu công nghiệp' }),
+    makeBlock('bp3', 'input', 'Khách hàng mục tiêu', 'Ai là khách hàng của bạn?', 300, 120, { placeholder: 'Công nhân khu công nghiệp Bình Dương' }),
+    makeBlock('bp4', 'decision', 'Mô hình kinh doanh', 'Chọn mô hình phù hợp', 150, 240, { options: ['B2C trực tiếp', 'B2B với nhà máy', 'Marketplace'] }),
+    makeBlock('bp5', 'aiPrompt', 'Tạo kế hoạch', 'Tạo kế hoạch kinh doanh cho: {{bp2}}, target: {{bp3}}, model: {{bp4}}. Bao gồm SWOT, doanh thu dự kiến, marketing.', 150, 360, { aiModel: 'gemini' }),
+    makeBlock('bp6', 'output', 'Kế hoạch hoàn chỉnh', 'Business plan của bạn đã sẵn sàng!', 150, 480, { outputFormat: 'markdown' }),
+  ],
+  edges: [
+    edge('bpe1', 'bp1', 'bp2'), edge('bpe2', 'bp1', 'bp3'),
+    edge('bpe3', 'bp2', 'bp4'), edge('bpe4', 'bp3', 'bp4'),
+    edge('bpe5', 'bp4', 'bp5'), edge('bpe6', 'bp5', 'bp6'),
+  ],
+  creatorId: 'creator-2',
+  creatorName: 'Lê Văn Sáng',
+  creatorAvatar: 'https://i.pravatar.cc/60?img=8',
+  thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&q=80',
+  price: 49000,
+  currency: 'VND',
+  runCount: 892,
+  completionRate: 72,
+  rating: 4.6,
+  ratingCount: 178,
+  isDraft: false,
+  isPublished: true,
+  createdAt: '2026-02-01T00:00:00Z',
+  updatedAt: '2026-03-10T00:00:00Z',
+  estimatedMinutes: 20,
+  interactionMode: 'step-by-step',
+  outputArtifactFormat: 'text',
+};
+
+// ─── Workflow 4: Python Cơ Bản ────────────────────────────────────────────
+export const WORKFLOW_PYTHON: Workflow = {
+  id: 'wf-python',
+  title: 'Python Cơ Bản: Bài tập thực hành',
+  titleEn: 'Python Basics: Hands-on Practice',
+  description: 'Học Python qua workflow tương tác – viết code, AI chấm điểm và giải thích.',
+  descriptionEn: 'Learn Python through interactive workflows – write code, AI grades and explains.',
+  category: 'coding',
+  tags: ['python', 'coding', 'beginner'],
+  blocks: [
+    makeBlock('py1', 'instruction', 'Giới thiệu Python', 'Python là ngôn ngữ lập trình dễ học, phổ biến nhất 2025. Hôm nay bạn sẽ viết code đầu tiên!', 0, 0),
+    makeBlock('py2', 'instruction', 'Bài tập 1: Hello World', 'Viết code Python in ra "Xin chào, WorkFlowz!" bằng hàm print()', 0, 150),
+    makeBlock('py3', 'input', 'Code của bạn', 'Nhập code Python của bạn', 0, 280, { placeholder: 'print("Xin chào, WorkFlowz!")' }),
+    makeBlock('py4', 'aiPrompt', 'AI chấm code', 'Kiểm tra code Python sau: {{py3}}\nCode có đúng không? Giải thích chi tiết bằng tiếng Việt và cho ví dụ nâng cao hơn.', 0, 400, { aiModel: 'gemini' }),
+    makeBlock('py5', 'output', 'Phản hồi từ AI Mentor', 'Đánh giá và hướng dẫn tiếp theo', 0, 520, { outputFormat: 'text' }),
+  ],
+  edges: [
+    edge('pye1', 'py1', 'py2'), edge('pye2', 'py2', 'py3'),
+    edge('pye3', 'py3', 'py4'), edge('pye4', 'py4', 'py5'),
+  ],
+  creatorId: 'creator-1',
+  creatorName: 'WorkFlowz Team',
+  thumbnail: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=400&q=80',
+  price: 0,
+  currency: 'VND',
+  runCount: 3201,
+  completionRate: 91,
+  rating: 4.7,
+  ratingCount: 801,
+  isDraft: false,
+  isPublished: true,
+  createdAt: '2026-01-05T00:00:00Z',
+  updatedAt: '2026-02-20T00:00:00Z',
+  estimatedMinutes: 10,
+  interactionMode: 'scratch',
+  outputArtifactFormat: 'text',
+};
+
+// ─── Workflow 5: Phân Tích Dữ Liệu Cơ Bản ────────────────────────────────
+export const WORKFLOW_DATA: Workflow = {
+  id: 'wf-data',
+  title: 'Phân Tích Dữ Liệu Cơ Bản',
+  titleEn: 'Basic Data Analysis',
+  description: 'Nhập dữ liệu thô, AI phân tích xu hướng và tạo báo cáo tóm tắt.',
+  descriptionEn: 'Input raw data, AI analyzes trends and generates a summary report.',
+  category: 'data',
+  tags: ['data', 'analytics', 'excel', 'report'],
+  blocks: [
+    makeBlock('d1', 'instruction', 'Giới thiệu', 'Workflow phân tích dữ liệu. Dán dữ liệu của bạn vào ô bên dưới.', 0, 0),
+    makeBlock('d2', 'input', 'Dữ liệu của bạn', 'Dán dữ liệu CSV hoặc bảng số liệu', 0, 140, { placeholder: 'Tháng, Doanh thu\n1, 50000000\n2, 65000000\n3, 72000000' }),
+    makeBlock('d3', 'input', 'Câu hỏi phân tích', 'Bạn muốn biết điều gì từ dữ liệu?', 0, 280, { placeholder: 'Xu hướng tăng trưởng? Tháng nào tốt nhất?' }),
+    makeBlock('d4', 'aiPrompt', 'Phân tích AI', 'Phân tích dữ liệu sau: {{d2}}\nTrả lời câu hỏi: {{d3}}\nTạo báo cáo với: xu hướng, insights, và khuyến nghị hành động.', 0, 420, { aiModel: 'gemini' }),
+    makeBlock('d5', 'output', 'Báo cáo phân tích', 'Báo cáo AI đã sẵn sàng – có thể copy và lưu.', 0, 560, { outputFormat: 'markdown' }),
+  ],
+  edges: [
+    edge('de1', 'd1', 'd2'), edge('de2', 'd2', 'd3'),
+    edge('de3', 'd3', 'd4'), edge('de4', 'd4', 'd5'),
+  ],
+  creatorId: 'creator-3',
+  creatorName: 'Trần Thị Data',
+  creatorAvatar: 'https://i.pravatar.cc/60?img=25',
+  thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80',
+  price: 29000,
+  currency: 'VND',
+  runCount: 1567,
+  completionRate: 83,
+  rating: 4.5,
+  ratingCount: 234,
+  isDraft: false,
+  isPublished: true,
+  createdAt: '2026-02-10T00:00:00Z',
+  updatedAt: '2026-03-08T00:00:00Z',
+  estimatedMinutes: 12,
+  interactionMode: 'qa',
+  outputArtifactFormat: 'text',
+};
+
+// ─── All Public Workflows ──────────────────────────────────────────────────
+export const ALL_WORKFLOWS: Workflow[] = [
+  WORKFLOW_EMAIL,
+  WORKFLOW_CV,
+  WORKFLOW_BUSINESS,
+  WORKFLOW_PYTHON,
+  WORKFLOW_DATA,
+];
+
+// ─── Platform Metrics (PRD North Star) ───────────────────────────────────
+export const PLATFORM_METRICS: import('../types').PlatformMetrics = {
+  totalUsers: 342,
+  totalWorkflows: 48,
+  totalRuns: 9812,
+  completionRate: 38,        // Near the 40% target
+  creatorConversionRate: 11, // Near the 15% target
+  outputArtifactsGenerated: 7241,
+  northStarPercent: 74,      // 74% of completed workflows generated outputs
+};
+
+// ─── Daily Missions ──────────────────────────────────────────────────────
+export const DAILY_MISSIONS: import('../types').DailyMission[] = [
+  {
+    id: 'dm1',
+    title: 'Chạy Workflow Email hôm nay',
+    titleEn: 'Run the Email Workflow today',
+    description: 'Thực hành viết email chuyên nghiệp với AI Mentor.',
+    descriptionEn: 'Practice writing professional emails with AI Mentor.',
+    duration: '8 phút',
+    durationEn: '8 min',
+    xp: 60,
+    type: 'workflow',
+    workflowId: 'wf-email',
+    completed: false,
+  },
+  {
+    id: 'dm2',
+    title: 'Quiz: Kiến thức kỹ năng số',
+    titleEn: 'Quiz: Digital Skills Knowledge',
+    description: 'Kiểm tra và củng cố kiến thức qua 5 câu hỏi.',
+    descriptionEn: 'Test and reinforce your knowledge with 5 questions.',
+    duration: '5 phút',
+    durationEn: '5 min',
+    xp: 40,
+    type: 'quiz',
+    completed: false,
+  },
+  {
+    id: 'dm3',
+    title: 'Khám phá Marketplace',
+    titleEn: 'Explore the Marketplace',
+    description: 'Tìm và lưu 1 workflow mới phù hợp với mục tiêu của bạn.',
+    descriptionEn: 'Find and save 1 new workflow that matches your goals.',
+    duration: '5 phút',
+    durationEn: '5 min',
+    xp: 30,
+    type: 'workflow',
+    completed: false,
+  },
+];
+
+// ─── Workflow Collections (replaces learning paths) ───────────────────────
+export const WORKFLOW_COLLECTIONS = [
+  {
+    id: 'col-office',
+    title: 'Kỹ Năng Văn Phòng',
+    titleEn: 'Office Skills',
+    description: 'Email, báo cáo, thuyết trình – làm chủ kỹ năng văn phòng số.',
+    descriptionEn: 'Email, reports, presentations – master digital office skills.',
+    icon: '📧',
+    bgColor: 'from-blue-500 to-blue-700',
+    workflowIds: ['wf-email', 'wf-cv'],
+    totalWorkflows: 8,
+    estimatedWeeks: 2,
+    level: 'beginner' as const,
+  },
+  {
+    id: 'col-business',
+    title: 'Khởi Nghiệp & Kinh Doanh',
+    titleEn: 'Startup & Business',
+    description: 'Lên kế hoạch, phân tích thị trường, và xây dựng mô hình kinh doanh.',
+    descriptionEn: 'Business planning, market analysis, and building business models.',
+    icon: '🚀',
+    bgColor: 'from-accent to-red-700',
+    workflowIds: ['wf-business'],
+    totalWorkflows: 6,
+    estimatedWeeks: 3,
+    level: 'intermediate' as const,
+  },
+  {
+    id: 'col-coding',
+    title: 'Lập Trình Thực Hành',
+    titleEn: 'Hands-on Coding',
+    description: 'Python, web, automation – học qua làm với AI chấm điểm.',
+    descriptionEn: 'Python, web, automation – learn by doing with AI feedback.',
+    icon: '💻',
+    bgColor: 'from-primary to-green-700',
+    workflowIds: ['wf-python'],
+    totalWorkflows: 10,
+    estimatedWeeks: 4,
+    level: 'beginner' as const,
+  },
+  {
+    id: 'col-data',
+    title: 'Phân Tích Dữ Liệu',
+    titleEn: 'Data Analytics',
+    description: 'Từ Excel đến AI analytics – trở thành người ra quyết định dựa trên dữ liệu.',
+    descriptionEn: 'From Excel to AI analytics – become a data-driven decision maker.',
+    icon: '📊',
+    bgColor: 'from-purple-500 to-purple-700',
+    workflowIds: ['wf-data'],
+    totalWorkflows: 7,
+    estimatedWeeks: 3,
+    level: 'intermediate' as const,
+  },
+  {
+    id: 'col-ai',
+    title: 'AI Cho Mọi Người',
+    titleEn: 'AI for Everyone',
+    description: 'Từ "sợ AI" đến "AI là trợ thủ" – hiểu và sử dụng AI hiệu quả.',
+    descriptionEn: 'From "AI-phobic" to "AI-native" – understand and leverage AI tools.',
+    icon: '🤖',
+    bgColor: 'from-yellow-500 to-orange-500',
+    workflowIds: ['wf-email', 'wf-python'],
+    totalWorkflows: 9,
+    estimatedWeeks: 3,
+    level: 'beginner' as const,
+  },
+];
