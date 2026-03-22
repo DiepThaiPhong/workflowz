@@ -48,11 +48,11 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0b0f0c]/95 backdrop-blur-md border-b border-[#92e600]/10 shadow-[0_1px_0_rgba(146,230,0,0.06)]">
+    <header className="navbar">
       <div className="container-max px-4 sm:px-6">
-        <div className="flex items-center h-16 gap-4">
+        <div className="flex items-center gap-4" style={{ height: 'var(--nav-h)' }}>
 
-          {/* Logo – Logo2.svg, clickable to Home */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 flex-shrink-0 group">
             <img
               src="/Logo2.svg"
@@ -63,10 +63,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                 img.style.display = 'none';
               }}
             />
-            <span className="font-black text-lg tracking-tight">
-              <span className="text-white">Work</span>
-              <span style={{ color: '#92e600' }}>Flowz</span>
-            </span>
           </Link>
 
           {/* Main nav – desktop */}
@@ -76,10 +72,10 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             <div className="relative">
               <button
                 onClick={() => setDiscoverOpen(!discoverOpen)}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   discoverOpen || location.pathname === '/' || location.pathname === '/marketplace'
-                    ? 'text-[#92e600]'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'text-primary'
+                    : 'text-[var(--text-secondary)] hover:text-white'
                 }`}
               >
                 <Compass size={15} />
@@ -93,20 +89,34 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                     initial={{ opacity: 0, y: -8, scale: 0.97 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                    transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-0 mt-2 w-64 rounded-2xl bg-[#0e150d] border border-[#92e600]/20 shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden"
+                    transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-0 mt-2 w-64 rounded-2xl overflow-hidden"
+                    style={{
+                      background: 'var(--bg-secondary)',
+                      border: '1px solid var(--border-hover)',
+                      boxShadow: 'var(--shadow-lg)',
+                    }}
                   >
                     <div className="p-2">
                       {DISCOVER_CATEGORIES.map((cat) => (
                         <button
                           key={cat.category + cat.label}
                           onClick={() => handleCategory(cat.category)}
-                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:text-white hover:bg-[#92e600]/10 transition-all text-left group"
+                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left group"
+                          style={{ color: 'var(--text-secondary)' }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)';
+                            e.currentTarget.style.color = 'var(--text-primary)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = '';
+                            e.currentTarget.style.color = 'var(--text-secondary)';
+                          }}
                         >
                           <span className="text-base">{cat.emoji}</span>
                           <span>{isEn ? cat.label : cat.labelVi}</span>
                           {cat.category === '' && (
-                            <span className="ml-auto text-[10px] font-bold text-[#92e600] border border-[#92e600]/30 rounded-full px-1.5 py-0.5">ALL</span>
+                            <span className="ml-auto text-[10px] font-bold text-primary border border-[var(--border-hover)] rounded-full px-1.5 py-0.5">ALL</span>
                           )}
                         </button>
                       ))}
@@ -118,31 +128,26 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
 
             {/* My Learning */}
             <Link to="/dashboard"
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                 isActive('/dashboard')
-                  ? 'text-[#92e600]'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'text-primary'
+                  : 'text-[var(--text-secondary)] hover:text-white'
               }`}>
               <BookOpen size={15} />
               {t('nav.myLearning')}
             </Link>
           </nav>
 
-          {/* Right actions – NO dark mode toggle */}
+          {/* Right actions */}
           <div className="flex items-center gap-2 ml-auto">
             {/* Creator Studio CTA */}
             <motion.button
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.03, y: -1 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/creator-studio')}
-              className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all"
-              style={{
-                background: '#92e600',
-                color: '#0b0f0c',
-                boxShadow: '0 0 16px rgba(146,230,0,0.3)',
-              }}
+              className="btn btn-primary hidden sm:flex items-center gap-2 text-sm"
             >
-              <Zap size={14} fill="#0b0f0c" />
+              <Zap size={14} fill="currentColor" />
               {t('nav.creatorStudio')}
             </motion.button>
 
@@ -150,13 +155,13 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
 
             {/* Profile */}
             <Link to="/profile"
-              className="flex w-8 h-8 rounded-full items-center justify-center border border-[#92e600]/30 text-[#92e600] hover:bg-[#92e600]/10 transition-colors">
+              className="flex w-8 h-8 rounded-full items-center justify-center border border-[var(--border-hover)] text-primary hover:bg-primary/10 transition-all duration-200">
               <User size={16} />
             </Link>
 
             {/* Mobile menu toggle */}
             <button onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+              className="md:hidden p-2 rounded-lg text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-colors">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
@@ -166,27 +171,47 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
       {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-            className="md:hidden bg-[#0b0f0c] border-b border-[#92e600]/10 px-4 pb-4 pt-2">
-            <div className="flex flex-col gap-1">
+          <motion.div 
+            initial={{ opacity: 0, y: -8 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden border-b"
+            style={{ 
+              background: 'var(--bg-primary)', 
+              borderColor: 'var(--border-subtle)',
+            }}
+          >
+            <div className="px-4 pb-4 pt-2">
               <div className="px-2 pt-1 pb-2">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-gray-600 mb-2">{t('nav.discover')}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{t('nav.discover')}</p>
                 {DISCOVER_CATEGORIES.map(cat => (
                   <button key={cat.label} onClick={() => handleCategory(cat.category)}
-                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-gray-300 hover:text-white hover:bg-[#92e600]/10 transition-all text-left">
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 text-left"
+                    style={{ color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)';
+                      e.currentTarget.style.color = 'var(--text-primary)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '';
+                      e.currentTarget.style.color = 'var(--text-secondary)';
+                    }}
+                  >
                     <span>{cat.emoji}</span>
                     {isEn ? cat.label : cat.labelVi}
                   </button>
                 ))}
               </div>
               <Link to="/dashboard" onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/5">
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 <BookOpen size={16} /> {t('nav.myLearning')}
               </Link>
               <button onClick={() => { navigate('/creator-studio'); setMobileOpen(false); }}
-                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold mt-1"
-                style={{ background: '#92e600', color: '#0b0f0c' }}>
-                <Zap size={16} fill="#0b0f0c" /> {t('nav.creatorStudio')}
+                className="btn btn-primary flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold mt-1 w-full justify-center">
+                <Zap size={16} fill="currentColor" /> {t('nav.creatorStudio')}
               </button>
             </div>
           </motion.div>
