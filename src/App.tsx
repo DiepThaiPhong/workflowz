@@ -16,6 +16,7 @@ import BuilderPage from './pages/BuilderPage';
 import MarketplacePage from './pages/MarketplacePage';
 import WorkflowDetailPage from './pages/WorkflowDetailPage';
 import CreatorDashboardPage from './pages/CreatorDashboardPage';
+import CourseLandingPage from './pages/CourseLandingPage';
 import CertificatePage from './pages/CertificatePage';
 import ProfilePage from './pages/ProfilePage';
 import CreatorStudioPage from './pages/CreatorStudioPage';
@@ -50,6 +51,7 @@ function AppInner() {
             {/* WorkFlowz routes */}
             <Route path="/studio" element={<BuilderPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/course/:id" element={<CourseLandingPage />} />
             <Route path="/workflow/:id" element={<WorkflowDetailPage />} />
             <Route path="/creator" element={<CreatorDashboardPage />} />
             <Route path="/certificate" element={<CertificatePage />} />

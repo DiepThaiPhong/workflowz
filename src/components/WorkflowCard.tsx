@@ -125,7 +125,7 @@ const WorkflowCard = ({ workflow, index = 0, compact = false }: WorkflowCardProp
         </div>
 
         {/* Play overlay */}
-        <Link to={`/workflow/${workflow.id}`}>
+        <Link to={`/course/${workflow.id}`}>
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <div 
               className="w-14 h-14 rounded-full flex items-center justify-center"
@@ -181,7 +181,7 @@ const WorkflowCard = ({ workflow, index = 0, compact = false }: WorkflowCardProp
             <span className="text-xs truncate max-w-[100px]" style={{ color: 'var(--text-muted)' }}>{workflow.creatorName}</span>
           </div>
           <Link
-            to={`/workflow/${workflow.id}`}
+            to={`/course/${workflow.id}`}
             className="flex items-center gap-1 text-xs text-primary font-semibold transition-all duration-200 hover:gap-2"
           >
             {workflow.price > 0 ? <><Lock size={11} />{t('workflow.unlock')}</> : <><Play size={11} />{t('workflow.runNow')}</>}
