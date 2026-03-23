@@ -6,7 +6,8 @@ import {
   ArrowLeft, Star, Clock, Users, TrendingUp,
   ChevronRight, ChevronLeft, CheckCircle, Copy, Download,
   MessageSquare, Sparkles, X, ChevronDown, ChevronUp,
-  Play, Puzzle, Tag
+  Play, Tag, Send, ThumbsUp, MessageCircle,
+  Pin, Plus
 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { ALL_WORKFLOWS } from '../data/workflowData';
@@ -30,9 +31,8 @@ const AI_SUGGESTIONS_VI = [
 ];
 
 const MODE_CONFIG = [
-  { id: 'step-by-step' as InteractionMode, enLabel: 'Step by Step', viLabel: 'Từng bước',    icon: Play },
-  { id: 'qa'           as InteractionMode, enLabel: 'Q & A',         viLabel: 'Hỏi & Đáp',   icon: MessageSquare },
-  { id: 'scratch'      as InteractionMode, enLabel: 'Scratch Mode',  viLabel: 'Tự khám phá', icon: Puzzle },
+  { id: 'workflow' as InteractionMode, enLabel: 'Workflow', viLabel: 'Workflow',       icon: Play },
+  { id: 'qa'       as InteractionMode, enLabel: 'Q & A',    viLabel: 'Hỏi & Đáp',      icon: MessageSquare },
 ];
 
 const BLOCK_TYPE_LABEL: Record<string, { en: string; vi: string; color: string }> = {
@@ -43,6 +43,70 @@ const BLOCK_TYPE_LABEL: Record<string, { en: string; vi: string; color: string }
   output:      { en: 'OUTPUT',       vi: 'KẾT QUẢ',     color: '#34d399' },
 };
 
+interface ForumPost {
+  id: string;
+  author: string;
+  avatar: string;
+  content: string;
+  likes: number;
+  dislikes: number;
+  replies: ForumReply[];
+  createdAt: string;
+  isPinned?: boolean;
+  tags?: string[];
+}
+
+interface ForumReply {
+  id: string;
+  author: string;
+  avatar: string;
+  content: string;
+  likes: number;
+  createdAt: string;
+}
+
+const SAMPLE_FORUM_POSTS: ForumPost[] = [
+  {
+    id: 'fp1',
+    author: 'Minh Anh',
+    avatar: 'MA',
+    content: 'Mình thấy workflow này rất hữu ích cho việc tạo content marketing. Ai có kinh nghiệm áp dụng vào thực tế chưa?',
+    likes: 12,
+    dislikes: 0,
+    replies: [
+      { id: 'fr1', author: 'Hoàng Nam', avatar: 'HN', content: 'Mình đã dùng cho chiến dịch quảng cáo Facebook, kết quả rất tốt! Nên thêm phần A/B testing thì sẽ hoàn hảo hơn.', likes: 5, createdAt: '2026-03-15T10:30:00Z' },
+      { id: 'fr2', author: 'Thu Hà', avatar: 'TH', content: 'Agree! Mình dùng cho blog content và thấy tốc độ viết tăng 3 lần.', likes: 3, createdAt: '2026-03-16T14:20:00Z' },
+    ],
+    createdAt: '2026-03-14T09:00:00Z',
+    isPinned: true,
+    tags: [' kinh nghiệm', ' tips'],
+  },
+  {
+    id: 'fp2',
+    author: 'Đức Anh',
+    avatar: 'DA',
+    content: 'Bước 3 AI generate khá chậm, có cách nào tối ưu không các bạn?',
+    likes: 8,
+    dislikes: 1,
+    replies: [
+      { id: 'fr3', author: 'Tech Support', avatar: 'TS', content: 'Bạn thử kiểm tra lại kết nối mạng nhé. Nếu vẫn chậm, hãy báo lại để team tối ưu server.', likes: 4, createdAt: '2026-03-17T11:00:00Z' },
+    ],
+    createdAt: '2026-03-17T08:00:00Z',
+    tags: [' bug', ' support'],
+  },
+  {
+    id: 'fp3',
+    author: 'Lan Phương',
+    avatar: 'LP',
+    content: 'Mong muốn có thêm lựa chọn ngôn ngữ đầu ra (tiếng Anh, tiếng Trung). Hiện tại chỉ có tiếng Việt thôi.',
+    likes: 15,
+    dislikes: 0,
+    replies: [],
+    createdAt: '2026-03-18T15:30:00Z',
+    tags: [' feature request'],
+  },
+];
+
 export default function WorkflowDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { t, i18n } = useTranslation();
@@ -52,7 +116,7 @@ export default function WorkflowDetailPage() {
   const workflow = ALL_WORKFLOWS.find(w => w.id === id);
 
   // Runner state
-  const [mode, setMode] = useState<InteractionMode>(workflow?.interactionMode || 'step-by-step');
+  const [mode, setMode] = useState<InteractionMode>(workflow?.interactionMode || 'workflow');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [userInputs, setUserInputs] = useState<Record<string, string>>({});
   const [aiResponses, setAiResponses] = useState<Record<string, string>>({});
@@ -66,6 +130,14 @@ export default function WorkflowDetailPage() {
   const [sidebarChat, setSidebarChat] = useState<{ role: 'user' | 'ai'; text: string }[]>([]);
   const [sidebarInput, setSidebarInput] = useState('');
   const [sidebarLoading, setSidebarLoading] = useState(false);
+
+  // Discussion Forum state
+  const [forumPosts, setForumPosts] = useState<ForumPost[]>(SAMPLE_FORUM_POSTS);
+  const [newPostContent, setNewPostContent] = useState('');
+  const [expandedPostId, setExpandedPostId] = useState<string | null>(null);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyContent, setReplyContent] = useState('');
+  const [forumFilter, setForumFilter] = useState<'all' | 'popular' | 'recent'>('all');
 
   if (!workflow) {
     return (
@@ -140,6 +212,53 @@ export default function WorkflowDetailPage() {
     if (!msg || sidebarLoading) return;
     setSidebarInput('');
     await handleSuggestion(msg);
+  };
+
+  // Discussion Forum handlers
+  const handleCreatePost = () => {
+    if (!newPostContent.trim()) return;
+    const post: ForumPost = {
+      id: `fp-${Date.now()}`,
+      author: 'Bạn',
+      avatar: 'BN',
+      content: newPostContent.trim(),
+      likes: 0,
+      dislikes: 0,
+      replies: [],
+      createdAt: new Date().toISOString(),
+      tags: [],
+    };
+    setForumPosts(p => [post, ...p]);
+    setNewPostContent('');
+  };
+
+  const handleLikePost = (postId: string) => {
+    setForumPosts(p => p.map(post => post.id === postId ? { ...post, likes: post.likes + 1 } : post));
+  };
+
+  const handleReplyToPost = (postId: string) => {
+    if (!replyContent.trim()) return;
+    setForumPosts(p => p.map(post => post.id === postId ? {
+      ...post,
+      replies: [...post.replies, {
+        id: `fr-${Date.now()}`,
+        author: 'Bạn',
+        avatar: 'BN',
+        content: replyContent.trim(),
+        likes: 0,
+        createdAt: new Date().toISOString(),
+      }]
+    } : post));
+    setReplyContent('');
+    setReplyingTo(null);
+  };
+
+  const getFilteredPosts = () => {
+    const pinned = forumPosts.filter(p => p.isPinned);
+    const unpinned = forumPosts.filter(p => !p.isPinned);
+    if (forumFilter === 'popular') return [...pinned, ...unpinned.sort((a, b) => b.likes - a.likes)];
+    if (forumFilter === 'recent') return [...pinned, ...unpinned.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())];
+    return [...pinned, ...unpinned];
   };
 
   // ─── Completed screen ───────────────────────────────────────────────────
@@ -254,9 +373,10 @@ export default function WorkflowDetailPage() {
         {/* ── Main content: left runner + right AI sidebar ── */}
         <div className="container-max px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6">
 
-          {/* ───── LEFT: Step runner ───── */}
+          {/* ───── LEFT: Mode content ───── */}
           <div className="flex-1 min-w-0">
-            {/* Progress bar */}
+            {mode === 'workflow' && (
+            <div className="space-y-0">
             <div className="mb-5">
               <div className="flex justify-between text-xs text-[#cedde9] mb-1.5">
                 <span>{isEn ? `Step ${currentIdx + 1} of ${blocks.length}` : `Bước ${currentIdx + 1}/${blocks.length}`}</span>
@@ -396,6 +516,179 @@ export default function WorkflowDetailPage() {
                 )}
               </motion.button>
             </div>
+            </div>
+            )}
+
+            {mode === 'qa' && (
+            <div className="space-y-6">
+              {/* Discussion Forum Section */}
+              <div className="rounded-2xl border bg-[#0e150d] overflow-hidden" style={{ borderColor: 'rgba(146,230,0,0.15)' }}>
+                <div className="p-4 border-b border-[#1a2119]">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#60a5fa]/15 flex items-center justify-center">
+                        <MessageCircle size={20} className="text-[#60a5fa]" />
+                      </div>
+                      <div>
+                        <h2 className="text-base font-bold text-white">
+                          {isEn ? 'Discussion Forum' : 'Diễn đàn thảo luận'}
+                        </h2>
+                        <p className="text-xs text-[#64748b]">
+                          {forumPosts.length} {isEn ? 'discussions' : 'bài thảo luận'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 p-0.5 bg-[#0b0f0c] rounded-lg">
+                      {(['all', 'popular', 'recent'] as const).map(f => (
+                        <button key={f} onClick={() => setForumFilter(f)}
+                          className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all ${
+                            forumFilter === f ? 'bg-[#1a2119] text-[#92e600]' : 'text-[#64748b] hover:text-[#a3c0d6]'
+                          }`}>
+                          {isEn
+                            ? (f === 'all' ? 'All' : f === 'popular' ? 'Popular' : 'Recent')
+                            : (f === 'all' ? 'Tất cả' : f === 'popular' ? 'Phổ biến' : 'Mới nhất')
+                          }
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      value={newPostContent}
+                      onChange={e => setNewPostContent(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleCreatePost()}
+                      placeholder={isEn ? 'Start a new discussion...' : 'Bắt đầu thảo luận mới...'}
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-[#0b0f0c] border border-[#1a2119] text-sm text-white placeholder:text-[#3a4a42] focus:outline-none focus:border-[#92e600]/40 transition-colors"
+                    />
+                    <div className="relative group">
+                      <motion.button 
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-3 py-2.5 rounded-xl bg-[#1a2119] text-[#92e600] text-xs font-bold transition-opacity flex items-center justify-center flex-shrink-0 border border-[#2a3a2f] hover:border-[#92e600]/40">
+                        <Plus size={16} />
+                      </motion.button>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-[#1a2119] border border-[#2a3a2f] rounded-lg text-[10px] text-[#a3c0d6] whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
+                        <div className="font-semibold text-[#92e600] mb-1">{isEn ? 'Attach Media' : 'Đính kèm tệp'}</div>
+                        <div className="text-[#64748b]">{isEn ? 'Accepted: PDF, PNG, JPG, DOC, XLS' : 'Hỗ trợ: PDF, PNG, JPG, DOC, XLS'}</div>
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#2a3a2f]"></div>
+                      </div>
+                    </div>
+                    <motion.button whileHover={newPostContent.trim() ? { scale: 1.05 } : {}}
+                      whileTap={newPostContent.trim() ? { scale: 0.95 } : {}}
+                      onClick={handleCreatePost}
+                      disabled={!newPostContent.trim()}
+                      className="px-4 py-2.5 rounded-xl bg-[#92e600] text-[#0b0f0c] text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed transition-opacity flex items-center gap-1.5 flex-shrink-0">
+                      <Send size={14} />
+                      {isEn ? 'Post' : 'Đăng'}
+                    </motion.button>
+                  </div>
+                </div>
+
+                <div className="max-h-[500px] overflow-y-auto">
+                  {getFilteredPosts().map(post => (
+                    <div key={post.id} className={`border-b border-[#1a2119] last:border-b-0 ${post.isPinned ? 'bg-[#92e600]/3' : ''}`}>
+                      <div className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold"
+                            style={{ background: post.isPinned ? '#92e600' : '#1a2119', color: post.isPinned ? '#0b0f0c' : '#a3c0d6' }}>
+                            {post.avatar}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-sm font-semibold text-white">{post.author}</span>
+                              {post.isPinned && (
+                                <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#92e600]/15 text-[#92e600]">
+                                  <Pin size={8} /> {isEn ? 'Pinned' : 'Ghim'}
+                                </span>
+                              )}
+                              <span className="text-[10px] text-[#3a4a42]">
+                                {new Date(post.createdAt).toLocaleDateString(isEn ? 'en-US' : 'vi-VN', { month: 'short', day: 'numeric' })}
+                              </span>
+                            </div>
+                            <p className="text-sm text-[#cedde9] leading-relaxed mb-2">{post.content}</p>
+                            {post.tags && post.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mb-2">
+                                {post.tags.map(tag => (
+                                  <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-[#1a2119] text-[#64748b]">
+                                    #{tag.trim()}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="flex items-center gap-4">
+                              <button onClick={() => handleLikePost(post.id)}
+                                className="flex items-center gap-1 text-[11px] text-[#64748b] hover:text-[#92e600] transition-colors">
+                                <ThumbsUp size={12} /> {post.likes}
+                              </button>
+                              <button onClick={() => setExpandedPostId(expandedPostId === post.id ? null : post.id)}
+                                className="flex items-center gap-1 text-[11px] text-[#64748b] hover:text-[#60a5fa] transition-colors">
+                                <MessageCircle size={12} /> {post.replies.length} {isEn ? 'replies' : 'trả lời'}
+                              </button>
+                              <button onClick={() => { setReplyingTo(replyingTo === post.id ? null : post.id); setExpandedPostId(post.id); }}
+                                className="text-[11px] text-[#64748b] hover:text-[#a78bfa] transition-colors">
+                                {isEn ? 'Reply' : 'Trả lời'}
+                              </button>
+                            </div>
+                            <AnimatePresence>
+                              {expandedPostId === post.id && (
+                                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }} className="overflow-hidden mt-3">
+                                  <div className="space-y-2 pl-2 border-l-2 border-[#1a2119]">
+                                    {post.replies.map(reply => (
+                                      <div key={reply.id} className="flex items-start gap-2 py-1.5">
+                                        <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[8px] font-bold bg-[#1a2119] text-[#a3c0d6]">
+                                          {reply.avatar}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <div className="flex items-center gap-2 mb-0.5">
+                                            <span className="text-xs font-semibold text-white">{reply.author}</span>
+                                            <span className="text-[9px] text-[#3a4a42]">
+                                              {new Date(reply.createdAt).toLocaleDateString(isEn ? 'en-US' : 'vi-VN', { month: 'short', day: 'numeric' })}
+                                            </span>
+                                          </div>
+                                          <p className="text-xs text-[#cedde9] leading-relaxed">{reply.content}</p>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                  {replyingTo === post.id && (
+                                    <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                                      className="flex gap-2 mt-3 pl-2">
+                                      <input
+                                        value={replyContent}
+                                        onChange={e => setReplyContent(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleReplyToPost(post.id)}
+                                        placeholder={isEn ? 'Write a reply...' : 'Viết trả lời...'}
+                                        className="flex-1 px-3 py-2 rounded-lg bg-[#0b0f0c] border border-[#1a2119] text-xs text-white placeholder:text-[#3a4a42] focus:outline-none focus:border-[#92e600]/40 transition-colors"
+                                      />
+                                      <motion.button whileHover={replyContent.trim() ? { scale: 1.05 } : {}}
+                                        onClick={() => handleReplyToPost(post.id)}
+                                        disabled={!replyContent.trim()}
+                                        className="px-3 py-2 rounded-lg bg-[#92e600] text-[#0b0f0c] text-[10px] font-bold disabled:opacity-40 transition-opacity flex items-center gap-1 flex-shrink-0">
+                                        <Send size={10} /> {isEn ? 'Send' : 'Gửi'}
+                                      </motion.button>
+                                    </motion.div>
+                                  )}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {forumPosts.length === 0 && (
+                    <div className="p-8 text-center">
+                      <MessageCircle size={32} className="text-[#1a2119] mx-auto mb-3" />
+                      <p className="text-sm text-[#64748b]">
+                        {isEn ? 'No discussions yet. Start the first one!' : 'Chưa có thảo luận nào. Hãy bắt đầu!'}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            )}
           </div>
 
           {/* ───── RIGHT: AI Mentor Sidebar ───── */}

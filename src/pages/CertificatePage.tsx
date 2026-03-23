@@ -1,17 +1,19 @@
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Award, Download, Share2, CheckCircle, Zap, Calendar, ArrowRight } from 'lucide-react';
+import { Award, Download, Share2, Zap, Calendar, ArrowRight, Tag, BarChart3, Clock, CheckCircle, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { formatDate } from '../utils/helpers';
 
 interface CompletedWorkflow {
   id: string;
   title: string;
   completedAt: string;
   xpEarned: number;
+  category?: string;
+  level?: string;
+  duration?: string;
 }
 
 const CertificatePage = () => {
@@ -20,17 +22,23 @@ const CertificatePage = () => {
   const certRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [shared, setShared] = useState(false);
+  const [selectedWorkflowId, setSelectedWorkflowId] = useState<string | null>(null);
 
   const [profile] = useLocalStorage('workflowz-profile', { name: 'WorkFlowz Learner', bio: '' });
-  const [totalXP] = useLocalStorage('skillbridge-xp', 240);
-  const [streak] = useLocalStorage('skillbridge-streak', 3);
   const [completedWorkflows] = useLocalStorage<CompletedWorkflow[]>('workflowz-completed', [
-    { id: '1', title: 'Write a Professional Email', completedAt: new Date().toISOString(), xpEarned: 120 },
-    { id: '2', title: 'Build a Job-Ready Resume', completedAt: new Date().toISOString(), xpEarned: 150 },
+    { id: '1', title: 'Write a Professional Email', completedAt: new Date().toISOString(), xpEarned: 120, category: 'Communication', level: 'Beginner', duration: '30 min' },
+    { id: '2', title: 'Build a Job-Ready Resume', completedAt: new Date(Date.now() - 86400000).toISOString(), xpEarned: 150, category: 'Career', level: 'Intermediate', duration: '45 min' },
+    { id: '3', title: 'Master LinkedIn Networking', completedAt: new Date(Date.now() - 172800000).toISOString(), xpEarned: 100, category: 'Networking', level: 'Beginner', duration: '25 min' },
   ]);
 
   const isEn = i18n.language === 'en';
-  const today = new Date().toLocaleDateString(isEn ? 'en-US' : 'vi-VN', { year: 'numeric', month: 'long', day: 'numeric' });
+  
+  // Get selected workflow or default to first
+  const workflow = selectedWorkflowId 
+    ? completedWorkflows.find(w => w.id === selectedWorkflowId) 
+    : completedWorkflows[0];
+  
+  const today = workflow ? new Date(workflow.completedAt).toLocaleDateString(isEn ? 'en-US' : 'vi-VN', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
   const handleDownload = async () => {
     if (!certRef.current) return;
@@ -55,8 +63,8 @@ const CertificatePage = () => {
 
   const handleShare = () => {
     const text = isEn
-      ? `I just earned a WorkFlowz Certificate! 🎓 Completed ${completedWorkflows.length} workflows with ${totalXP} XP. #WorkFlowz #DigitalSkills`
-      : `Mình vừa nhận chứng chỉ WorkFlowz! 🎓 Hoàn thành ${completedWorkflows.length} workflow với ${totalXP} XP. #WorkFlowz #KỹNăngSố`;
+      ? `I just earned a WorkFlowz Certificate! 🎓 Completed "${workflow?.title}" workflow. #WorkFlowz #DigitalSkills`
+      : `Mình vừa nhận chứng chỉ WorkFlowz! 🎓 Hoàn thành workflow "${workflow?.title}". #WorkFlowz #KỹNăngSố`;
     if (navigator.share) {
       navigator.share({ title: 'WorkFlowz Certificate', text });
     } else {
@@ -66,7 +74,7 @@ const CertificatePage = () => {
     }
   };
 
-  if (completedWorkflows.length === 0) {
+  if (!workflow) {
     return (
       <PageTransition>
         <div className="min-h-screen pt-20 pb-16 flex items-center justify-center bg-gray-50 dark:bg-surface-dark">
@@ -130,37 +138,33 @@ const CertificatePage = () => {
                 <p className="text-[#e9eff5] mb-3 text-sm">{t('certificate.certBody')}</p>
                 <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6">{profile.name}</h3>
 
-                <p className="text-[#e9eff5] mb-2 text-sm">
-                  {t('certificate.certCompleted')} <span className="text-primary font-bold">{completedWorkflows.length}</span> {t('certificate.certWorkflows')}
+                <p className="text-[#e9eff5] mb-4 text-sm">
+                  {isEn ? 'has successfully completed the workflow' : 'đã hoàn thành thành công workflow'}
                 </p>
 
-                {/* Stats row */}
-                <div className="flex items-center justify-center gap-8 my-6">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">{totalXP}</div>
-                    <div className="text-xs text-[#cedde9]">{t('certificate.certXP')}</div>
-                  </div>
-                  <div className="w-px h-10 bg-gray-700" />
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-[#00D4FF]">{streak}</div>
-                    <div className="text-xs text-[#cedde9]">{isEn ? 'Day Streak' : 'Chuỗi ngày'}</div>
-                  </div>
-                  <div className="w-px h-10 bg-gray-700" />
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-white">{completedWorkflows.length}</div>
-                    <div className="text-xs text-[#cedde9]">{isEn ? 'Workflows' : 'Workflow'}</div>
-                  </div>
-                </div>
+                {/* Workflow Title */}
+                <h4 className="text-2xl sm:text-3xl font-bold text-primary mb-6">{workflow?.title}</h4>
 
-                {/* Completed workflows */}
-                <div className="text-left bg-white/5 rounded-xl p-4 mb-6 max-w-sm mx-auto">
-                  {completedWorkflows.slice(0, 3).map((w) => (
-                    <div key={w.id} className="flex items-center gap-2 py-1.5">
-                      <CheckCircle size={14} className="text-primary flex-shrink-0" />
-                      <span className="text-sm text-gray-300 truncate">{w.title}</span>
-                      <span className="ml-auto text-xs text-primary font-bold">+{w.xpEarned} XP</span>
+                {/* Metadata row */}
+                <div className="flex items-center justify-center gap-6 my-6 flex-wrap">
+                  {workflow?.category && (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5">
+                      <Tag size={14} className="text-primary" />
+                      <span className="text-sm text-gray-300">{workflow.category}</span>
                     </div>
-                  ))}
+                  )}
+                  {workflow?.level && (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5">
+                      <BarChart3 size={14} className="text-[#00D4FF]" />
+                      <span className="text-sm text-gray-300">{workflow.level}</span>
+                    </div>
+                  )}
+                  {workflow?.duration && (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5">
+                      <Clock size={14} className="text-yellow-400" />
+                      <span className="text-sm text-gray-300">{workflow.duration}</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Date */}
@@ -194,29 +198,89 @@ const CertificatePage = () => {
             </motion.button>
           </motion.div>
 
-          {/* Completed workflows list */}
+          {/* My Certificates Section */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }} className="glass-card p-6">
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <CheckCircle size={18} className="text-primary" />
-              {t('certificate.completedCount')} ({completedWorkflows.length})
+              <Award size={18} className="text-primary" />
+              {isEn ? 'My Certificates' : 'Chứng Chỉ Của Tôi'}
+              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                ({completedWorkflows.length})
+              </span>
             </h3>
             <div className="space-y-3">
-              {completedWorkflows.map((w, i) => (
-                <motion.div key={w.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + i * 0.05 }}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle size={16} className="text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-gray-900 dark:text-white truncate">{w.title}</p>
-                    <p className="text-xs text-[#e9eff5]">{formatDate ? formatDate(w.completedAt) : new Date(w.completedAt).toLocaleDateString()}</p>
-                  </div>
-                  <span className="badge-primary text-xs px-2 py-0.5">+{w.xpEarned} XP</span>
-                </motion.div>
-              ))}
+              <AnimatePresence mode="popLayout">
+                {completedWorkflows.map((w, i) => (
+                  <motion.div 
+                    key={w.id} 
+                    layout
+                    initial={{ opacity: 0, x: -10 }} 
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ delay: i * 0.05 }}
+                    className={`flex items-center gap-3 p-4 rounded-xl transition-all cursor-pointer ${
+                      (selectedWorkflowId === w.id || (!selectedWorkflowId && i === 0))
+                        ? 'bg-primary/10 border-2 border-primary/30'
+                        : 'bg-gray-50 dark:bg-gray-800/50 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700'
+                    }`}
+                    onClick={() => setSelectedWorkflowId(w.id)}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle size={18} className="text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm text-gray-900 dark:text-white truncate">{w.title}</p>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {new Date(w.completedAt).toLocaleDateString(isEn ? 'en-US' : 'vi-VN', { year: 'numeric', month: 'short', day: 'numeric' })}
+                        </span>
+                        {w.category && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                            <Tag size={10} />{w.category}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="badge-primary text-xs px-2.5 py-1 font-bold">+{w.xpEarned} XP</span>
+                      <motion.button 
+                        whileHover={{ scale: 1.1 }} 
+                        whileTap={{ scale: 0.9 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedWorkflowId(w.id);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className={`p-2 rounded-lg transition-colors ${
+                          (selectedWorkflowId === w.id || (!selectedWorkflowId && i === 0))
+                            ? 'bg-primary text-white'
+                            : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white'
+                        }`}
+                        title={isEn ? 'View Certificate' : 'Xem Chứng Chỉ'}
+                      >
+                        <ExternalLink size={14} />
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
+            
+            {completedWorkflows.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  {t('certificate.noWorkflows')}
+                </p>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }} 
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate('/marketplace')}
+                  className="btn-primary mt-4 text-sm"
+                >
+                  {t('certificate.goToMarketplace')} <ArrowRight size={14} className="inline ml-1" />
+                </motion.button>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>

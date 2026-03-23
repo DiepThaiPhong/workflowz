@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, ChevronLeft, Play, MessageSquare, Puzzle, CheckCircle, Copy, Download } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Play, MessageSquare, CheckCircle, Copy, Download } from 'lucide-react';
 import { Workflow, WorkflowRunState, InteractionMode } from '../../types';
 import { askTutor } from '../../services/geminiService';
 
@@ -11,13 +11,12 @@ interface WorkflowRunnerProps {
 }
 
 const MODE_ICONS = {
-  'step-by-step': <Play size={14} />,
+  'workflow': <Play size={14} />,
   'qa': <MessageSquare size={14} />,
-  'scratch': <Puzzle size={14} />,
 };
 
-const MODE_LABELS_VI = { 'step-by-step': 'Từng bước', 'qa': 'Hỏi & Đáp', 'scratch': 'Tự khám phá' };
-const MODE_LABELS_EN = { 'step-by-step': 'Step by Step', 'qa': 'Q & A', 'scratch': 'Scratch Mode' };
+const MODE_LABELS_VI = { 'workflow': 'Workflow', 'qa': 'Hỏi & Đáp' };
+const MODE_LABELS_EN = { 'workflow': 'Workflow', 'qa': 'Q & A' };
 
 const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
   const { t, i18n } = useTranslation();

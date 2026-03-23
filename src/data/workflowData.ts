@@ -50,7 +50,7 @@ export const WORKFLOW_EMAIL: Workflow = {
   createdAt: '2026-01-15T00:00:00Z',
   updatedAt: '2026-03-01T00:00:00Z',
   estimatedMinutes: 8,
-  interactionMode: 'step-by-step',
+  interactionMode: 'workflow',
   outputArtifactFormat: 'text',
 };
 
@@ -131,7 +131,7 @@ export const WORKFLOW_BUSINESS: Workflow = {
   createdAt: '2026-02-01T00:00:00Z',
   updatedAt: '2026-03-10T00:00:00Z',
   estimatedMinutes: 20,
-  interactionMode: 'step-by-step',
+  interactionMode: 'workflow',
   outputArtifactFormat: 'text',
 };
 
@@ -169,7 +169,7 @@ export const WORKFLOW_PYTHON: Workflow = {
   createdAt: '2026-01-05T00:00:00Z',
   updatedAt: '2026-02-20T00:00:00Z',
   estimatedMinutes: 10,
-  interactionMode: 'scratch',
+  interactionMode: 'qa',
   outputArtifactFormat: 'text',
 };
 

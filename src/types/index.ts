@@ -37,7 +37,7 @@ export interface WorkflowEdge {
 }
 
 // ─── Workflow ──────────────────────────────────────────────────────────────
-export type InteractionMode = 'step-by-step' | 'qa' | 'scratch';
+export type InteractionMode = 'workflow' | 'qa';
 export type WorkflowCategory = 'writing' | 'coding' | 'business' | 'design' | 'data' | 'personal';
 
 export interface Workflow {
