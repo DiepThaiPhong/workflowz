@@ -66,7 +66,7 @@ const CreatorDashboardPage = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                 {isEn ? 'My Creator Dashboard' : 'Bảng điều khiển Creator'}
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-[#cedde9] dark:text-[#e9eff5] mt-1">
                 {isEn ? 'Build, publish, and monetize your workflows.' : 'Xây dựng, xuất bản, và kiếm tiền từ workflow.'}
               </p>
             </div>
@@ -92,7 +92,7 @@ const CreatorDashboardPage = () => {
               >
                 <Icon size={20} className={`${color} mb-1.5`} />
                 <p className={`font-bold text-xl ${color}`}>{typeof value === 'number' ? formatNumber(value) : value}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{label}</p>
+                <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mt-0.5">{label}</p>
               </motion.div>
             ))}
           </div>
@@ -104,11 +104,11 @@ const CreatorDashboardPage = () => {
               <p className="text-xs font-bold text-primary uppercase tracking-wider">{isEn ? 'North Star Metric' : 'Chỉ số North Star'}</p>
               <p className="font-bold text-gray-900 dark:text-white text-lg">
                 {PLATFORM_METRICS.northStarPercent}%
-                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+                <span className="text-sm font-normal text-[#cedde9] dark:text-[#e9eff5] ml-2">
                   {isEn ? 'of completed workflows generated an output artifact' : 'workflow hoàn thành tạo được kết quả đầu ra'}
                 </span>
               </p>
-              <p className="text-xs text-gray-400">{isEn ? 'Target: ≥60% executable steps · ≥40% completion rate' : 'Mục tiêu: ≥60% bước thực thi · ≥40% tỉ lệ hoàn thành'}</p>
+              <p className="text-xs text-[#e9eff5]">{isEn ? 'Target: ≥60% executable steps · ≥40% completion rate' : 'Mục tiêu: ≥60% bước thực thi · ≥40% tỉ lệ hoàn thành'}</p>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ const CreatorDashboardPage = () => {
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                   activeTab === tab.id
                     ? 'bg-white dark:bg-gray-700 shadow text-gray-900 dark:text-white'
-                    : 'text-gray-500 dark:text-gray-400'
+                    : 'text-[#cedde9] dark:text-[#e9eff5]'
                 }`}
               >
                 {isEn ? tab.labelEn : tab.labelVi}
@@ -161,8 +161,8 @@ const CreatorDashboardPage = () => {
                     onClick={() => navigate('/studio')}
                     className="glass-card border-2 border-dashed border-gray-300 dark:border-gray-700 flex flex-col items-center justify-center gap-2 min-h-[280px] hover:border-primary transition-all"
                   >
-                    <Plus size={24} className="text-gray-400" />
-                    <p className="text-sm font-medium text-gray-400">{isEn ? 'Create New Workflow' : 'Tạo Workflow Mới'}</p>
+                    <Plus size={24} className="text-[#e9eff5]" />
+                    <p className="text-sm font-medium text-[#e9eff5]">{isEn ? 'Create New Workflow' : 'Tạo Workflow Mới'}</p>
                   </motion.button>
                 </div>
               </motion.div>
@@ -214,7 +214,7 @@ const CreatorDashboardPage = () => {
                       ))}
                     </div>
                     <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-                      <p className="text-xs text-gray-400">{isEn ? 'PRD Target: ≥40%' : 'Mục tiêu PRD: ≥40%'}</p>
+                      <p className="text-xs text-[#e9eff5]">{isEn ? 'PRD Target: ≥40%' : 'Mục tiêu PRD: ≥40%'}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                           <div className="h-full bg-yellow-400 rounded-full" style={{ width: '40%' }} />
@@ -247,7 +247,7 @@ const CreatorDashboardPage = () => {
                         <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{isEn ? 'Total' : 'Tổng cộng'}</span>
                         <span className="font-black text-lg text-accent">{formatNumber(REVENUE_MOCK)}đ</span>
                       </div>
-                      <p className="text-[10px] text-gray-400 mt-1">
+                      <p className="text-[10px] text-[#e9eff5] mt-1">
                         {isEn ? 'Payment via MoMo / Bank Transfer (coming soon)' : 'Thanh toán qua MoMo / Chuyển khoản (sắp ra mắt)'}
                       </p>
                     </div>
@@ -269,7 +269,7 @@ const CreatorDashboardPage = () => {
                             className="h-full bg-gblue rounded-full"
                           />
                         </div>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-[#e9eff5] mt-1">
                           {isEn ? 'PRD target: ≥15% · Current: 11% → growing!' : 'Mục tiêu PRD: ≥15% · Hiện tại: 11% → đang tăng!'}
                         </p>
                       </div>

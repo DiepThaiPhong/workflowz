@@ -69,13 +69,16 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
           <nav className="hidden md:flex items-center gap-1 flex-1 ml-4" ref={dropdownRef}>
 
             {/* Discover with dropdown */}
-            <div className="relative">
+            <div className="relative"
+              onMouseEnter={() => setDiscoverOpen(true)}
+              onMouseLeave={() => setDiscoverOpen(false)}
+            >
               <button
                 onClick={() => setDiscoverOpen(!discoverOpen)}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   discoverOpen || location.pathname === '/' || location.pathname === '/marketplace'
                     ? 'text-primary'
-                    : 'text-[var(--text-secondary)] hover:text-white'
+                    : 'text-[#e9eff5] hover:text-primary'
                 }`}
               >
                 <Compass size={15} />
@@ -103,14 +106,14 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                           key={cat.category + cat.label}
                           onClick={() => handleCategory(cat.category)}
                           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-left group"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{ color: '#e9eff5' }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)';
-                            e.currentTarget.style.color = 'var(--text-primary)';
+                            e.currentTarget.style.color = '#92e600';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.background = '';
-                            e.currentTarget.style.color = 'var(--text-secondary)';
+                            e.currentTarget.style.color = '#e9eff5';
                           }}
                         >
                           <span className="text-base">{cat.emoji}</span>
@@ -131,7 +134,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                 isActive('/dashboard')
                   ? 'text-primary'
-                  : 'text-[var(--text-secondary)] hover:text-white'
+                  : 'text-[#e9eff5] hover:text-primary'
               }`}>
               <BookOpen size={15} />
               {t('nav.myLearning')}
@@ -161,7 +164,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
 
             {/* Mobile menu toggle */}
             <button onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg text-[var(--text-secondary)] hover:text-white hover:bg-white/5 transition-colors">
+              className="md:hidden p-2 rounded-lg text-[#e9eff5] hover:text-primary hover:bg-white/5 transition-colors">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
@@ -188,14 +191,14 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                 {DISCOVER_CATEGORIES.map(cat => (
                   <button key={cat.label} onClick={() => handleCategory(cat.category)}
                     className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 text-left"
-                    style={{ color: 'var(--text-secondary)' }}
+                    style={{ color: '#e9eff5' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)';
-                      e.currentTarget.style.color = 'var(--text-primary)';
+                      e.currentTarget.style.color = '#92e600';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = '';
-                      e.currentTarget.style.color = 'var(--text-secondary)';
+                      e.currentTarget.style.color = '#e9eff5';
                     }}
                   >
                     <span>{cat.emoji}</span>
@@ -205,7 +208,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               </div>
               <Link to="/dashboard" onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{ color: '#e9eff5' }}
               >
                 <BookOpen size={16} /> {t('nav.myLearning')}
               </Link>

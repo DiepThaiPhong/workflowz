@@ -40,12 +40,12 @@ const WorkflowNode = ({ data, selected }: { data: { type: BlockType; label: stri
     <div className={`min-w-[180px] max-w-[220px] rounded-xl border-2 bg-gradient-to-br ${style.bg} ${style.border} ${selected ? 'ring-2 ring-primary ring-offset-1' : ''} shadow-md transition-all`}>
       <div className={`flex items-center gap-2 px-3 py-2 border-b ${style.border}`}>
         <Icon size={14} className="flex-shrink-0 text-gray-600 dark:text-gray-300" />
-        <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">{style.label}</span>
+        <span className="text-[11px] font-bold text-[#cedde9] dark:text-[#e9eff5] uppercase tracking-wide">{style.label}</span>
         <GripVertical size={12} className="ml-auto text-gray-300 cursor-grab" />
       </div>
       <div className="px-3 py-2">
         <p className="text-xs font-semibold text-gray-800 dark:text-white mb-0.5">{data.label}</p>
-        <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{data.content}</p>
+        <p className="text-[11px] text-[#cedde9] dark:text-[#e9eff5] line-clamp-2 leading-relaxed">{data.content}</p>
       </div>
     </div>
   );
@@ -105,11 +105,11 @@ const ConfigPanel = ({ node, onClose, onUpdate, onDelete }: ConfigPanelProps) =>
     >
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-800">
         <h3 className="font-bold text-sm text-gray-900 dark:text-white">Block Config</h3>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors"><X size={16} /></button>
+        <button onClick={onClose} className="text-[#e9eff5] hover:text-gray-600 transition-colors"><X size={16} /></button>
       </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div>
-          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">Title</label>
+          <label className="text-xs font-semibold text-[#cedde9] dark:text-[#e9eff5] uppercase tracking-wider mb-1 block">Title</label>
           <input
             value={label}
             onChange={(e) => setLabel(e.target.value)}
@@ -118,7 +118,7 @@ const ConfigPanel = ({ node, onClose, onUpdate, onDelete }: ConfigPanelProps) =>
           />
         </div>
         <div>
-          <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1 block">Content / Prompt</label>
+          <label className="text-xs font-semibold text-[#cedde9] dark:text-[#e9eff5] uppercase tracking-wider mb-1 block">Content / Prompt</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -254,7 +254,7 @@ const WorkflowCanvas = ({ initialWorkflow, readOnly = false, onSave }: WorkflowC
         {/* Left palette */}
         {!readOnly && (
           <div className="w-48 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-3 flex flex-col gap-1.5 overflow-y-auto z-10">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">{t('builder.blocks')}</p>
+            <p className="text-[10px] font-bold text-[#e9eff5] uppercase tracking-widest mb-2">{t('builder.blocks')}</p>
             {PALETTE_ITEMS.map((item) => {
               const Icon = item.icon;
               return (
@@ -306,8 +306,8 @@ const WorkflowCanvas = ({ initialWorkflow, readOnly = false, onSave }: WorkflowC
               <Panel position="top-center">
                 <div className="mt-16 text-center pointer-events-none">
                   <div className="text-5xl mb-3">🎯</div>
-                  <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">{t('builder.emptyHint')}</p>
-                  <p className="text-xs text-gray-400 dark:text-gray-600">{t('builder.emptySubHint')}</p>
+                  <p className="text-sm font-semibold text-[#cedde9] dark:text-[#e9eff5]">{t('builder.emptyHint')}</p>
+                  <p className="text-xs text-[#e9eff5] dark:text-gray-600">{t('builder.emptySubHint')}</p>
                 </div>
               </Panel>
             )}

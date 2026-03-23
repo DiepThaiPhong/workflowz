@@ -144,10 +144,10 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
           {layout === 'horizontal' && (
             <div className="w-1/2 flex flex-col gap-1.5">
               {blocks.filter(b => b.type === 'image' || b.type === 'video').map(block => (
-                <div key={block.id} className="bg-[#0b0f0c] rounded-lg p-2 text-center text-[10px] text-gray-500 border border-[#92e600]/10">
+                <div key={block.id} className="bg-[#0b0f0c] rounded-lg p-2 text-center text-[10px] text-[#cedde9] border border-[#92e600]/10">
                   {block.type === 'image' ? <><ImageIcon size={14} className="mx-auto mb-0.5 text-gray-600" /><span>Image</span></> : <><Video size={14} className="mx-auto mb-0.5 text-gray-600" /><span>Video</span></>}
                   <input value={block.content} onChange={e => updateBlock(block.id, e.target.value)}
-                    placeholder="URL..." className="w-full bg-transparent text-[10px] text-gray-400 outline-none text-center mt-0.5" />
+                    placeholder="URL..." className="w-full bg-transparent text-[10px] text-[#e9eff5] outline-none text-center mt-0.5" />
                 </div>
               ))}
               <button onClick={() => addBlock('image')} className="text-[10px] text-gray-600 hover:text-[#92e600] mt-1">+ Image</button>
@@ -168,10 +168,10 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
         {layout === 'horizontal' && (
           <div className="w-1/2 flex flex-col gap-1.5">
             {blocks.filter(b => b.type === 'image' || b.type === 'video').map(block => (
-              <div key={block.id} className="bg-[#0b0f0c] rounded-lg p-2 text-center text-[10px] text-gray-500 border border-[#92e600]/10">
+              <div key={block.id} className="bg-[#0b0f0c] rounded-lg p-2 text-center text-[10px] text-[#cedde9] border border-[#92e600]/10">
                 {block.type === 'image' ? <ImageIcon size={14} className="mx-auto mb-0.5 text-gray-600" /> : <Video size={14} className="mx-auto mb-0.5 text-gray-600" />}
                 <input value={block.content} onChange={e => updateBlock(block.id, e.target.value)}
-                  placeholder="URL..." className="w-full bg-transparent text-[10px] text-gray-400 outline-none text-center" />
+                  placeholder="URL..." className="w-full bg-transparent text-[10px] text-[#e9eff5] outline-none text-center" />
               </div>
             ))}
             <button onClick={() => addBlock('image')} className="text-[10px] text-gray-600 hover:text-[#92e600] mt-1">+ Image</button>
@@ -197,7 +197,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
       {blocks.filter(b => b.type === 'text' || b.type === 'checklist').map(block => (
         <Reorder.Item key={block.id} value={block}>
           <div className="flex items-start gap-1.5 group">
-            <div className="mt-1 cursor-grab text-gray-700 group-hover:text-gray-500"><GripVertical size={11} /></div>
+            <div className="mt-1 cursor-grab text-gray-700 group-hover:text-[#cedde9]"><GripVertical size={11} /></div>
             <div className="flex-1">
               {block.type === 'checklist' ? (
                 <label className="flex items-center gap-1.5">
@@ -225,7 +225,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
             {block.type === 'image' ? <ImageIcon size={14} className="text-gray-600 mx-auto mb-0.5" /> : <Video size={14} className="text-gray-600 mx-auto mb-0.5" />}
             <input value={block.content} onChange={e => updateBlock(block.id, e.target.value)}
               placeholder={block.type === 'image' ? 'Image URL...' : 'YouTube / video URL...'}
-              className="w-full bg-transparent text-[11px] text-gray-400 text-center outline-none placeholder-gray-600" />
+              className="w-full bg-transparent text-[11px] text-[#e9eff5] text-center outline-none placeholder-gray-600" />
           </div>
           <button onClick={() => removeBlock(block.id)} className="mt-2 text-gray-700 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"><X size={11} /></button>
         </div>
@@ -237,13 +237,13 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
     <div className="flex gap-1 flex-wrap mt-1">
       {(['text', 'checklist'] as BlockType[]).map(bt => (
         <button key={bt} onClick={() => addBlock(bt)}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#0b0f0c] text-[10px] text-gray-500 hover:text-gray-300 hover:bg-[#1a2119] transition-colors border border-[#92e600]/10">
+          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#0b0f0c] text-[10px] text-[#cedde9] hover:text-gray-300 hover:bg-[#1a2119] transition-colors border border-[#92e600]/10">
           {BLOCK_ICONS[bt]} {bt}
         </button>
       ))}
       {layout !== 'horizontal' && (['image', 'video'] as BlockType[]).map(bt => (
         <button key={bt} onClick={() => addBlock(bt)}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#0b0f0c] text-[10px] text-gray-500 hover:text-gray-300 hover:bg-[#1a2119] transition-colors border border-[#92e600]/10">
+          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#0b0f0c] text-[10px] text-[#cedde9] hover:text-gray-300 hover:bg-[#1a2119] transition-colors border border-[#92e600]/10">
           {BLOCK_ICONS[bt]} {bt}
         </button>
       ))}
@@ -254,7 +254,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
     if (data.type === 'multiChoice') {
       return (
         <div className="mb-2">
-          <label className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider">Options</label>
+          <label className="text-[10px] font-semibold text-[#cedde9] uppercase tracking-wider">Options</label>
           <div className="mt-1 space-y-1">
             {choices.map((c, i) => (
               <div key={i} className="flex items-center gap-1.5">
@@ -273,7 +273,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
     if (data.type === 'codeBox') {
       return (
         <div className="mb-2">
-          <label className="text-[10px] font-semibold text-gray-500 uppercase mb-1 block">Code</label>
+          <label className="text-[10px] font-semibold text-[#cedde9] uppercase mb-1 block">Code</label>
           <textarea rows={4} value={codeContent} onChange={e => setCodeContent(e.target.value)}
             placeholder="// Write code here..." className="w-full bg-[#0b0f0c] border border-[#92e600]/15 rounded-lg px-2.5 py-2 text-xs text-green-400 placeholder-gray-700 font-mono outline-none resize-none" />
         </div>
@@ -282,7 +282,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
     if (data.type === 'chatbot') {
       return (
         <div className="mb-2">
-          <label className="text-[10px] font-semibold text-gray-500 uppercase mb-1 block">Chatbot Prompt</label>
+          <label className="text-[10px] font-semibold text-[#cedde9] uppercase mb-1 block">Chatbot Prompt</label>
           <textarea rows={2} placeholder="You are an assistant that..."
             className="w-full bg-[#0b0f0c] border border-[#92e600]/15 rounded-lg px-2.5 py-1.5 text-xs text-gray-200 placeholder-gray-600 outline-none resize-none" />
         </div>
@@ -300,7 +300,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
                   background: activeScratchCat === cat
                     ? (cat === 'Events' ? '#f59e0b' : cat === 'Control' ? '#fb923c' : '#60a5fa')
                     : '#0b0f0c',
-                  color: activeScratchCat === cat ? '#0b0f0c' : '#6b7280',
+                  color: activeScratchCat === cat ? '#0b0f0c' : '#cedde9',
                 }}>
                 {cat}
               </button>
@@ -375,7 +375,7 @@ export default function StudioNode({ data, selected }: NodeProps<StudioNodeData>
           </button>
           {/* Collapse */}
           <button onClick={() => setCollapsed(c => !c)}
-            className="p-1 rounded text-gray-500 hover:text-gray-300 transition-colors">
+            className="p-1 rounded text-[#cedde9] hover:text-gray-300 transition-colors">
             {collapsed ? <ChevronDown size={11} /> : <ChevronUp size={11} />}
           </button>
         </div>

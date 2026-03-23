@@ -36,8 +36,8 @@
 
     /* Text Colors */
     --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-secondary: #e9eff5;
+    --text-muted: #a3c0d6;
     --text-accent: #b3f244;
     --text-on-accent: #ffffff;
 
@@ -208,10 +208,14 @@
   }
 
   .btn-primary {
+    @apply inline-flex items-center justify-center gap-2;
+    padding: 12px 24px;
+    border-radius: var(--r-lg);
     background: var(--grad-accent);
     color: var(--text-on-accent);
     font-weight: 600;
-    @apply transition-all duration-200;
+    font-size: var(--fs-base);
+    transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(146,230,0,0.3);
   }
 
@@ -225,10 +229,15 @@
   }
 
   .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2;
+    padding: 12px 24px;
+    border-radius: var(--r-lg);
     background: transparent;
     color: var(--accent-purple-light);
     border: 1px solid var(--border-hover);
-    @apply transition-all duration-200;
+    font-weight: 600;
+    font-size: var(--fs-base);
+    transition: all 0.2s ease;
   }
 
   .btn-secondary:hover {
@@ -238,7 +247,7 @@
 
   .btn-ghost {
     background: transparent;
-    color: var(--text-secondary);
+    color: #e9eff5;
     border: 1px solid var(--border-subtle);
     @apply transition-all duration-200;
   }
@@ -439,7 +448,7 @@
     border-radius: var(--r-full);
     font-size: var(--fs-sm);
     font-weight: 500;
-    color: var(--text-secondary);
+    color: #e9eff5;
     @apply transition-all duration-200 cursor-pointer;
   }
 
@@ -562,7 +571,7 @@
   }
 
   .wf-card-desc {
-    color: var(--text-secondary);
+    color: #e9eff5;
     font-size: var(--fs-sm);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -704,8 +713,8 @@
   }
 
   /* Text colors */
-  .text-primary { color: var(--text-primary); }
-  .text-secondary { color: var(--text-secondary); }
+  .text-accent-primary { color: var(--text-primary); }
+  .text-secondary { color: #e9eff5; }
   .text-muted { color: var(--text-muted); }
   .text-accent { color: var(--text-accent); }
 
@@ -754,5 +763,22 @@
     --fs-4xl: 2.5rem;
     --fs-3xl: 2rem;
     --fs-2xl: 1.5rem;
+  }
+}
+
+/* Hide React Flow attribution */
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Smooth glow pulse animation */
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
   }
 }

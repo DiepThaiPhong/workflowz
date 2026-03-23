@@ -30,7 +30,7 @@ const BuilderPage = () => {
       <div className="flex flex-col h-screen pt-16 bg-gray-50 dark:bg-gray-950">
         {/* Studio header */}
         <div className="flex items-center gap-3 px-4 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <Link to="/creator" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+          <Link to="/creator" className="flex items-center gap-1.5 text-sm text-[#cedde9] hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
             <ArrowLeft size={16} />
             {isEn ? 'Creator Studio' : 'Creator Studio'}
           </Link>
@@ -82,7 +82,7 @@ const BuilderPage = () => {
         {/* Template picker banner (only when no template selected) */}
         {!selectedTemplate && (
           <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center gap-3 overflow-x-auto no-scrollbar flex-shrink-0">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 flex-shrink-0">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-[#cedde9] dark:text-[#e9eff5] flex-shrink-0">
               <LayoutTemplate size={13} />
               {isEn ? 'Start from template:' : 'Bắt đầu từ mẫu:'}
             </div>

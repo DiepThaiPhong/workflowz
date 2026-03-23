@@ -110,7 +110,7 @@ const ProfilePage = () => {
                         placeholder={t('profile.bioPlaceholder')}
                       />
                       <div className="mb-2">
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{t('profile.avatarColor')}</p>
+                        <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mb-2">{t('profile.avatarColor')}</p>
                         <div className="flex gap-2 flex-wrap">
                           {AVATAR_COLORS.map(c => (
                             <button key={c} onClick={() => setDraft(p => ({ ...p, avatarColor: c }))}
@@ -129,7 +129,7 @@ const ProfilePage = () => {
                   ) : (
                     <motion.div key="view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{profile.name}</h1>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">
+                      <p className="text-[#cedde9] dark:text-[#e9eff5] text-sm mb-3">
                         {profile.bio || t('profile.bioPlaceholder')}
                       </p>
                       <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
@@ -158,7 +158,7 @@ const ProfilePage = () => {
                 </div>
                 <div>
                   <p className={`text-2xl font-bold ${color}`}>{value}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
+                  <p className="text-xs text-[#cedde9] dark:text-[#e9eff5]">{label}</p>
                 </div>
               </motion.div>
             ))}
@@ -171,7 +171,7 @@ const ProfilePage = () => {
               <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
                 <BarChart2 size={16} className="text-primary" /> {t('profile.rank')}: {rank.emoji} {rank.label}
               </h3>
-              <span className="text-sm text-gray-500">{totalXP} / {xpToNext} XP</span>
+              <span className="text-sm text-[#cedde9]">{totalXP} / {xpToNext} XP</span>
             </div>
             <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
               <motion.div initial={{ width: 0 }} animate={{ width: `${xpPct}%` }}
@@ -179,7 +179,7 @@ const ProfilePage = () => {
                 className="h-full rounded-full"
                 style={{ background: `linear-gradient(90deg, ${rank.color}, ${rank.color}88)` }} />
             </div>
-            <p className="text-xs text-gray-400 mt-1">{xpToNext - totalXP} XP to next rank</p>
+            <p className="text-xs text-[#e9eff5] mt-1">{xpToNext - totalXP} XP to next rank</p>
           </motion.div>
 
           {/* Skill Progress rings */}
@@ -193,7 +193,7 @@ const ProfilePage = () => {
                 <div key={s.label} className="flex flex-col items-center gap-2">
                   <ProgressRing percentage={s.pct} size={80} strokeWidth={8} color={s.color}
                     label={`${s.pct}%`} animate />
-                  <p className="text-xs text-center text-gray-500 dark:text-gray-400">{s.label}</p>
+                  <p className="text-xs text-center text-[#cedde9] dark:text-[#e9eff5]">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -209,7 +209,7 @@ const ProfilePage = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 dark:text-white">{t('profile.certificateSection')}</h3>
-                  <p className="text-xs text-gray-500">{completedWorkflows.length} workflows completed</p>
+                  <p className="text-xs text-[#cedde9]">{completedWorkflows.length} workflows completed</p>
                 </div>
               </div>
               <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
@@ -225,7 +225,7 @@ const ProfilePage = () => {
               <BookOpen size={16} className="text-primary" /> {t('profile.recentWorkflows')}
             </h3>
             {completedWorkflows.length === 0 ? (
-              <p className="text-gray-400 text-sm">{t('profile.noWorkflows')}</p>
+              <p className="text-[#e9eff5] text-sm">{t('profile.noWorkflows')}</p>
             ) : (
               <div className="space-y-2">
                 {completedWorkflows.map((w, i) => (

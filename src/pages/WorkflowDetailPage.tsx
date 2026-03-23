@@ -157,7 +157,7 @@ export default function WorkflowDetailPage() {
             <h2 className="text-2xl font-bold text-white text-center mb-1">
               {isEn ? '🎉 Workflow Complete!' : '🎉 Workflow hoàn thành!'}
             </h2>
-            <p className="text-gray-400 text-center text-sm mb-6">
+            <p className="text-[#e9eff5] text-center text-sm mb-6">
               {isEn ? 'Your output has been generated.' : 'Kết quả đã được tạo thành công.'}
             </p>
             <div className="bg-[#0e150d] border border-[#92e600]/20 rounded-2xl p-5 mb-4">
@@ -168,7 +168,7 @@ export default function WorkflowDetailPage() {
                     className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-[#92e600]/30 text-[#92e600] hover:bg-[#92e600]/10 transition-all">
                     <Copy size={11} /> {copied ? '✓' : (isEn ? 'Copy' : 'Sao chép')}
                   </button>
-                  <button className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-gray-700 text-gray-400 hover:text-white transition-all">
+                  <button className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-gray-700 text-[#e9eff5] hover:text-white transition-all">
                     <Download size={11} /> {isEn ? 'Save' : 'Lưu'}
                   </button>
                 </div>
@@ -197,25 +197,25 @@ export default function WorkflowDetailPage() {
           <div className="container-max">
             {/* Breadcrumb */}
             <Link to="/marketplace"
-              className="inline-flex items-center gap-1 text-xs text-gray-500 hover:text-gray-300 mb-2 transition-colors">
+              className="inline-flex items-center gap-1 text-xs text-[#cedde9] hover:text-gray-300 mb-2 transition-colors">
               <ArrowLeft size={12} /> {isEn ? 'Back to Marketplace' : 'Quay lại Marketplace'}
             </Link>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex-1 min-w-0">
                 <h1 className="text-xl sm:text-2xl font-black text-white truncate">{title}</h1>
-                <p className="text-sm text-gray-400 mt-0.5 truncate">{desc}</p>
+                <p className="text-sm text-[#e9eff5] mt-0.5 truncate">{desc}</p>
               </div>
               {/* Meta badges */}
               <div className="flex items-center gap-3 flex-wrap text-sm flex-shrink-0">
                 <span className="flex items-center gap-1 text-yellow-400 font-semibold">
                   <Star size={13} fill="currentColor" /> {workflow.rating}
-                  <span className="text-gray-600 font-normal">({workflow.ratingCount})</span>
+                  <span className="text-[#cedde9] font-normal">({workflow.ratingCount})</span>
                 </span>
-                <span className="flex items-center gap-1 text-gray-400">
+                <span className="flex items-center gap-1 text-[#e9eff5]">
                   <Clock size={13} /> {workflow.estimatedMinutes}{isEn ? ' min' : ' phút'}
                 </span>
-                <span className="flex items-center gap-1 text-gray-400">
+                <span className="flex items-center gap-1 text-[#e9eff5]">
                   <Users size={13} /> {workflow.runCount.toLocaleString()}
                 </span>
                 <span className="flex items-center gap-1" style={{ color: '#92e600' }}>
@@ -241,7 +241,7 @@ export default function WorkflowDetailPage() {
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     mode === mId
                       ? 'text-[#0b0f0c] shadow-sm'
-                      : 'text-gray-500 hover:text-gray-300'
+                      : 'text-[#cedde9] hover:text-gray-300'
                   }`}
                   style={mode === mId ? { background: '#92e600' } : {}}>
                   <Icon size={12} /> {isEn ? enLabel : viLabel}
@@ -258,7 +258,7 @@ export default function WorkflowDetailPage() {
           <div className="flex-1 min-w-0">
             {/* Progress bar */}
             <div className="mb-5">
-              <div className="flex justify-between text-xs text-gray-500 mb-1.5">
+              <div className="flex justify-between text-xs text-[#cedde9] mb-1.5">
                 <span>{isEn ? `Step ${currentIdx + 1} of ${blocks.length}` : `Bước ${currentIdx + 1}/${blocks.length}`}</span>
                 <span style={{ color: '#92e600' }}>{progress}%</span>
               </div>
@@ -298,7 +298,7 @@ export default function WorkflowDetailPage() {
                 {/* Input */}
                 {block.type === 'input' && (
                   <div>
-                    <p className="text-gray-400 text-sm mb-3">{block.content}</p>
+                    <p className="text-[#e9eff5] text-sm mb-3">{block.content}</p>
                     <textarea
                       value={userInputs[block.id] || ''}
                       onChange={e => setUserInputs(p => ({ ...p, [block.id]: e.target.value }))}
@@ -315,14 +315,14 @@ export default function WorkflowDetailPage() {
                 {/* Decision */}
                 {block.type === 'decision' && (
                   <div>
-                    <p className="text-gray-400 text-sm mb-4">{block.content}</p>
+                    <p className="text-[#e9eff5] text-sm mb-4">{block.content}</p>
                     <div className="flex flex-col gap-2">
                       {(block.options || []).map(opt => (
                         <button key={opt} onClick={() => setUserInputs(p => ({ ...p, [block.id]: opt }))}
                           className="px-4 py-3 rounded-xl border-2 text-sm font-medium text-left transition-all"
                           style={{
                             borderColor: userInputs[block.id] === opt ? '#92e600' : '#1a2119',
-                            color: userInputs[block.id] === opt ? '#92e600' : '#9ca3af',
+                            color: userInputs[block.id] === opt ? '#92e600' : '#e9eff5',
                             background: userInputs[block.id] === opt ? 'rgba(146,230,0,0.08)' : 'transparent',
                           }}>
                           {userInputs[block.id] === opt ? '✓ ' : ''}{opt}
@@ -344,14 +344,14 @@ export default function WorkflowDetailPage() {
                             className="w-2.5 h-2.5 rounded-full" style={{ background: '#92e600' }} />
                         ))}
                       </div>
-                      <p className="text-gray-400 text-sm">{isEn ? 'AI is generating your response...' : 'AI đang tạo kết quả...'}</p>
+                      <p className="text-[#e9eff5] text-sm">{isEn ? 'AI is generating your response...' : 'AI đang tạo kết quả...'}</p>
                     </div>
                   ) : aiResponses[block.id] ? (
                     <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/20 text-sm text-gray-200 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">
                       {aiResponses[block.id]}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500 italic py-4">
+                    <p className="text-sm text-[#cedde9] italic py-4">
                       {isEn ? '→ Click "Next" to generate AI response...' : '→ Nhấn "Tiếp theo" để AI tạo kết quả...'}
                     </p>
                   )
@@ -359,7 +359,7 @@ export default function WorkflowDetailPage() {
 
                 {/* Output */}
                 {block.type === 'output' && (
-                  <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10 text-sm text-gray-400 italic">
+                  <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10 text-sm text-[#e9eff5] italic">
                     {isEn ? 'Output will appear once all steps are complete...' : 'Kết quả sẽ xuất hiện sau khi hoàn thành tất cả bước...'}
                   </div>
                 )}
@@ -374,7 +374,7 @@ export default function WorkflowDetailPage() {
                 onClick={() => setCurrentIdx(p => Math.max(0, p - 1))}
                 disabled={isFirst || isGenerating}
                 className="flex items-center gap-2 px-6 py-3.5 rounded-xl border font-bold text-sm transition-all disabled:opacity-30"
-                style={{ borderColor: '#1a2119', color: '#9ca3af' }}
+                style={{ borderColor: '#1a2119', color: '#e9eff5' }}
               >
                 <ChevronLeft size={18} /> {isEn ? 'Back' : 'Quay lại'}
               </motion.button>
@@ -412,7 +412,7 @@ export default function WorkflowDetailPage() {
                   {isEn ? 'WorkFlowz AI Mentor' : 'AI Mentor WorkFlowz'}
                 </span>
               </div>
-              {sidebarOpen ? <ChevronUp size={15} className="text-gray-500" /> : <ChevronDown size={15} className="text-gray-500" />}
+              {sidebarOpen ? <ChevronUp size={15} className="text-[#cedde9]" /> : <ChevronDown size={15} className="text-[#cedde9]" />}
             </button>
 
             <AnimatePresence>
@@ -425,7 +425,7 @@ export default function WorkflowDetailPage() {
                     {/* Chat messages */}
                     <div className="h-48 overflow-y-auto p-3 space-y-2">
                       {sidebarChat.length === 0 && (
-                        <p className="text-xs text-gray-600 text-center pt-4">
+                        <p className="text-xs text-[#cedde9] text-center pt-4">
                           {isEn ? 'Ask AI anything about this step ✨' : 'Hỏi AI bất cứ điều gì về bước này ✨'}
                         </p>
                       )}
@@ -488,7 +488,7 @@ export default function WorkflowDetailPage() {
             {/* Tags */}
             {workflow.tags.length > 0 && (
               <div className="mt-4 bg-[#0e150d] rounded-2xl border p-4" style={{ borderColor: 'rgba(146,230,0,0.1)' }}>
-                <h3 className="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-3">
+                <h3 className="flex items-center gap-1.5 text-[11px] font-bold text-[#cedde9] uppercase tracking-wider mb-3">
                   <Tag size={11} /> Tags
                 </h3>
                 <div className="flex flex-wrap gap-1.5">

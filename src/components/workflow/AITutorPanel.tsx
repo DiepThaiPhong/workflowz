@@ -104,7 +104,7 @@ const AITutorPanel = ({ workflowTitle, currentStep, className = '' }: AITutorPan
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-          {collapsed ? <ChevronDown size={14} className="text-gray-400" /> : <ChevronUp size={14} className="text-gray-400" />}
+          {collapsed ? <ChevronDown size={14} className="text-[#e9eff5]" /> : <ChevronUp size={14} className="text-[#e9eff5]" />}
         </div>
       </div>
 
@@ -122,7 +122,7 @@ const AITutorPanel = ({ workflowTitle, currentStep, className = '' }: AITutorPan
               {messages.length === 0 ? (
                 <div className="text-center py-4">
                   <Lightbulb size={22} className="text-yellow-400 mx-auto mb-2" />
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-[#cedde9] dark:text-[#e9eff5]">
                     {isEn
                       ? 'Ask me anything about this workflow step!'
                       : 'Hỏi mình bất cứ điều gì về bước này!'}

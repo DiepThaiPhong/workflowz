@@ -71,7 +71,7 @@ const ImpactTrackerPage = () => {
               {t('impact.title1')}{' '}
               <span className="gradient-text">{t('impact.title2')}</span>
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">{t('impact.subtitle')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5] max-w-xl mx-auto">{t('impact.subtitle')}</p>
           </div>
 
           {/* Big progress ring */}
@@ -104,7 +104,7 @@ const ImpactTrackerPage = () => {
                   className="stat-card">
                   <Icon size={22} className={color} />
                   <p className={`text-2xl font-bold ${color}`}>{formatNumber(count)}{suffix}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
+                  <p className="text-xs text-[#cedde9] dark:text-[#e9eff5]">{label}</p>
                 </motion.div>
               );
             })}
@@ -114,7 +114,7 @@ const ImpactTrackerPage = () => {
           <div className="glass-card p-6 sm:p-8 mb-12 text-center bg-gradient-to-r from-primary-50 dark:from-primary-950/30 to-transparent">
             <TrendingUp size={32} className="text-primary mx-auto mb-3" />
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{t('impact.missionTitle')}</h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">{t('impact.missionDesc')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5] max-w-lg mx-auto text-sm leading-relaxed">{t('impact.missionDesc')}</p>
           </div>
 
           {/* Community stories */}
@@ -132,8 +132,8 @@ const ImpactTrackerPage = () => {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <p className="font-bold text-sm text-gray-900 dark:text-white">{s.name}</p>
-                      <span className="text-xs text-gray-400">·</span>
-                      <p className="text-xs text-gray-400">{s.location}</p>
+                      <span className="text-xs text-[#e9eff5]">·</span>
+                      <p className="text-xs text-[#e9eff5]">{s.location}</p>
                     </div>
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{s.story}</p>
                   </div>

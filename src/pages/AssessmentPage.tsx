@@ -181,7 +181,7 @@ const AssessmentPage = () => {
             </h1>
             {phase === 'chat' && (
               <div className="mt-2">
-                <div className="flex justify-between text-xs text-gray-400 mb-1">
+                <div className="flex justify-between text-xs text-[#e9eff5] mb-1">
                   <span>Tiến trình</span>
                   <span>{currentQIdx}/{assessmentQuestions.length} câu</span>
                 </div>
@@ -210,13 +210,13 @@ const AssessmentPage = () => {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
                   Chào bạn! Mình là AI Mentor 👋
                 </h2>
-                <p className="text-gray-500 dark:text-gray-400 leading-relaxed max-w-sm mx-auto">
+                <p className="text-[#cedde9] dark:text-[#e9eff5] leading-relaxed max-w-sm mx-auto">
                   Chỉ mất <strong className="text-primary">5 phút</strong> để mình hiểu kỹ năng của bạn và tạo
                   lộ trình học cá nhân hóa!
                 </p>
               </div>
               <div className="flex flex-col gap-3 w-full max-w-xs">
-                <p className="text-sm text-gray-400 dark:text-gray-500">
+                <p className="text-sm text-[#e9eff5] dark:text-[#cedde9]">
                   ✓ 10 câu hỏi đơn giản &nbsp;·&nbsp; ✓ Không có câu trả lời sai
                 </p>
                 <motion.button

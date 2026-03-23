@@ -75,12 +75,12 @@ const ChatTutorPage = () => {
               </h1>
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="text-xs text-gray-400 dark:text-gray-500">{t('tutor.online')}</span>
+                <span className="text-xs text-[#e9eff5] dark:text-[#cedde9]">{t('tutor.online')}</span>
               </div>
             </div>
           </div>
           {!isEmpty && (
-            <button onClick={clearHistory} className="p-2 rounded-lg text-gray-400 hover:text-accent hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-colors" title={t('tutor.clearHistory')}>
+            <button onClick={clearHistory} className="p-2 rounded-lg text-[#e9eff5] hover:text-accent hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-colors" title={t('tutor.clearHistory')}>
               <Trash2 size={16} />
             </button>
           )}
@@ -94,9 +94,9 @@ const ChatTutorPage = () => {
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-4xl">🤖</div>
               <div>
                 <h2 className="font-bold text-gray-900 dark:text-white text-lg mb-2">{t('tutor.welcomeTitle')}</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs">{t('tutor.welcomeDesc')}</p>
+                <p className="text-sm text-[#cedde9] dark:text-[#e9eff5] max-w-xs">{t('tutor.welcomeDesc')}</p>
               </div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1.5 bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-full">
+              <div className="text-xs text-[#e9eff5] dark:text-[#cedde9] flex items-center gap-1.5 bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-full">
                 <Lightbulb size={12} />{t('tutor.historyNote')}
               </div>
             </motion.div>

@@ -26,7 +26,7 @@ const Footer = () => {
                 <span className="text-primary">Flowz</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>{t('footer.tagline')}</p>
+            <p className="text-sm leading-relaxed mb-4" style={{ color: '#e9eff5' }}>{t('footer.tagline')}</p>
             <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}>
               <Lock size={11} className="text-primary flex-shrink-0" />
               {t('footer.dataNote')}
@@ -47,12 +47,12 @@ const Footer = () => {
                   <Link 
                     to={to} 
                     className="text-sm transition-all duration-200 hover:pl-1"
-                    style={{ color: 'var(--text-secondary)' }}
+                    style={{ color: '#e9eff5' }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = 'var(--accent-purple)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'var(--text-secondary)';
+                      e.currentTarget.style.color = '#e9eff5';
                     }}
                   >
                     {label}
@@ -71,7 +71,7 @@ const Footer = () => {
                 { icon: Shield, label: t('footer.safety') },
                 { icon: Heart,  label: t('footer.wcag') },
               ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                <div key={label} className="flex items-center gap-2 text-xs" style={{ color: '#e9eff5' }}>
                   <Icon size={14} className="text-primary flex-shrink-0" />
                   {label}
                 </div>

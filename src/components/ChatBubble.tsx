@@ -53,10 +53,10 @@ const ChatBubble = ({ role, content, confidence, timestamp, isTyping }: ChatBubb
         {/* Meta row */}
         <div className="flex items-center gap-2 px-1">
           {timestamp && (
-            <span className="text-[11px] text-gray-400 dark:text-gray-500">{timestamp}</span>
+            <span className="text-[11px] text-[#e9eff5] dark:text-[#cedde9]">{timestamp}</span>
           )}
           {isAI && confidence !== undefined && !isTyping && (
-            <span className="text-[11px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
+            <span className="text-[11px] text-[#e9eff5] dark:text-[#cedde9] flex items-center gap-1">
               ✦ Powered by Gemini · Độ tự tin: {confidence}%
             </span>
           )}

@@ -107,7 +107,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             {isEn ? '🎉 Workflow Complete!' : '🎉 Workflow hoàn thành!'}
           </h2>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-[#cedde9] dark:text-[#e9eff5]">
             {isEn ? 'Your output artifact has been generated.' : 'Kết quả đầu ra đã được tạo thành công.'}
           </p>
         </div>
@@ -149,7 +149,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
             key={m}
             onClick={() => setMode(m)}
             className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-xs font-semibold transition-all ${
-              mode === m ? 'bg-white dark:bg-gray-700 shadow text-primary' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
+              mode === m ? 'bg-white dark:bg-gray-700 shadow text-primary' : 'text-[#cedde9] dark:text-[#e9eff5] hover:text-gray-700'
             }`}
           >
             {MODE_ICONS[m]}
@@ -160,7 +160,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
 
       {/* Progress bar */}
       <div className="space-y-1">
-        <div className="flex justify-between text-[11px] text-gray-400">
+        <div className="flex justify-between text-[11px] text-[#e9eff5]">
           <span>{isEn ? `Step ${currentIdx + 1} of ${blocks.length}` : `Bước ${currentIdx + 1}/${blocks.length}`}</span>
           <span>{progress}%</span>
         </div>
@@ -246,7 +246,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
                       />
                     ))}
                   </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-[#cedde9] dark:text-[#e9eff5]">
                     {isEn ? 'AI is generating your response...' : 'AI đang tạo kết quả...'}
                   </p>
                 </div>
@@ -255,7 +255,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
                   {aiResponses[block.id]}
                 </div>
               ) : (
-                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                <p className="text-sm text-[#cedde9] dark:text-[#e9eff5] italic">
                   {isEn ? 'Click "Next" to generate AI response...' : 'Nhấn "Tiếp theo" để AI tạo kết quả...'}
                 </p>
               )}
@@ -265,7 +265,7 @@ const WorkflowRunner = ({ workflow, onComplete }: WorkflowRunnerProps) => {
           {block.type === 'output' && (
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{block.content}</p>
-              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-sm text-gray-400 dark:text-gray-500 italic">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-sm text-[#e9eff5] dark:text-[#cedde9] italic">
                 {isEn ? 'Output will appear once all steps are complete...' : 'Kết quả sẽ xuất hiện khi hoàn thành tất cả các bước...'}
               </div>
             </div>

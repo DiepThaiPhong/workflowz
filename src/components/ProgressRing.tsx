@@ -82,7 +82,7 @@ const ProgressRing = ({
               {label}
             </motion.span>
             {sublabel && (
-              <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{sublabel}</span>
+              <span className="text-xs text-gray-500 dark:text-[#e9eff5] mt-0.5">{sublabel}</span>
             )}
           </div>
         )}

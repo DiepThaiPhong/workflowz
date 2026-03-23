@@ -39,15 +39,15 @@ const MissionCard = ({ mission, onComplete, index = 0 }: MissionCardProps) => {
         {/* Content */}
         <div className="flex-1 min-w-0">
           <h3 className={`font-semibold text-sm sm:text-base leading-tight mb-1 ${
-            mission.completed ? 'line-through text-gray-400 dark:text-gray-600' : 'text-gray-900 dark:text-white'
+            mission.completed ? 'line-through text-[#e9eff5] dark:text-gray-600' : 'text-gray-900 dark:text-white'
           }`}>
             {mission.title}
           </h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">{mission.description}</p>
+          <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mb-3 line-clamp-2">{mission.description}</p>
 
           {/* Meta */}
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+            <span className="flex items-center gap-1 text-xs text-[#e9eff5] dark:text-[#cedde9]">
               <Clock size={12} />
               {mission.duration}
             </span>

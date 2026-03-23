@@ -105,7 +105,7 @@ const CommunityPage = () => {
                 <Users size={24} className="text-primary" />
                 Cộng Đồng
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Chia sẻ kinh nghiệm · Hỏi đáp · Kết nối</p>
+              <p className="text-[#cedde9] dark:text-[#e9eff5] mt-1">Chia sẻ kinh nghiệm · Hỏi đáp · Kết nối</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -127,7 +127,7 @@ const CommunityPage = () => {
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                   activeCategory === cat
                     ? 'bg-primary text-white shadow-sm'
-                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-primary'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-[#e9eff5] border border-gray-200 dark:border-gray-700 hover:border-primary'
                 }`}
               >
                 {cat}
@@ -146,7 +146,7 @@ const CommunityPage = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="font-bold text-gray-900 dark:text-white">Đăng bài mới</h3>
-                  <button onClick={() => setShowNewPost(false)} className="text-gray-400 hover:text-gray-600">
+                  <button onClick={() => setShowNewPost(false)} className="text-[#e9eff5] hover:text-gray-600">
                     <X size={18} />
                   </button>
                 </div>
@@ -182,7 +182,7 @@ const CommunityPage = () => {
                     {isSubmitting ? 'Đang kiểm duyệt...' : 'Đăng'}
                   </motion.button>
                 </div>
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 flex items-center gap-1">
+                <p className="text-xs text-[#e9eff5] dark:text-[#cedde9] mt-2 flex items-center gap-1">
                   <Shield size={11} className="text-primary" />
                   Bài đăng sẽ được AI kiểm duyệt tự động
                 </p>
@@ -209,7 +209,7 @@ const CommunityPage = () => {
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-gray-900 dark:text-white">{post.author}</p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500">{formatRelativeTime(post.createdAt)}</p>
+                        <p className="text-xs text-[#e9eff5] dark:text-[#cedde9]">{formatRelativeTime(post.createdAt)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
@@ -230,14 +230,14 @@ const CommunityPage = () => {
                     <motion.button
                       whileTap={{ scale: 0.9 }}
                       onClick={() => likePost(post.id)}
-                      className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-accent dark:text-gray-500 transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-[#e9eff5] hover:text-accent dark:text-[#cedde9] transition-colors"
                     >
                       <Heart size={15} />
                       {post.likes}
                     </motion.button>
                     <button
                       onClick={() => setExpandedPost(expandedPost === post.id ? null : post.id)}
-                      className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary dark:text-gray-500 transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-[#e9eff5] hover:text-primary dark:text-[#cedde9] transition-colors"
                     >
                       <MessageSquare size={15} />
                       {post.comments.length} bình luận
@@ -258,7 +258,7 @@ const CommunityPage = () => {
                       <div className="px-5 py-4 space-y-3">
                         {post.comments.map((cmt) => (
                           <div key={cmt.id} className="flex gap-2">
-                            <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-bold text-gray-500 flex-shrink-0">
+                            <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-bold text-[#cedde9] flex-shrink-0">
                               {cmt.author.charAt(0)}
                             </div>
                             <div className="flex-1">
@@ -267,10 +267,10 @@ const CommunityPage = () => {
                                 <p className="text-sm text-gray-600 dark:text-gray-300">{cmt.content}</p>
                               </div>
                               <div className="flex items-center gap-3 mt-1 px-1">
-                                <span className="text-[11px] text-gray-400">{formatRelativeTime(cmt.createdAt)}</span>
+                                <span className="text-[11px] text-[#e9eff5]">{formatRelativeTime(cmt.createdAt)}</span>
                                 <button
                                   onClick={() => likeComment(post.id, cmt.id)}
-                                  className="text-[11px] flex items-center gap-1 text-gray-400 hover:text-accent transition-colors"
+                                  className="text-[11px] flex items-center gap-1 text-[#e9eff5] hover:text-accent transition-colors"
                                 >
                                   <Heart size={11} />
                                   {cmt.likes}

@@ -71,14 +71,6 @@ const ModeToggle = ({ variant = 'navbar' }: ModeToggleProps) => {
             : 'bg-gradient-to-r from-primary to-primary-600 text-white shadow-primary/30'
         }`}
       >
-        {/* Glow effect */}
-        <motion.div
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className={`absolute inset-0 rounded-2xl blur-md opacity-30 -z-10 ${
-            isCreatorMode ? 'bg-purple-500' : 'bg-primary'
-          }`}
-        />
         <AnimatePresence mode="wait">
           <motion.span
             key={String(isCreatorMode)}
@@ -109,7 +101,7 @@ const ModeToggle = ({ variant = 'navbar' }: ModeToggleProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={toggleCreatorMode}
-          className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex items-center gap-1"
+          className="text-xs text-[#e9eff5] hover:text-gray-600 dark:hover:text-gray-200 transition-colors flex items-center gap-1"
         >
           <BookOpen size={11} />
           {t('mode.switchToLearner')}

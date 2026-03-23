@@ -48,7 +48,7 @@ const PathDetailPanel = ({
               {getLevelLabel(path.level)}
             </span>
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-1">{path.description}</p>
+          <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mb-2 line-clamp-1">{path.description}</p>
           {/* Progress bar */}
           <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
             <motion.div
@@ -57,9 +57,9 @@ const PathDetailPanel = ({
               layout
             />
           </div>
-          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-1">{completed}/{total} bài · {path.estimatedWeeks ?? path.totalWeeks ?? 0} tuần</p>
+          <p className="text-[11px] text-[#e9eff5] dark:text-[#cedde9] mt-1">{completed}/{total} bài · {path.estimatedWeeks ?? path.totalWeeks ?? 0} tuần</p>
         </div>
-        <div className="flex-shrink-0 text-gray-400">
+        <div className="flex-shrink-0 text-[#e9eff5]">
           {expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </div>
       </button>
@@ -86,10 +86,10 @@ const PathDetailPanel = ({
                   >
                     <span className="text-lg w-8 text-center flex-shrink-0">{typeIcon[mod.type]}</span>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium ${isDone ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-200'}`}>
+                      <p className={`text-sm font-medium ${isDone ? 'line-through text-[#e9eff5]' : 'text-gray-800 dark:text-gray-200'}`}>
                         {mod.title}
                       </p>
-                      <p className="text-xs text-gray-400">{mod.duration} · +{mod.xp} XP</p>
+                      <p className="text-xs text-[#e9eff5]">{mod.duration} · +{mod.xp} XP</p>
                     </div>
                     {isLocked ? (
                       <Lock size={15} className="text-gray-300 dark:text-gray-600 flex-shrink-0" />
@@ -144,12 +144,12 @@ const LearningPathsPage = () => {
                 <BookOpen size={24} className="text-primary" />
                 Lộ Trình Học
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">5 lộ trình kỹ năng số được AI cá nhân hóa</p>
+              <p className="text-[#cedde9] dark:text-[#e9eff5] mt-1">5 lộ trình kỹ năng số được AI cá nhân hóa</p>
             </div>
             {/* Overall progress */}
             <div className="glass-card px-5 py-3 flex items-center gap-3">
               <div>
-                <p className="text-xs text-gray-400 dark:text-gray-500">Tổng tiến trình</p>
+                <p className="text-xs text-[#e9eff5] dark:text-[#cedde9]">Tổng tiến trình</p>
                 <p className="font-bold text-gray-900 dark:text-white">{completedCount}/{totalModules} bài</p>
               </div>
               <div className="w-16 h-16">

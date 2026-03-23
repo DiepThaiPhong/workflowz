@@ -7,9 +7,6 @@ import { ALL_WORKFLOWS, PLATFORM_METRICS } from '../data/workflowData';
 import WorkflowCard from '../components/WorkflowCard';
 import FloatingAIChat from '../components/FloatingAIChat';
 
-const HERO_IMG = 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1400&q=80';
-const HERO_FALLBACK = 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80';
-
 const STATS = [
   { value: `${PLATFORM_METRICS.totalUsers}+`,                           label_vi: 'Người dùng',   label_en: 'Users' },
   { value: `${PLATFORM_METRICS.totalRuns.toLocaleString('vi-VN')}+`,    label_vi: 'Lượt chạy',   label_en: 'Workflow runs' },
@@ -43,11 +40,63 @@ const LandingPage = () => {
   return (
     <PageTransition>
       {/* ── HERO ── */}
-      <section className="hero min-h-screen flex items-center relative pt-16">
-        <div className="absolute inset-0">
-          <img src={HERO_IMG} alt="WorkFlowz – workflow canvas" className="w-full h-full object-cover"
-            onError={(e) => { (e.target as HTMLImageElement).src = HERO_FALLBACK; }} />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0b0f0c]/95 via-[#0b0f0c]/80 to-[#0b0f0c]/30" />
+      <section className="hero min-h-screen flex items-center relative pt-16" style={{ overflow: 'hidden' }}>
+        {/* Abstract tech background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f0c] via-[#0d1210] to-[#0a0f0c]" style={{ overflow: 'hidden' }}>
+          {/* Animated gradient orbs - positioned to extend beyond viewport */}
+          <div 
+            className="absolute rounded-full"
+            style={{ 
+              top: '10%',
+              left: '-20%',
+              width: '60vw',
+              height: '60vw',
+              maxWidth: '800px',
+              maxHeight: '800px',
+              background: 'radial-gradient(circle, rgba(146,230,0,0.25) 0%, rgba(146,230,0,0.08) 40%, transparent 70%)',
+              animation: 'glowPulse 8s ease-in-out infinite',
+              pointerEvents: 'none'
+            }} 
+          />
+          <div 
+            className="absolute rounded-full"
+            style={{ 
+              bottom: '-15%',
+              right: '-10%',
+              width: '50vw',
+              height: '50vw',
+              maxWidth: '600px',
+              maxHeight: '600px',
+              background: 'radial-gradient(circle, rgba(146,230,0,0.2) 0%, rgba(146,230,0,0.05) 45%, transparent 75%)',
+              animation: 'glowPulse 10s ease-in-out infinite',
+              pointerEvents: 'none'
+            }} 
+          />
+          
+          {/* Grid pattern */}
+          <div className="absolute inset-0 opacity-[0.03]"
+               style={{ backgroundImage: 'linear-gradient(rgba(146,230,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(146,230,0,0.5) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+          
+          {/* Dot pattern */}
+          <div className="absolute inset-0 opacity-[0.04]"
+               style={{ backgroundImage: 'radial-gradient(circle, rgba(146,230,0,0.8) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+          
+          {/* Floating geometric lines */}
+          <svg className="absolute inset-0 w-full h-full opacity-25" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="transparent" />
+                <stop offset="50%" stopColor="rgba(146,230,0,0.6)" />
+                <stop offset="100%" stopColor="transparent" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="30%" x2="100%" y2="20%" stroke="url(#lineGrad)" strokeWidth="1.5" />
+            <line x1="0" y1="70%" x2="100%" y2="80%" stroke="url(#lineGrad)" strokeWidth="1.5" />
+            <line x1="20%" y1="0" x2="80%" y2="100%" stroke="url(#lineGrad)" strokeWidth="1" />
+          </svg>
+          
+          {/* Subtle vignette */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#0a0f0c_70%)]" />
         </div>
 
         <div className="relative z-10 container-max px-4 sm:px-6 pt-20 pb-16">
@@ -59,7 +108,7 @@ const LandingPage = () => {
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="pill pill-purple mb-6"
             >
-              <Sparkles size={14} />
+              <Zap size={14} />
               {isEn ? 'AI-Powered Workflow Platform · v1.0' : 'Nền tảng Workflow AI · v1.0'}
             </motion.div>
 
@@ -75,18 +124,9 @@ const LandingPage = () => {
             <motion.p 
               initial={{ opacity: 0, y: 20 }} 
               animate={{ opacity: 1, y: 0 }} 
-              transition={{ delay: 0.15, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-lg font-medium italic mb-5"
-              style={{ color: 'rgba(146,230,0,0.8)' }}
-            >
-              "{isEn ? 'Master workflows that make your work flow.' : 'Master workflows – làm chủ quy trình công việc hiệu quả.'}"
-            </motion.p>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }} 
-              animate={{ opacity: 1, y: 0 }} 
               transition={{ delay: 0.2, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-base leading-relaxed mb-8 max-w-xl"
-              style={{ color: 'var(--text-secondary)' }}
+              style={{ color: '#e9eff5' }}
             >
               {isEn
                 ? 'A dual-mode AI platform where learners execute real workflows and creators build, publish, and monetize them. Powered by Gemini.'
@@ -118,7 +158,7 @@ const LandingPage = () => {
               style={{ color: 'var(--text-muted)' }}
             >
               <Shield size={12} className="text-primary" />
-              {isEn ? 'Free forever · No sign-up · Data stays on your device' : 'Miễn phí mãi mãi · Không cần đăng ký · Dữ liệu lưu cục bộ'}
+              {isEn ? 'Learn by doing · Create real workflows · No setup' : 'Học qua thực hành · Tạo workflow thực tế · Không cần cài đặt'}
             </motion.p>
           </div>
         </div>
@@ -178,7 +218,7 @@ const LandingPage = () => {
                 <><span className="text-primary">Học viên</span> hay <span className="text-primary">Creator</span>?</>
               )}
             </h2>
-            <p className="text-lg mb-10 max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-lg mb-10 max-w-xl mx-auto" style={{ color: '#e9eff5' }}>
               {isEn
                 ? 'Switch seamlessly between learning AI workflows and building your own. One platform, two powerful modes – your journey, your rules.'
                 : 'Chuyển đổi liền mạch giữa học workflow AI và tự tạo. Một nền tảng, hai chế độ mạnh mẽ – hành trình của bạn, luật của bạn.'}
@@ -197,7 +237,7 @@ const LandingPage = () => {
                 <h3 className="text-xl font-display font-black mb-2" style={{ color: 'var(--text-primary)' }}>
                   {isEn ? 'Explore as Learner' : 'Khám phá với tư cách Học viên'}
                 </h3>
-                <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-sm mb-5" style={{ color: '#e9eff5' }}>
                   {isEn
                     ? 'Browse & run AI-powered workflows. Get real output artifacts step by step.'
                     : 'Duyệt & chạy workflow AI. Nhận kết quả thực tế từng bước.'}
@@ -220,7 +260,7 @@ const LandingPage = () => {
                 <h3 className="text-xl font-display font-black mb-2" style={{ color: 'var(--text-primary)' }}>
                   {isEn ? 'Activate Creator Studio' : 'Kích hoạt Creator Studio'}
                 </h3>
-                <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+                <p className="text-sm mb-5" style={{ color: '#e9eff5' }}>
                   {isEn
                     ? 'Build, publish, and monetize your own AI workflows. Earn from the community.'
                     : 'Xây dựng, xuất bản và kiếm tiền từ workflow AI của riêng bạn. Kiếm thu nhập từ cộng đồng.'}
@@ -250,7 +290,7 @@ const LandingPage = () => {
             <h2 className="text-3xl sm:text-4xl font-display font-bold mb-3">
               {isEn ? 'Why ' : 'Tại sao '}<span className="text-primary">WorkFlowz?</span>
             </h2>
-            <p className="max-w-xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            <p className="max-w-xl mx-auto" style={{ color: '#e9eff5' }}>
               {isEn
                 ? 'Beyond traditional EdTech – operationalize knowledge into executable, AI-powered workflows.'
                 : 'Vượt xa EdTech truyền thống – biến kiến thức thành quy trình có thể thực thi với AI.'}
@@ -269,7 +309,7 @@ const LandingPage = () => {
               >
                 <div className="text-3xl mb-4">{icon}</div>
                 <h3 className="font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{desc}</p>
+                <p className="text-sm leading-relaxed" style={{ color: '#e9eff5' }}>{desc}</p>
               </motion.div>
             ))}
           </div>
@@ -284,7 +324,7 @@ const LandingPage = () => {
               <h2 className="text-2xl sm:text-3xl font-display font-bold" style={{ color: 'var(--text-primary)' }}>
                 {isEn ? 'Featured Workflows' : 'Workflow Nổi Bật'}
               </h2>
-              <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>
+              <p className="mt-1" style={{ color: '#e9eff5' }}>
                 {isEn ? 'Ready-to-run, AI-powered workflows for real results.' : 'Sẵn sàng chạy – workflow AI cho kết quả thực tế.'}
               </p>
             </div>

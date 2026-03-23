@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { X, Sparkles, ArrowRight, BookOpen, Code2, Briefcase, PenLine, Database, User, Loader2, Save, ExternalLink } from 'lucide-react';
+import { X, Sparkles, ArrowRight, Smartphone, Code2, Briefcase, PenLine, Database, User, Loader2, Save, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface Block {
@@ -24,7 +24,7 @@ const CATEGORIES = [
   { id: 'business', icon: Briefcase, color: '#7B61FF' },
   { id: 'personal', icon: User, color: '#FF6B35' },
   { id: 'data', icon: Database, color: '#F59E0B' },
-  { id: 'paths', icon: BookOpen, color: '#EC4899' },
+  { id: 'digital', icon: Smartphone, color: '#EC4899' },
 ];
 
 const EXAMPLE_IDEAS = [
@@ -149,10 +149,10 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
             <h2 className="font-bold text-lg text-gray-900 dark:text-white flex items-center gap-2">
               <Sparkles size={20} className="text-primary" /> {t('aiSuggest.title')}
             </h2>
-            <p className="text-xs text-gray-400 mt-0.5">{t('aiSuggest.subtitle')}</p>
+            <p className="text-xs text-[#e9eff5] mt-0.5">{t('aiSuggest.subtitle')}</p>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-            <X size={18} className="text-gray-500" />
+            <X size={18} className="text-[#cedde9]" />
           </button>
         </div>
 
@@ -169,13 +169,13 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
             {step === 1 && (
               <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                 <h3 className="font-bold text-gray-900 dark:text-white mb-1">{t('aiSuggest.step1Title')}</h3>
-                <p className="text-sm text-gray-400 mb-4">{t('aiSuggest.step1Subtitle')}</p>
+                <p className="text-sm text-[#e9eff5] mb-4">{t('aiSuggest.step1Subtitle')}</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {CATEGORIES.map(({ id, icon: Icon, color }) => (
                     <motion.button key={id} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
                       onClick={() => setSelectedCat(id)}
                       className={`flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all text-sm font-medium ${
-                        selectedCat === id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-primary/50'
+                        selectedCat === id ? 'border-primary bg-primary/10 text-primary' : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-[#e9eff5] hover:border-primary/50'
                       }`}>
                       <Icon size={20} style={{ color: selectedCat === id ? color : undefined }} />
                       {t(`marketplace.categories.${id}`)}
@@ -185,11 +185,11 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                 
                 {/* Quick examples */}
                 <div className="mt-4">
-                  <p className="text-xs text-gray-400 mb-2">{t('aiSuggest.examples.title')}</p>
+                  <p className="text-xs text-[#e9eff5] mb-2">{t('aiSuggest.examples.title')}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {EXAMPLE_IDEAS.slice(0, 4).map((idea) => (
                       <button key={idea.en} onClick={() => { setGoal(isEn ? idea.en : idea.vi); setSelectedCat('writing'); }}
-                        className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-primary/10 hover:text-primary transition-all">
+                        className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-[#e9eff5] hover:bg-primary/10 hover:text-primary transition-all">
                         {isEn ? idea.en : idea.vi}
                       </button>
                     ))}
@@ -198,8 +198,8 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                 
                 <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
                   onClick={() => setStep(2)} disabled={!selectedCat}
-                  className="btn-primary w-full mt-4 flex items-center justify-center gap-2 disabled:opacity-40">
-                  {isEn ? 'Continue' : 'Tiếp tục'} <ArrowRight size={16} />
+                  className="btn-primary w-full mt-4 disabled:opacity-40">
+                  {isEn ? 'Continue' : 'Tiếp tục'} <ArrowRight size={18} />
                 </motion.button>
               </motion.div>
             )}
@@ -215,11 +215,14 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                   autoFocus
                 />
                 <div className="flex gap-2">
-                  <button onClick={() => setStep(1)} className="btn-secondary flex-none">←</button>
+                  <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => setStep(1)} className="btn-secondary px-4">
+                    <ArrowRight size={18} className="rotate-180" />
+                  </motion.button>
                   <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
                     onClick={handleGenerate}
-                    className="btn-primary flex-1 flex items-center justify-center gap-2">
-                    <Sparkles size={15} /> {isEn ? 'Generate Workflow' : 'Tạo Workflow'}
+                    className="btn-primary flex-1">
+                    <Sparkles size={18} /> {isEn ? 'Generate Workflow' : 'Tạo Workflow'}
                   </motion.button>
                 </div>
               </motion.div>
@@ -233,18 +236,18 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                     <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
                       <Loader2 size={32} className="text-primary" />
                     </motion.div>
-                    <p className="text-sm text-gray-500">{t('aiSuggest.generating')}</p>
+                    <p className="text-sm text-[#cedde9]">{t('aiSuggest.generating')}</p>
                   </div>
                 ) : suggested && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <div className="glass-card bg-primary/5 border border-primary/20 p-4 mb-4 rounded-xl">
                       <h4 className="font-bold text-gray-900 dark:text-white mb-1">{suggested.title}</h4>
-                      <p className="text-sm text-gray-500 mb-3">{suggested.description}</p>
+                      <p className="text-sm text-[#cedde9] mb-3">{suggested.description}</p>
                       <div className="space-y-1.5">
                         {suggested.blocks.map((b, i) => (
                           <div key={i} className="flex items-center gap-2 text-xs">
                             <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold flex-shrink-0">{i + 1}</span>
-                            <span className="text-gray-600 dark:text-gray-400">{b.label}</span>
+                            <span className="text-gray-600 dark:text-[#e9eff5]">{b.label}</span>
                             <span className="ml-auto opacity-50 text-[10px]">[{b.type}]</span>
                           </div>
                         ))}
@@ -252,16 +255,16 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                     </div>
                     <div className="flex gap-2">
                       <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
-                        onClick={handleSave} className="btn-secondary flex-1 flex items-center justify-center gap-1 text-sm">
-                        <Save size={13} /> {t('aiSuggest.saveToLibrary')}
+                        onClick={handleSave} className="btn-secondary flex-1 gap-1.5 text-sm">
+                        <Save size={16} /> {t('aiSuggest.saveToLibrary')}
                       </motion.button>
                       <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
-                        onClick={handleOpenInBuilder} className="btn-primary flex-1 flex items-center justify-center gap-1 text-sm">
-                        <ExternalLink size={13} /> {t('aiSuggest.openInBuilder')}
+                        onClick={handleOpenInBuilder} className="btn-primary flex-1 gap-1.5 text-sm">
+                        <ExternalLink size={16} /> {t('aiSuggest.openInBuilder')}
                       </motion.button>
                     </div>
                     <button onClick={() => { setStep(1); setSuggested(null); setGoal(''); }}
-                      className="w-full mt-2 text-xs text-center text-gray-400 hover:text-primary transition-colors">
+                      className="w-full mt-4 text-xs text-center text-[#e9eff5] hover:text-primary transition-colors">
                       {t('aiSuggest.tryAnother')}
                     </button>
                   </motion.div>

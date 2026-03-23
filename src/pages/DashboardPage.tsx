@@ -37,11 +37,10 @@ const DashboardPage = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
                 {isCreatorMode ? t('dashboard.creatorTitle') : t('dashboard.learnerTitle')}
               </h1>
-              <p className="text-gray-400 mt-1">
+              <p className="text-[#e9eff5] mt-1">
                 {isCreatorMode ? t('dashboard.creatorSubtitle') : t('dashboard.learnerSubtitle')}
               </p>
             </div>
-            <ModeToggle variant="dashboard" />
           </div>
 
           {/* AI Suggest button */}
@@ -76,7 +75,7 @@ const DashboardPage = () => {
                       style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.1)' }}>
                       <Icon size={20} className={`${color} mb-1.5`} />
                       <p className={`font-black text-2xl ${color}`}>{val}</p>
-                      <p className="text-xs text-gray-500">{label}</p>
+                      <p className="text-xs text-[#cedde9]">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -137,7 +136,7 @@ const DashboardPage = () => {
                       style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.1)' }}>
                       <Icon size={20} style={{ color }} className="mb-1.5" />
                       <p className="font-black text-xl" style={{ color }}>{val}</p>
-                      <p className="text-xs text-gray-500">{label}</p>
+                      <p className="text-xs text-[#cedde9]">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -156,7 +155,7 @@ const DashboardPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white">{t('dashboard.createNewWorkflow')}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{t('dashboard.createNewSubtitle')}</p>
+                      <p className="text-xs text-[#e9eff5] mt-0.5">{t('dashboard.createNewSubtitle')}</p>
                     </div>
                   </motion.button>
                   <motion.button
@@ -171,7 +170,7 @@ const DashboardPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white">{t('dashboard.viewAnalytics')}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{t('dashboard.viewAnalyticsSubtitle')}</p>
+                      <p className="text-xs text-[#e9eff5] mt-0.5">{t('dashboard.viewAnalyticsSubtitle')}</p>
                     </div>
                   </motion.button>
                 </div>

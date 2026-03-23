@@ -89,13 +89,13 @@ export default function FloatingAIChat() {
             {/* Header */}
             <div className="flex items-center gap-2 px-4 py-3 border-b" style={{ borderColor: 'rgba(146,230,0,0.12)', background: 'rgba(146,230,0,0.06)' }}>
               <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: GREEN }}>
-                <Sparkles size={13} color={DARK} />
+                <Zap size={13} color={DARK} fill={DARK} />
               </div>
               <div className="flex-1">
                 <p className="text-sm font-bold text-white">WorkFlowz AI Mentor</p>
-                <p className="text-[10px] text-gray-500">{isEn ? 'Powered by Gemini' : 'Được hỗ trợ bởi Gemini'}</p>
+                <p className="text-[10px] text-[#cedde9]">{isEn ? 'Powered by Gemini' : 'Được hỗ trợ bởi Gemini'}</p>
               </div>
-              <button onClick={() => setOpen(false)} className="text-gray-500 hover:text-white transition-colors">
+              <button onClick={() => setOpen(false)} className="text-[#cedde9] hover:text-white transition-colors">
                 <X size={16} />
               </button>
             </div>
@@ -131,7 +131,7 @@ export default function FloatingAIChat() {
                   {suggestions.map(s => (
                     <button key={s} onClick={() => sendMessage(s)}
                       className="text-[10px] px-2 py-1 rounded-full border transition-all hover:text-white"
-                      style={{ borderColor: 'rgba(146,230,0,0.25)', color: '#9ca3af' }}>
+                      style={{ borderColor: 'rgba(146,230,0,0.25)', color: '#e9eff5' }}>
                       {s}
                     </button>
                   ))}

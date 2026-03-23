@@ -81,7 +81,7 @@ const GrowthPlanPage = () => {
               {t('growth.title1')}{' '}
               <span className="gradient-text">{t('growth.title2')}</span>
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">{t('growth.subtitle')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5] max-w-xl mx-auto">{t('growth.subtitle')}</p>
           </div>
 
           {/* Viral share */}
@@ -116,7 +116,7 @@ const GrowthPlanPage = () => {
           {/* Mindset survey */}
           <div className="glass-card p-6 mb-10">
             <h2 className="font-bold text-lg text-gray-900 dark:text-white mb-1">{t('growth.mindsetTitle')}</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">{t('growth.mindsetDesc')}</p>
+            <p className="text-sm text-[#cedde9] dark:text-[#e9eff5] mb-5">{t('growth.mindsetDesc')}</p>
             <div className="grid grid-cols-5 gap-2">
               {mindsetOptions.map((opt) => (
                 <motion.button key={opt.value} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
@@ -125,7 +125,7 @@ const GrowthPlanPage = () => {
                     mindsetScore === opt.value ? 'border-primary bg-primary-50 dark:bg-primary-900/30' : 'border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800/50 hover:border-primary/30'
                   }`}>
                   <span className="text-2xl">{opt.emoji}</span>
-                  <span className="text-[10px] text-center text-gray-500 dark:text-gray-400 leading-tight hidden sm:block">
+                  <span className="text-[10px] text-center text-[#cedde9] dark:text-[#e9eff5] leading-tight hidden sm:block">
                     {isEn ? opt.labelEn : opt.labelVi}
                   </span>
                 </motion.button>
@@ -169,9 +169,9 @@ const GrowthPlanPage = () => {
                               <span className="badge-primary text-xs px-2 py-0.5 rounded-full">
                                 {t('growth.month')} {month.month}
                               </span>
-                              <span className="text-xs text-gray-400">{t('growth.target')}: {month.targetReach.toLocaleString('vi-VN')} {t('growth.people')}</span>
+                              <span className="text-xs text-[#e9eff5]">{t('growth.target')}: {month.targetReach.toLocaleString('vi-VN')} {t('growth.people')}</span>
                             </div>
-                            <h3 className={`font-bold text-base mb-3 ${isDone ? 'text-gray-400 dark:text-gray-600' : 'text-gray-900 dark:text-white'}`}>
+                            <h3 className={`font-bold text-base mb-3 ${isDone ? 'text-[#e9eff5] dark:text-gray-600' : 'text-gray-900 dark:text-white'}`}>
                               {month.title}
                             </h3>
                             <ul className="space-y-1.5 mb-3">
@@ -204,7 +204,7 @@ const GrowthPlanPage = () => {
           <div className="glass-card p-8 text-center bg-gradient-to-br from-primary-50 dark:from-primary-950/30 to-white dark:to-surface-dark">
             <div className="text-5xl mb-4">🌱</div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('growth.ctaTitle')}</h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">{t('growth.ctaDesc')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5] mb-6 max-w-md mx-auto">{t('growth.ctaDesc')}</p>
             <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} onClick={handleShare}
               className="btn-primary inline-flex items-center gap-2">
               <Share2 size={18} />{t('growth.ctaBtn')}

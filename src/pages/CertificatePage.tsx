@@ -74,7 +74,7 @@ const CertificatePage = () => {
             className="text-center max-w-md mx-auto px-4">
             <div className="text-6xl mb-6">🏅</div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{t('certificate.pageTitle')}</h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">{t('certificate.noWorkflows')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5] mb-6">{t('certificate.noWorkflows')}</p>
             <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               onClick={() => navigate('/marketplace')} className="btn-primary">
               {t('certificate.goToMarketplace')} <ArrowRight size={16} className="inline ml-1" />
@@ -95,7 +95,7 @@ const CertificatePage = () => {
               <Award size={14} /> {t('certificate.achievement')}
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">{t('certificate.pageTitle')}</h1>
-            <p className="text-gray-500 dark:text-gray-400">{t('certificate.pageSubtitle')}</p>
+            <p className="text-[#cedde9] dark:text-[#e9eff5]">{t('certificate.pageSubtitle')}</p>
           </motion.div>
 
           {/* Certificate Visual */}
@@ -127,10 +127,10 @@ const CertificatePage = () => {
                 <div className="w-32 h-px bg-primary/40 mx-auto mb-6" />
 
                 {/* Body */}
-                <p className="text-gray-400 mb-3 text-sm">{t('certificate.certBody')}</p>
+                <p className="text-[#e9eff5] mb-3 text-sm">{t('certificate.certBody')}</p>
                 <h3 className="text-3xl sm:text-4xl font-bold text-white mb-6">{profile.name}</h3>
 
-                <p className="text-gray-400 mb-2 text-sm">
+                <p className="text-[#e9eff5] mb-2 text-sm">
                   {t('certificate.certCompleted')} <span className="text-primary font-bold">{completedWorkflows.length}</span> {t('certificate.certWorkflows')}
                 </p>
 
@@ -138,17 +138,17 @@ const CertificatePage = () => {
                 <div className="flex items-center justify-center gap-8 my-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-primary">{totalXP}</div>
-                    <div className="text-xs text-gray-500">{t('certificate.certXP')}</div>
+                    <div className="text-xs text-[#cedde9]">{t('certificate.certXP')}</div>
                   </div>
                   <div className="w-px h-10 bg-gray-700" />
                   <div className="text-center">
                     <div className="text-2xl font-bold text-[#00D4FF]">{streak}</div>
-                    <div className="text-xs text-gray-500">{isEn ? 'Day Streak' : 'Chuỗi ngày'}</div>
+                    <div className="text-xs text-[#cedde9]">{isEn ? 'Day Streak' : 'Chuỗi ngày'}</div>
                   </div>
                   <div className="w-px h-10 bg-gray-700" />
                   <div className="text-center">
                     <div className="text-2xl font-bold text-white">{completedWorkflows.length}</div>
-                    <div className="text-xs text-gray-500">{isEn ? 'Workflows' : 'Workflow'}</div>
+                    <div className="text-xs text-[#cedde9]">{isEn ? 'Workflows' : 'Workflow'}</div>
                   </div>
                 </div>
 
@@ -164,14 +164,14 @@ const CertificatePage = () => {
                 </div>
 
                 {/* Date */}
-                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-4">
+                <div className="flex items-center justify-center gap-2 text-[#cedde9] text-sm mb-4">
                   <Calendar size={13} />
-                  <span>{t('certificate.certDate')}: <strong className="text-gray-400">{today}</strong></span>
+                  <span>{t('certificate.certDate')}: <strong className="text-[#e9eff5]">{today}</strong></span>
                 </div>
 
                 {/* Signature */}
                 <div className="w-24 h-px bg-gray-600 mx-auto my-2" />
-                <p className="text-xs text-gray-500">{t('certificate.certSignature')}</p>
+                <p className="text-xs text-[#cedde9]">{t('certificate.certSignature')}</p>
                 <p className="text-xs text-gray-600 mt-1">{t('certificate.certIssued')}</p>
               </div>
             </div>
@@ -211,7 +211,7 @@ const CertificatePage = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm text-gray-900 dark:text-white truncate">{w.title}</p>
-                    <p className="text-xs text-gray-400">{formatDate ? formatDate(w.completedAt) : new Date(w.completedAt).toLocaleDateString()}</p>
+                    <p className="text-xs text-[#e9eff5]">{formatDate ? formatDate(w.completedAt) : new Date(w.completedAt).toLocaleDateString()}</p>
                   </div>
                   <span className="badge-primary text-xs px-2 py-0.5">+{w.xpEarned} XP</span>
                 </motion.div>

@@ -58,7 +58,7 @@ const RoleSwitcher = ({ compact = false }: RoleSwitcherProps) => {
                 ? r === 'learner'
                   ? 'bg-primary text-white shadow-md'
                   : 'bg-purple-600 text-white shadow-md'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                : 'text-gray-500 dark:text-[#e9eff5] hover:text-gray-700 dark:hover:text-gray-200'
             }`}
           >
             <Icon size={16} />

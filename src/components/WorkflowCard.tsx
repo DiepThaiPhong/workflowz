@@ -151,7 +151,7 @@ const WorkflowCard = ({ workflow, index = 0, compact = false }: WorkflowCardProp
       {/* Content */}
       <div className="p-4">
         <h3 className="wf-card-title mb-1.5">{title}</h3>
-        <p className="text-xs mb-3 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>{desc}</p>
+        <p className="text-xs mb-3 line-clamp-2" style={{ color: '#e9eff5' }}>{desc}</p>
 
         {/* Stats row */}
         <div className="flex items-center justify-between text-xs mb-3" style={{ color: 'var(--text-muted)' }}>

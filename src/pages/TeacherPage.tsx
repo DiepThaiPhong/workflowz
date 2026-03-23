@@ -92,7 +92,7 @@ const TeacherPage = () => {
                 <GraduationCap size={26} className="text-accent" />
                 {t('teacher.pageTitle')}
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">{t('teacher.pageSubtitle')}</p>
+              <p className="text-[#cedde9] dark:text-[#e9eff5] mt-1">{t('teacher.pageSubtitle')}</p>
             </div>
             <motion.button
               whileHover={{ scale: 1.03 }}
@@ -120,7 +120,7 @@ const TeacherPage = () => {
               >
                 <Icon size={20} className={`${color} mb-1`} />
                 <p className={`font-bold text-lg ${color}`}>{typeof value === 'number' ? formatNumber(value) : value}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
+                <p className="text-xs text-[#cedde9] dark:text-[#e9eff5]">{label}</p>
               </motion.div>
             ))}
           </div>
@@ -138,14 +138,14 @@ const TeacherPage = () => {
                   <h2 className="font-bold text-lg text-gray-900 dark:text-white">
                     {editId ? t('teacher.editCourse') : t('teacher.createTitle')}
                   </h2>
-                  <button onClick={() => setShowForm(false)} className="text-gray-400 hover:text-gray-600 transition-colors">
+                  <button onClick={() => setShowForm(false)} className="text-[#e9eff5] hover:text-gray-600 transition-colors">
                     <X size={20} />
                   </button>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="sm:col-span-2">
-                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">{t('teacher.courseTitle')}</label>
+                    <label className="text-xs font-medium text-[#cedde9] dark:text-[#e9eff5] mb-1 block">{t('teacher.courseTitle')}</label>
                     <input
                       className="input-field"
                       value={form.title}
@@ -154,7 +154,7 @@ const TeacherPage = () => {
                     />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">{t('teacher.courseDesc')}</label>
+                    <label className="text-xs font-medium text-[#cedde9] dark:text-[#e9eff5] mb-1 block">{t('teacher.courseDesc')}</label>
                     <textarea
                       className="input-field min-h-[80px] resize-none"
                       value={form.description}
@@ -163,7 +163,7 @@ const TeacherPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">{t('teacher.coursePrice')}</label>
+                    <label className="text-xs font-medium text-[#cedde9] dark:text-[#e9eff5] mb-1 block">{t('teacher.coursePrice')}</label>
                     <input
                       type="number"
                       min={0}
@@ -174,7 +174,7 @@ const TeacherPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">{t('teacher.courseImage')}</label>
+                    <label className="text-xs font-medium text-[#cedde9] dark:text-[#e9eff5] mb-1 block">{t('teacher.courseImage')}</label>
                     <div className="flex gap-2">
                       <input
                         className="input-field flex-1 text-xs"
@@ -254,7 +254,7 @@ const TeacherPage = () => {
                 className="glass-card p-10 text-center"
               >
                 <div className="text-5xl mb-4">📚</div>
-                <p className="text-gray-500 dark:text-gray-400 mb-4">{t('teacher.noCoursesYet')}</p>
+                <p className="text-[#cedde9] dark:text-[#e9eff5] mb-4">{t('teacher.noCoursesYet')}</p>
                 <button onClick={() => setShowForm(true)} className="btn-primary text-sm">
                   <Plus size={15} className="inline mr-1" />
                   {t('teacher.createTitle')}
@@ -294,11 +294,11 @@ const TeacherPage = () => {
 
                       <div className="p-4">
                         <h3 className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">{course.title}</h3>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">{course.description}</p>
+                        <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mb-3 line-clamp-2">{course.description}</p>
 
                         {/* Stats */}
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                          <span className="flex items-center gap-1 text-xs text-[#cedde9] dark:text-[#e9eff5]">
                             <Users size={12} className="text-primary" />
                             <strong className="text-primary">{course.studentsEnrolled}</strong> {t('teacher.studentsEnrolled')}
                           </span>
@@ -314,7 +314,7 @@ const TeacherPage = () => {
                           </button>
                           <button
                             onClick={() => handleDelete(course.id)}
-                            className="flex items-center justify-center w-9 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-400 hover:bg-accent/10 hover:text-accent transition-all"
+                            className="flex items-center justify-center w-9 rounded-lg bg-gray-100 dark:bg-gray-800 text-[#e9eff5] hover:bg-accent/10 hover:text-accent transition-all"
                           >
                             <Trash2 size={14} />
                           </button>

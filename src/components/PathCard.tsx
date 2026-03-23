@@ -47,7 +47,7 @@ const PathCard = ({ path, index = 0, compact = false }: PathCardProps) => {
         {path.title}
       </h3>
       {!compact && (
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
+        <p className="text-xs text-[#cedde9] dark:text-[#e9eff5] mb-4 line-clamp-2">
           {path.description}
         </p>
       )}
@@ -55,7 +55,7 @@ const PathCard = ({ path, index = 0, compact = false }: PathCardProps) => {
       {/* Progress */}
       <div className="mt-3">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+          <span className="text-xs text-[#cedde9] dark:text-[#e9eff5]">
             {completed}/{total} bài
           </span>
           <span className="text-xs font-semibold" style={{ color: accent }}>
@@ -75,11 +75,11 @@ const PathCard = ({ path, index = 0, compact = false }: PathCardProps) => {
 
       {/* Footer */}
       <div className="flex items-center justify-between mt-4">
-        <span className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1">
+        <span className="text-xs text-[#e9eff5] dark:text-[#cedde9] flex items-center gap-1">
           <Star size={11} fill="currentColor" className="text-yellow-400" />
           {weeks} tuần
         </span>
-        <ChevronRight size={16} className="text-gray-400 dark:text-gray-600 group-hover:text-primary transition-colors" />
+        <ChevronRight size={16} className="text-[#e9eff5] dark:text-gray-600 group-hover:text-primary transition-colors" />
       </div>
     </motion.div>
   );

@@ -7,7 +7,7 @@ import {
   BookOpen, Trash2
 } from 'lucide-react';
 import ReactFlow, {
-  Background, Controls, MiniMap,
+  Background, Controls,
   addEdge, Connection, Edge, Node,
   useNodesState, useEdgesState, NodeTypes,
   BackgroundVariant,
@@ -77,7 +77,7 @@ export default function WorkflowEditorPanel() {
       id: 'welcome', type: 'studioNode', position: { x: 220, y: 120 },
       data: {
         type: 'instruction',
-        label: isEn ? 'Welcome Block' : 'Khối chào mừng',
+        label: isEn ? 'Rich Text' : 'Văn bản đa dạng',
         layout: 'vertical',
         blocks: [{ id: 'wb1', type: 'text', content: isEn ? 'Start building your workflow here! Drag blocks from the left panel.' : 'Bắt đầu xây dựng workflow tại đây! Kéo các khối từ bảng trái.' }],
       },
@@ -191,12 +191,12 @@ export default function WorkflowEditorPanel() {
           style={{ borderBottomColor: 'rgba(146,230,0,0.3)' }}
         />
         <div className="flex items-center gap-1.5 ml-auto">
-          <button className="p-1.5 text-gray-500 hover:text-white transition-colors" title={t('studio.undoBtn')}><Undo2 size={15} /></button>
-          <button className="p-1.5 text-gray-500 hover:text-white transition-colors" title={t('studio.redoBtn')}><Redo2 size={15} /></button>
+          <button className="p-1.5 text-[#cedde9] hover:text-white transition-colors" title={t('studio.undoBtn')}><Undo2 size={15} /></button>
+          <button className="p-1.5 text-[#cedde9] hover:text-white transition-colors" title={t('studio.redoBtn')}><Redo2 size={15} /></button>
           <div className="w-px h-4 mx-1" style={{ background: 'rgba(146,230,0,0.15)' }} />
           <motion.button whileTap={{ scale: 0.95 }} onClick={handleSave}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
-            style={{ background: '#0b0f0c', color: '#9ca3af', border: '1px solid rgba(146,230,0,0.15)' }}>
+            style={{ background: '#0b0f0c', color: '#e9eff5', border: '1px solid rgba(146,230,0,0.15)' }}>
             <Save size={13} /> {t('studio.saveWorkflow')}
           </motion.button>
           <motion.button whileTap={{ scale: 0.95 }}
@@ -225,7 +225,7 @@ export default function WorkflowEditorPanel() {
                 </div>
                 <span className="text-sm font-bold text-white">{t('studio.aiChat')}</span>
               </div>
-              {aiOpen ? <ChevronUp size={14} className="text-gray-500" /> : <ChevronDown size={14} className="text-gray-500" />}
+              {aiOpen ? <ChevronUp size={14} className="text-[#cedde9]" /> : <ChevronDown size={14} className="text-[#cedde9]" />}
             </button>
 
             <AnimatePresence>
@@ -233,7 +233,7 @@ export default function WorkflowEditorPanel() {
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                   <div className="px-3 pb-3 space-y-2">
-                    <p className="text-[11px] text-gray-500">{t('studio.aiChatSubtitle')}</p>
+                    <p className="text-[11px] text-[#cedde9]">{t('studio.aiChatSubtitle')}</p>
                     <textarea
                       value={aiPrompt}
                       onChange={e => setAiPrompt(e.target.value)}
@@ -246,7 +246,7 @@ export default function WorkflowEditorPanel() {
                       <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                         className="rounded-xl p-2.5" style={{ background: 'rgba(146,230,0,0.06)', border: '1px solid rgba(146,230,0,0.2)' }}>
                         <p className="text-xs font-bold mb-1" style={{ color: '#92e600' }}>✨ {aiResult.title}</p>
-                        <p className="text-[11px] text-gray-400 mb-2">{aiResult.nodes.length} nodes generated</p>
+                        <p className="text-[11px] text-[#e9eff5] mb-2">{aiResult.nodes.length} nodes generated</p>
                         <motion.button whileTap={{ scale: 0.95 }} onClick={handleInsertAi}
                           className="w-full py-1.5 text-xs font-bold rounded-lg transition-all"
                           style={{ background: '#92e600', color: '#0b0f0c' }}>
@@ -273,7 +273,7 @@ export default function WorkflowEditorPanel() {
 
           {/* Node Library */}
           <div className="border-b px-3 py-2" style={{ borderColor: 'rgba(146,230,0,0.1)' }}>
-            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Block Library</p>
+            <p className="text-[10px] font-bold text-[#cedde9] uppercase tracking-wider mb-2">Block Library</p>
             <div className="space-y-1">
               {NODE_LIBRARY.map(({ type, label, labelVi, icon: Icon, color, bg }) => (
                 <motion.button key={type} whileHover={{ x: 2 }} whileTap={{ scale: 0.97 }}
@@ -282,7 +282,7 @@ export default function WorkflowEditorPanel() {
                   style={{ background: 'rgba(146,230,0,0.03)' }}>
                   <Icon size={14} style={{ color }} />
                   <span className="text-xs font-medium text-gray-200">{isEn ? label : labelVi}</span>
-                  <Plus size={11} className="ml-auto text-gray-600" />
+                  <Plus size={11} className="ml-auto text-[#cedde9]" />
                 </motion.button>
               ))}
             </div>
@@ -294,7 +294,7 @@ export default function WorkflowEditorPanel() {
               {(['myOwn', 'templates'] as const).map(tab => (
                 <button key={tab} onClick={() => setContentTab(tab)}
                   className="flex-1 py-2.5 text-xs font-bold transition-all"
-                  style={contentTab === tab ? { color: '#92e600', borderBottom: '2px solid #92e600' } : { color: '#6b7280' }}>
+                  style={contentTab === tab ? { color: '#92e600', borderBottom: '2px solid #92e600' } : { color: '#cedde9' }}>
                   {tab === 'myOwn' ? t('studio.tabMyOwn') : t('studio.tabTemplates')}
                 </button>
               ))}
@@ -306,9 +306,9 @@ export default function WorkflowEditorPanel() {
                   <motion.div key="myOwn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     {savedWorkflows.length === 0 ? (
                       <div className="text-center py-8 px-3">
-                        <BookOpen size={28} className="text-gray-700 mx-auto mb-2" />
-                        <p className="text-xs text-gray-500">{t('studio.noSavedWorkflows')}</p>
-                        <p className="text-[11px] text-gray-600 mt-1">{t('studio.noSavedHint')}</p>
+                        <BookOpen size={28} className="text-[#cedde9] mx-auto mb-2" />
+                        <p className="text-xs text-[#cedde9]">{t('studio.noSavedWorkflows')}</p>
+                        <p className="text-[11px] text-[#cedde9] mt-1">{t('studio.noSavedHint')}</p>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -317,7 +317,7 @@ export default function WorkflowEditorPanel() {
                             transition={{ delay: i * 0.05 }} onClick={() => loadWorkflow(wf)}
                             className="w-full text-left p-3 rounded-xl bg-gray-800/60 hover:bg-gray-800 border border-gray-700/50 transition-all">
                             <p className="text-xs font-semibold text-white truncate">{wf.name}</p>
-                            <p className="text-[11px] text-gray-500 mt-0.5">{wf.nodes.length} nodes</p>
+                            <p className="text-[11px] text-[#cedde9] mt-0.5">{wf.nodes.length} nodes</p>
                           </motion.button>
                         ))}
                       </div>
@@ -342,7 +342,7 @@ export default function WorkflowEditorPanel() {
                         </div>
                         <div className="p-2 bg-gray-800/70">
                           <p className="text-xs font-semibold text-white truncate">{isEn ? tpl.title : tpl.titleVi}</p>
-                          <p className="text-[10px] text-gray-500">{tpl.nodes} nodes</p>
+                          <p className="text-[10px] text-[#cedde9]">{tpl.nodes} nodes</p>
                         </div>
                       </motion.button>
                     ))}
@@ -370,12 +370,7 @@ export default function WorkflowEditorPanel() {
             maxZoom={2}
           >
             <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#1a2119" />
-            <Controls className="[&>button]:bg-[#0e150d] [&>button]:border-[#92e600]/20 [&>button]:text-gray-400" />
-            <MiniMap
-              style={{ background: '#0e150d', border: '1px solid rgba(146,230,0,0.15)' }}
-              maskColor="rgba(0,0,0,0.7)"
-              nodeColor="#92e600"
-            />
+            <Controls className="[&>button]:bg-[#0e150d] [&>button]:border-[#92e600]/20 [&>button]:text-[#e9eff5]" />
           </ReactFlow>
 
           {/* Trash bin – appears when dragging a node */}
@@ -383,18 +378,21 @@ export default function WorkflowEditorPanel() {
             {isDraggingNode && (
               <motion.div
                 ref={trashRef}
-                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: isOverTrash ? 1.2 : 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                className="absolute bottom-6 right-6 w-14 h-14 rounded-2xl flex items-center justify-center z-50 pointer-events-none"
+                initial={{ opacity: 0, y: -20, scaleY: 0.5 }}
+                animate={{ opacity: 1, y: 0, scaleY: isOverTrash ? 1.1 : 1 }}
+                exit={{ opacity: 0, y: -20, scaleY: 0.5 }}
+                className="absolute top-4 left-1/2 -translate-x-1/2 px-8 py-3 rounded-2xl flex items-center justify-center gap-2 z-50 pointer-events-none"
                 style={{
-                  background: isOverTrash ? 'rgba(239,68,68,0.3)' : 'rgba(239,68,68,0.1)',
+                  background: isOverTrash ? 'rgba(239,68,68,0.25)' : 'rgba(239,68,68,0.1)',
                   border: `2px solid ${isOverTrash ? '#ef4444' : 'rgba(239,68,68,0.4)'}`,
                   boxShadow: isOverTrash ? '0 0 20px rgba(239,68,68,0.5)' : 'none',
                   transition: 'all 0.15s ease',
                 }}
               >
-                <Trash2 size={22} style={{ color: isOverTrash ? '#ef4444' : '#f87171' }} />
+                <Trash2 size={18} style={{ color: isOverTrash ? '#ef4444' : '#f87171' }} />
+                <span className="text-sm font-semibold" style={{ color: isOverTrash ? '#ef4444' : '#f87171' }}>
+                  {isEn ? 'Drop to delete' : 'Thả để xóa'}
+                </span>
               </motion.div>
             )}
           </AnimatePresence>

@@ -311,7 +311,8 @@
       "business": "Business",
       "design": "Design",
       "data": "Data",
-      "personal": "Personal"
+      "personal": "Personal",
+      "digital": "Digital"
     },
     "priceAll": "All",
     "priceFree": "Free",
