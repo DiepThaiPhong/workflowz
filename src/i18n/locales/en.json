@@ -80,6 +80,22 @@
     "creditsUnit": "credits",
     "perMonth": "one-time"
   },
+  "payment": {
+    "title": "Payment",
+    "secureCheckout": "Secure checkout with Stripe",
+    "package": "Package",
+    "total": "Total",
+    "cardNumber": "Card Number",
+    "cardName": "Cardholder Name",
+    "cardNamePlaceholder": "Name on card",
+    "expiry": "Expiry",
+    "secureNote": "Your payment information is encrypted and secure",
+    "processing": "Processing...",
+    "pay": "Pay",
+    "success": "Payment Successful!",
+    "creditsAdded": "Your credits have been added to your account",
+    "poweredBy": "Secured by Stripe"
+  },
   "mode": {
     "learner": "Learner",
     "creator": "Creator",

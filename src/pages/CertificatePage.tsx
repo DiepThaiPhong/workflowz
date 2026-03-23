@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Award, Download, Share2, Zap, Calendar, ArrowRight, Tag, BarChart3, Clock, CheckCircle, ExternalLink } from 'lucide-react';
+import { Award, Download, Share2, Calendar, ArrowRight, Tag, BarChart3, Clock, CheckCircle, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -124,8 +124,7 @@ const CertificatePage = () => {
               <div className="relative p-8 sm:p-14 text-center">
                 {/* Logo */}
                 <div className="flex items-center justify-center gap-2 mb-6">
-                  <Zap size={28} className="text-primary" fill="#00A651" />
-                  <span className="text-2xl font-black text-white tracking-tight">WorkFlowz</span>
+                  <img src="/Logo2.svg" alt="WorkFlowz" className="h-10 w-auto" />
                 </div>
 
                 {/* Title */}

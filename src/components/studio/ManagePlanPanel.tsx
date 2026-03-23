@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { CreditCard, Zap, Check, Clock, Sparkles } from 'lucide-react';
 import useLocalStorage from '../../hooks/useLocalStorage';
+import PaymentModal from '../PaymentModal';
 
 interface Purchase {
   id: string;
@@ -52,28 +53,38 @@ export default function ManagePlanPanel() {
   const [history, setHistory] = useLocalStorage<Purchase[]>('wfz-purchase-history', []);
   const [showConfetti, setShowConfetti] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
-  const [buying, setBuying] = useState<string | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<typeof PACKAGES[0] | null>(null);
 
-  const handleBuy = async (pkg: typeof PACKAGES[0]) => {
-    setBuying(pkg.id);
-    await new Promise(r => setTimeout(r, 1200));
-    setCredits(c => c + pkg.credits);
+  const handlePaymentSuccess = () => {
+    if (!selectedPackage) return;
+    
+    setCredits(c => c + selectedPackage.credits);
     setHistory(h => [...h, {
       id: Date.now().toString(),
-      pkg: t(pkg.labelKey),
-      credits: pkg.credits,
-      price: pkg.price,
+      pkg: t(selectedPackage.labelKey),
+      credits: selectedPackage.credits,
+      price: selectedPackage.price,
       date: new Date().toLocaleDateString(isEn ? 'en-US' : 'vi-VN'),
     }]);
-    setBuying(null);
     setShowConfetti(true);
     setSuccessMsg(t('managePlan.success'));
     setTimeout(() => setSuccessMsg(''), 3000);
+    setSelectedPackage(null);
   };
 
   return (
     <div className="min-h-full p-6" style={{ background: '#0b0f0c' }}>
       {showConfetti && <Confetti onDone={() => setShowConfetti(false)} />}
+
+      {/* Payment Modal */}
+      {selectedPackage && (
+        <PaymentModal
+          isOpen={!!selectedPackage}
+          onClose={() => setSelectedPackage(null)}
+          package_={selectedPackage}
+          onSuccess={handlePaymentSuccess}
+        />
+      )}
 
       {/* Success message */}
       <AnimatePresence>
@@ -113,11 +124,7 @@ export default function ManagePlanPanel() {
           {PACKAGES.map((pkg, i) => (
             <motion.div key={pkg.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className={`relative rounded-2xl p-5 flex flex-col transition-all ${
-                pkg.popular
-                  ? ''
-                  : ''
-              }`}
+              className="relative rounded-2xl p-5 flex flex-col transition-all"
               style={{
                 background: pkg.popular ? 'rgba(146,230,0,0.08)' : PANEL,
                 border: pkg.popular ? '1.5px solid rgba(146,230,0,0.5)' : `1px solid ${BORDER}`,
@@ -155,20 +162,15 @@ export default function ManagePlanPanel() {
 
               <motion.button
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                onClick={() => handleBuy(pkg)}
-                disabled={buying === pkg.id}
-                className="w-full py-2.5 rounded-xl text-sm font-bold transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+                onClick={() => setSelectedPackage(pkg)}
+                className="w-full py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
                 style={{
                   background: pkg.popular ? GREEN : 'transparent',
                   color: pkg.popular ? '#0b0f0c' : GREEN,
                   border: pkg.popular ? 'none' : `1.5px solid ${GREEN}`
                 }}
               >
-                {buying === pkg.id ? (
-                  <><motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.8 }}><Zap size={14} /></motion.div> Processing...</>
-                ) : (
-                  <><CreditCard size={14} /> {t('managePlan.buyCredits')}</>
-                )}
+                <CreditCard size={14} /> {t('managePlan.buyCredits')}
               </motion.button>
             </motion.div>
           ))}

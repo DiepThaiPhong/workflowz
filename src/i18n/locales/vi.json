@@ -80,6 +80,22 @@
     "creditsUnit": "credits",
     "perMonth": "một lần"
   },
+  "payment": {
+    "title": "Thanh Toán",
+    "secureCheckout": "Thanh toán an toàn với Stripe",
+    "package": "Gói",
+    "total": "Tổng cộng",
+    "cardNumber": "Số thẻ",
+    "cardName": "Tên chủ thẻ",
+    "cardNamePlaceholder": "Tên trên thẻ",
+    "expiry": "Hết hạn",
+    "secureNote": "Thông tin thanh toán của bạn được mã hóa và bảo mật",
+    "processing": "Đang xử lý...",
+    "pay": "Thanh toán",
+    "success": "Thanh toán thành công!",
+    "creditsAdded": "Credit đã được thêm vào tài khoản của bạn",
+    "poweredBy": "Bảo mật bởi Stripe"
+  },
   "mode": {
     "learner": "Học viên",
     "creator": "Creator",
