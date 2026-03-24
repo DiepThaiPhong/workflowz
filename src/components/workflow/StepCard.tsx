@@ -247,7 +247,7 @@ const StepCard = ({
               >
                 {isEn ? config.enLabel : config.viLabel}
               </div>
-              <h2 className="text-lg font-bold text-white mt-1">{block.title}</h2>
+              <h2 className="text-lg font-bold text-white mt-1">{isEn && block.titleEn ? block.titleEn : block.title}</h2>
             </div>
           </div>
         </div>
@@ -276,7 +276,7 @@ const StepCard = ({
                   {/* Text content below video */}
                   <div className="p-5">
                     <div className="text-gray-200 leading-relaxed text-base space-y-3">
-                      {parseFormattedContent(block.content)}
+                      {parseFormattedContent(isEn && block.contentEn ? block.contentEn : block.content)}
                     </div>
                   </div>
                 </>
@@ -296,7 +296,7 @@ const StepCard = ({
                     </div>
                     <div className="lg:w-1/2">
                       <div className="text-gray-200 leading-relaxed text-base space-y-2">
-                        {parseFormattedContent(block.content)}
+                        {parseFormattedContent(isEn && block.contentEn ? block.contentEn : block.content)}
                       </div>
                     </div>
                   </div>

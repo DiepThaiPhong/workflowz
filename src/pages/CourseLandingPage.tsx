@@ -225,7 +225,7 @@ export default function CourseLandingPage() {
                       </div>
                       <span className="text-base flex-shrink-0">{BLOCK_ICON[block.type] ?? '📌'}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-white truncate">{block.title}</p>
+                        <p className="text-sm font-semibold text-white truncate">{isEn && block.titleEn ? block.titleEn : block.title}</p>
                         <p className="text-[11px] text-[#8a9a92] capitalize mt-0.5">
                           {block.type === 'aiPrompt' ? (isEn ? 'AI Generate' : 'AI tạo nội dung')
                             : block.type === 'instruction' ? (isEn ? 'Instruction' : 'Hướng dẫn')

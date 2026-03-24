@@ -271,15 +271,62 @@ export const WORKFLOW_CURSOR: Workflow = {
 **Telegram Token:** Vào @BotFather, tạo bot mới để lấy token
 
 **API Key:** Khuyên dùng Open Router vì tích hợp nhiều model AI (Claude, GPT, Gemini...) và không bị giới hạn tier`,
-    0, 0, { videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }),
+    0, 0, {
+      videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+      titleEn: '🛠️ Step 1: Gather Required Information',
+      contentEn: `**Before you start, prepare the following:**
 
-    makeBlock('oc2', 'instruction', 'Bước 2: Cài đặt trên VPS (Terminal)', 'Kết nối và cài đặt:\n1. **Kết nối:** ssh root@<IP_VPS> rồi nhập password\n2. **Tạo user mới:** Không nên chạy trực tiếp trên root. Tạo user (VD: m), set mật khẩu và cấp quyền sudo\n3. **Chạy cài đặt:** Chuyển sang user mới (su - m), lấy script từ tài liệu Openclaw và chạy', 0, 180),
-    makeBlock('oc3', 'instruction', 'Bước 3: Cấu hình ban đầu (Onboarding)', 'Trong quá trình cài đặt, nhập:\n• **API Key:** Dán mã từ Open Router hoặc Anthropic\n• **Model:** Nên chọn Claude 3.5 Sonnet để ổn định\n• **Telegram Token:** Dán mã từ @BotFather\n• **Skills:** Cài Cloud Hub (bỏ qua Google, Notion, 11Labs - cài sau)', 0, 360),
-    makeBlock('oc4', 'instruction', 'Bước 4: Kích hoạt Giao diện và Kết nối Telegram', 'Hoàn tất kết nối:\n1. **Mở cổng:** Chạy `open-claw gateway --verbose`\n2. **Truy cập Web UI:** Copy link + token từ terminal vào trình duyệt\n3. **Thiết lập Soul:** Chat trên web để định hình tính cách, vai trò cho bot\n4. **Pairing Telegram:** Lấy Pairing Code từ web, chat với bot Telegram và dán vào', 0, 540),
-    makeBlock('oc5', 'instruction', 'Bước 5: Thiết lập chạy tự động 24/7', 'Để bot hoạt động liên tục:\n1. Đăng nhập lại root\n2. Tạo file .service trong /etc/systemd/system/openclaw.service\n3. Dán cấu hình (thay tên user tương ứng)\n4. Chạy: sudo systemctl enable --now openclaw\n5. Kiểm tra: sudo systemctl status openclaw\n✅ Hiển thị "active (running)" màu xanh = thành công!', 0, 720),
-    makeBlock('oc6', 'instruction', 'Bước 6: Kết nối Google API (Tùy chọn nâng cao)', 'Muốn bot truy cập Gmail, Lịch, Drive:\n1. Tạo Project trên Google Cloud Console, bật các API cần thiết\n2. Tạo OAuth 2.0 Client ID (loại Web Application)\n3. Thiết lập Authorized redirect URIs\n4. Lấy Client ID và Secret dán vào bot\n\n**Bonus:** Sử dụng Hotbeat (nhịp tim bot chủ động) và Cron (lên lịch công việc) để tối ưu!', 0, 900),
-    makeBlock('oc7', 'output', 'Hoàn thành!', 'Bot Openclaw của bạn đã sẵn sàng hoạt động 24/7!\n\nBạn có thể:\n• Chat với bot qua Telegram\n• Quản lý qua Web UI\n• Mở rộng với Google API, Hotbeat, Cron', 0, 1080, { outputFormat: 'markdown' }),
+**VPS Info:** IP address, Username, Password (received by email after purchase)
+
+**Telegram Token:** Open Telegram → @BotFather → create a new bot → copy the TOKEN
+
+**API Key:** Open Router is recommended — integrates many AI models (Claude, GPT, Gemini...) with no tier limits`,
+    }),
+
+    makeBlock('oc2', 'instruction', 'Bước 2: Cài đặt trên VPS (Terminal)',
+      'Kết nối và cài đặt:\n1. **Kết nối:** ssh root@<IP_VPS> rồi nhập password\n2. **Tạo user mới:** Không nên chạy trực tiếp trên root. Tạo user (VD: m), set mật khẩu và cấp quyền sudo\n3. **Chạy cài đặt:** Chuyển sang user mới (su - m), lấy script từ tài liệu Openclaw và chạy',
+    0, 180, {
+      titleEn: 'Step 2: Install on VPS (Terminal)',
+      contentEn: 'Connect and install:\n1. **Connect:** ssh root@<VPS_IP> then enter your password\n2. **Create new user:** Avoid running directly as root. Create a user (e.g. m), set a password and grant sudo access\n3. **Run the installer:** Switch to the new user (su - m), grab the install script from the Openclaw docs and run it',
+    }),
+
+    makeBlock('oc3', 'instruction', 'Bước 3: Cấu hình ban đầu (Onboarding)',
+      'Trong quá trình cài đặt, nhập:\n• **API Key:** Dán mã từ Open Router hoặc Anthropic\n• **Model:** Nên chọn Claude 3.5 Sonnet để ổn định\n• **Telegram Token:** Dán mã từ @BotFather\n• **Skills:** Cài Cloud Hub (bỏ qua Google, Notion, 11Labs - cài sau)',
+    0, 360, {
+      titleEn: 'Step 3: Initial Configuration (Onboarding)',
+      contentEn: 'During setup, enter the following:\n• **API Key:** Paste your key from Open Router or Anthropic\n• **Model:** Claude 3.5 Sonnet is recommended for stability\n• **Telegram Token:** Paste the token from @BotFather\n• **Skills:** Install Cloud Hub (skip Google, Notion, 11Labs — add later)',
+    }),
+
+    makeBlock('oc4', 'instruction', 'Bước 4: Kích hoạt Giao diện và Kết nối Telegram',
+      'Hoàn tất kết nối:\n1. **Mở cổng:** Chạy `open-claw gateway --verbose`\n2. **Truy cập Web UI:** Copy link + token từ terminal vào trình duyệt\n3. **Thiết lập Soul:** Chat trên web để định hình tính cách, vai trò cho bot\n4. **Pairing Telegram:** Lấy Pairing Code từ web, chat với bot Telegram và dán vào',
+    0, 540, {
+      titleEn: 'Step 4: Activate the Interface & Connect Telegram',
+      contentEn: 'Complete the connection:\n1. **Open gateway:** Run `open-claw gateway --verbose`\n2. **Access Web UI:** Copy the link + token from the terminal into your browser\n3. **Set up Soul:** Chat on the web UI to define the bot\'s personality and role\n4. **Pair Telegram:** Copy the Pairing Code from the web UI, send it to your Telegram bot, and confirm',
+    }),
+
+    makeBlock('oc5', 'instruction', 'Bước 5: Thiết lập chạy tự động 24/7',
+      'Để bot hoạt động liên tục:\n1. Đăng nhập lại root\n2. Tạo file .service trong /etc/systemd/system/openclaw.service\n3. Dán cấu hình (thay tên user tương ứng)\n4. Chạy: sudo systemctl enable --now openclaw\n5. Kiểm tra: sudo systemctl status openclaw\n✅ Hiển thị "active (running)" màu xanh = thành công!',
+    0, 720, {
+      titleEn: 'Step 5: Set Up 24/7 Auto-Run',
+      contentEn: 'Keep the bot running continuously:\n1. Log back in as root\n2. Create a .service file at /etc/systemd/system/openclaw.service\n3. Paste the config (update the username accordingly)\n4. Run: sudo systemctl enable --now openclaw\n5. Check: sudo systemctl status openclaw\n✅ Showing "active (running)" in green = success!',
+    }),
+
+    makeBlock('oc6', 'instruction', 'Bước 6: Kết nối Google API (Tùy chọn nâng cao)',
+      'Muốn bot truy cập Gmail, Lịch, Drive:\n1. Tạo Project trên Google Cloud Console, bật các API cần thiết\n2. Tạo OAuth 2.0 Client ID (loại Web Application)\n3. Thiết lập Authorized redirect URIs\n4. Lấy Client ID và Secret dán vào bot\n\n**Bonus:** Sử dụng Hotbeat (nhịp tim bot chủ động) và Cron (lên lịch công việc) để tối ưu!',
+    0, 900, {
+      titleEn: 'Step 6: Connect Google API (Advanced, Optional)',
+      contentEn: 'To give the bot access to Gmail, Calendar, and Drive:\n1. Create a project in Google Cloud Console and enable the required APIs\n2. Create an OAuth 2.0 Client ID (Web Application type)\n3. Set up Authorized redirect URIs\n4. Copy the Client ID and Secret into the bot\n\n**Bonus:** Use Hotbeat (proactive bot heartbeat) and Cron (scheduled tasks) for maximum automation!',
+    }),
+
+    makeBlock('oc7', 'output', 'Hoàn thành!',
+      'Bot Openclaw của bạn đã sẵn sàng hoạt động 24/7!\n\nBạn có thể:\n• Chat với bot qua Telegram\n• Quản lý qua Web UI\n• Mở rộng với Google API, Hotbeat, Cron',
+    0, 1080, {
+      outputFormat: 'markdown',
+      titleEn: 'Complete!',
+      contentEn: 'Your Openclaw bot is now running 24/7!\n\nYou can:\n• Chat with the bot on Telegram\n• Manage it via the Web UI\n• Expand with Google API, Hotbeat, and Cron',
+    }),
   ],
+
   edges: [
     edge('oce1', 'oc1', 'oc2'),
     edge('oce2', 'oc2', 'oc3'),

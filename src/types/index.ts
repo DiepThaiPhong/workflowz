@@ -20,7 +20,9 @@ export interface WorkflowBlock {
   id: string;
   type: BlockType;
   title: string;
-  content: string;           // Instruction text or AI prompt template
+  titleEn?: string;           // English title for the step
+  content: string;           // Instruction text or AI prompt template (Vietnamese)
+  contentEn?: string;        // English version of the content
   placeholder?: string;      // For input blocks
   options?: string[];        // For decision blocks
   outputFormat?: 'text' | 'json' | 'markdown'; // For output blocks

@@ -406,7 +406,7 @@ export default function WorkflowDetailPage() {
                   {isEn ? blockMeta.en : blockMeta.vi}
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">{block.title}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">{isEn && block.titleEn ? block.titleEn : block.title}</h2>
 
                 {/* Instruction */}
                 {block.type === 'instruction' && (
@@ -417,7 +417,7 @@ export default function WorkflowDetailPage() {
                         <iframe
                           width="100%" height="100%"
                           src={block.videoUrl}
-                          title={block.title}
+                          title={isEn && block.titleEn ? block.titleEn : block.title}
                           frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
@@ -428,7 +428,7 @@ export default function WorkflowDetailPage() {
                     {/* Content with bold + line-break support */}
                     <div className={block.videoUrl ? 'p-5' : 'p-4'}>
                       <div className="text-gray-200 leading-relaxed text-base space-y-2">
-                        {block.content.split('\n').map((line, i) => {
+                        {(isEn && block.contentEn ? block.contentEn : block.content).split('\n').map((line, i) => {
                           if (!line.trim()) return <div key={i} className="h-1" />;
                           const parts = line.split(/(\*\*[^*]+\*\*)/g);
                           if (parts.length > 1) {
@@ -466,7 +466,7 @@ export default function WorkflowDetailPage() {
                 {/* Input */}
                 {block.type === 'input' && (
                   <div>
-                    <p className="text-[#e9eff5] text-sm mb-3">{block.content}</p>
+                    <p className="text-[#e9eff5] text-sm mb-3">{isEn && block.contentEn ? block.contentEn : block.content}</p>
                     <textarea
                       value={userInputs[block.id] || ''}
                       onChange={e => setUserInputs(p => ({ ...p, [block.id]: e.target.value }))}
@@ -483,7 +483,7 @@ export default function WorkflowDetailPage() {
                 {/* Decision */}
                 {block.type === 'decision' && (
                   <div>
-                    <p className="text-[#e9eff5] text-sm mb-4">{block.content}</p>
+                    <p className="text-[#e9eff5] text-sm mb-4">{isEn && block.contentEn ? block.contentEn : block.content}</p>
                     <div className="flex flex-col gap-2">
                       {(block.options || []).map(opt => (
                         <button key={opt} onClick={() => setUserInputs(p => ({ ...p, [block.id]: opt }))}
