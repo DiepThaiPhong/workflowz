@@ -24,7 +24,6 @@ import CourseLandingPage from './pages/CourseLandingPage';
 import AboutPage from './pages/AboutPage';
 import AffiliatePage from './pages/AffiliatePage';
 import CartPage from './pages/CartPage';
-import PaymentPage from './pages/PaymentPage';
 import useDarkMode from './hooks/useDarkMode';
 import { useTranslation } from 'react-i18next';
 
@@ -67,7 +66,6 @@ function AppInner() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/affiliate" element={<AffiliatePage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/payment" element={<PaymentPage />} />
 
             {/* 404 */}
             <Route path="*" element={

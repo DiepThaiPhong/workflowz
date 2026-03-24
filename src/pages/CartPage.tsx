@@ -1,30 +1,133 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Trash2, ArrowRight, Package } from 'lucide-react';
+import {
+  ShoppingCart, Trash2, ArrowRight, Package,
+  CreditCard, Lock, CheckCircle, Sparkles,
+} from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import PageTransition from '../components/PageTransition';
 
+/* ── Confetti ───────────────────────────────────────────────────────────── */
+const CONFETTI_COLORS = ['#92e600', '#60a5fa', '#a78bfa', '#fb923c', '#f472b6', '#facc15'];
+
+function ConfettiParticle({ x, color, delay }: { x: number; color: string; delay: number }) {
+  return (
+    <motion.div
+      className="fixed top-0 w-2 h-2 rounded-sm z-[999] pointer-events-none"
+      style={{ left: `${x}%`, background: color }}
+      initial={{ y: -10, opacity: 1, rotate: 0 }}
+      animate={{ y: '110vh', opacity: 0, rotate: 720 }}
+      transition={{ duration: 2 + Math.random() * 1, delay, ease: 'easeIn' }}
+    />
+  );
+}
+
+/* ── Utils ──────────────────────────────────────────────────────────────── */
+const formatCard   = (v: string) => v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
+const formatExpiry = (v: string) => { const d = v.replace(/\D/g, '').slice(0, 4); return d.length > 2 ? `${d.slice(0,2)}/${d.slice(2)}` : d; };
+
+/* ── Panel Style ────────────────────────────────────────────────────────── */
+const PANEL  = '#0e150d';
+const BORDER = 'rgba(146,230,0,0.12)';
+const GREEN  = '#92e600';
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CartPage — Steam-style 2/3 left items + 1/3 right summary+checkout
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function CartPage() {
   const { i18n } = useTranslation();
   const isEn = i18n.language === 'en';
-  const { items, removeFromCart, total } = useCart();
+  const { items, removeFromCart, total, clearCart } = useCart();
   const navigate = useNavigate();
 
+  const [form, setForm] = useState({ name: '', card: '', expiry: '', cvv: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [paying, setPaying] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [confetti, setConfetti] = useState<{ x: number; color: string; delay: number }[]>([]);
+
+  const validate = () => {
+    const e: Record<string, string> = {};
+    if (!form.name.trim())                      e.name   = isEn ? 'Required'          : 'Bắt buộc';
+    if (form.card.replace(/\s/g,'').length < 16) e.card   = isEn ? 'Invalid card'      : 'Số thẻ không hợp lệ';
+    if (form.expiry.length < 5)                  e.expiry = isEn ? 'e.g. 12/28'        : 'VD: 12/28';
+    if (form.cvv.length < 3)                     e.cvv    = isEn ? '3 digits required' : 'Cần 3 chữ số';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const handlePay = async () => {
+    if (items.length === 0 || !validate()) return;
+    setPaying(true);
+    await new Promise(r => setTimeout(r, 1800));
+    setConfetti(Array.from({ length: 70 }, (_, i) => ({
+      x: Math.random() * 100,
+      color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+      delay: Math.random() * 0.4,
+    })));
+    clearCart();
+    setPaying(false);
+    setSuccess(true);
+  };
+
+  /* ── Success screen ── */
+  if (success) {
+    return (
+      <PageTransition>
+        <div className="min-h-screen bg-[#0b0f0c] flex items-center justify-center" style={{ paddingTop: '4rem' }}>
+          <AnimatePresence>{confetti.map((p, i) => <ConfettiParticle key={i} {...p} />)}</AnimatePresence>
+          <motion.div initial={{ scale: 0.85, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 280, damping: 20 }}
+            className="text-center px-8 max-w-sm">
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}
+              transition={{ delay: 0.1, type: 'spring', stiffness: 400 }}
+              className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
+              style={{ background: GREEN, boxShadow: '0 0 40px rgba(146,230,0,0.5)' }}>
+              <CheckCircle size={38} color="#0b0f0c" />
+            </motion.div>
+            <h1 className="text-3xl font-black text-white mb-2">
+              {isEn ? '🎉 Payment Successful!' : '🎉 Thanh toán thành công!'}
+            </h1>
+            <p className="text-[#cedde9] mb-8">
+              {isEn ? 'Your workflows are unlocked. Enjoy!' : 'Workflow đã mở khóa. Học vui nhé!'}
+            </p>
+            <div className="flex gap-3 justify-center">
+              <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/dashboard')}
+                className="px-6 py-3 rounded-xl font-bold text-sm"
+                style={{ background: GREEN, color: '#0b0f0c' }}>
+                {isEn ? 'My Learning' : 'Học của tôi'}
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/marketplace')}
+                className="px-6 py-3 rounded-xl font-bold text-sm border"
+                style={{ borderColor: 'rgba(146,230,0,0.3)', color: GREEN }}>
+                {isEn ? 'Browse More' : 'Khám phá thêm'}
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </PageTransition>
+    );
+  }
+
+  /* ── Main page ── */
   return (
     <PageTransition>
       <div className="min-h-screen bg-[#0b0f0c]" style={{ paddingTop: '4rem' }}>
-        <div className="container-max px-4 sm:px-6 py-10 max-w-3xl mx-auto">
+        <div className="container-max px-4 sm:px-6 py-8">
 
-          {/* Header */}
+          {/* Page title */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
               style={{ background: 'rgba(146,230,0,0.1)' }}>
-              <ShoppingCart size={20} style={{ color: '#92e600' }} />
+              <ShoppingCart size={20} style={{ color: GREEN }} />
             </div>
             <div>
               <h1 className="text-2xl font-black text-white">
-                {isEn ? 'Your Cart' : 'Giỏ hàng của bạn'}
+                {isEn ? 'Cart & Checkout' : 'Giỏ hàng & Thanh toán'}
               </h1>
               <p className="text-sm text-[#8a9a92]">
                 {items.length} {isEn ? 'item(s)' : 'sản phẩm'}
@@ -32,100 +135,199 @@ export default function CartPage() {
             </div>
           </div>
 
-          {items.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border p-16 text-center"
-              style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.1)' }}>
-              <Package size={48} className="mx-auto mb-4 text-[#3a4a42]" />
-              <p className="text-lg font-bold text-white mb-1">
-                {isEn ? 'Cart is empty' : 'Giỏ hàng trống'}
-              </p>
-              <p className="text-sm text-[#8a9a92] mb-6">
-                {isEn ? 'Explore the marketplace to find workflows.' : 'Khám phá Marketplace để tìm workflow.'}
-              </p>
-              <Link to="/marketplace"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all"
-                style={{ background: '#92e600', color: '#0b0f0c' }}>
-                {isEn ? 'Browse Marketplace' : 'Khám phá Marketplace'}
-                <ArrowRight size={15} />
-              </Link>
-            </motion.div>
-          ) : (
-            <>
-              {/* Items */}
-              <div className="space-y-3 mb-6">
-                <AnimatePresence>
-                  {items.map(({ workflow }) => (
-                    <motion.div
-                      key={workflow.id}
-                      layout
-                      initial={{ opacity: 0, x: -16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 16, height: 0 }}
-                      className="flex items-center gap-4 rounded-2xl border p-4"
-                      style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.1)' }}>
-                      <img src={workflow.thumbnail} alt={workflow.title}
-                        className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-white truncate">
-                          {workflow.titleEn || workflow.title}
-                        </p>
-                        <p className="text-xs text-[#8a9a92] mt-0.5">{workflow.creatorName}</p>
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        {workflow.price === 0 ? (
-                          <span className="text-sm font-black" style={{ color: '#92e600' }}>Free</span>
-                        ) : (
-                          <span className="text-sm font-black text-white">
-                            {(workflow.price / 1000).toFixed(0)}K VNĐ
-                          </span>
-                        )}
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-                        onClick={() => removeFromCart(workflow.id)}
-                        className="p-2 rounded-lg text-[#3a4a42] hover:text-red-400 hover:bg-red-400/10 transition-all">
-                        <Trash2 size={15} />
-                      </motion.button>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
+          {/* ── Steam-style 2/3 + 1/3 layout ── */}
+          <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-              {/* Order summary */}
-              <div className="rounded-2xl border p-6"
-                style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.15)' }}>
-                <h2 className="font-bold text-white mb-4">{isEn ? 'Order Summary' : 'Tóm tắt đơn hàng'}</h2>
-                <div className="space-y-2 mb-4">
-                  {items.map(({ workflow }) => (
-                    <div key={workflow.id} className="flex justify-between text-sm text-[#cedde9]">
-                      <span className="truncate mr-4">{workflow.titleEn || workflow.title}</span>
-                      <span className="flex-shrink-0 font-semibold">
-                        {workflow.price === 0 ? 'Free' : `${(workflow.price / 1000).toFixed(0)}K`}
-                      </span>
+            {/* ── LEFT 2/3 — Cart items ── */}
+            <div className="w-full lg:flex-[2] min-w-0">
+              {items.length === 0 ? (
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+                  className="rounded-2xl border p-16 text-center"
+                  style={{ background: PANEL, borderColor: BORDER }}>
+                  <Package size={48} className="mx-auto mb-4" style={{ color: '#3a4a42' }} />
+                  <p className="text-lg font-bold text-white mb-1">
+                    {isEn ? 'Your cart is empty' : 'Giỏ hàng trống'}
+                  </p>
+                  <p className="text-sm text-[#8a9a92] mb-6">
+                    {isEn ? 'Add paid workflows from the marketplace.' : 'Thêm workflow từ Marketplace.'}
+                  </p>
+                  <Link to="/marketplace"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm"
+                    style={{ background: GREEN, color: '#0b0f0c' }}>
+                    {isEn ? 'Browse Marketplace' : 'Khám phá Marketplace'}
+                    <ArrowRight size={14} />
+                  </Link>
+                </motion.div>
+              ) : (
+                <div className="rounded-2xl border overflow-hidden"
+                  style={{ background: PANEL, borderColor: BORDER }}>
+                  {/* Column headers */}
+                  <div className="flex items-center px-5 py-3 border-b text-xs font-semibold uppercase tracking-wider text-[#8a9a92]"
+                    style={{ borderColor: BORDER }}>
+                    <span className="flex-1">{isEn ? 'Item' : 'Sản phẩm'}</span>
+                    <span className="w-20 text-right">{isEn ? 'Price' : 'Giá'}</span>
+                    <span className="w-10" />
+                  </div>
+
+                  {/* Items */}
+                  <AnimatePresence>
+                    {items.map(({ workflow }, idx) => (
+                      <motion.div
+                        key={workflow.id}
+                        layout
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
+                        transition={{ delay: idx * 0.04 }}
+                        className="flex items-center gap-4 px-5 py-4 border-b last:border-0 group transition-colors hover:bg-white/[0.02]"
+                        style={{ borderColor: BORDER }}>
+                        {/* Thumbnail */}
+                        <img src={workflow.thumbnail} alt={workflow.title}
+                          className="w-16 h-16 rounded-xl object-cover flex-shrink-0 ring-1 ring-white/10" />
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-white truncate">
+                            {workflow.titleEn || workflow.title}
+                          </p>
+                          <p className="text-xs text-[#8a9a92] mt-0.5">{workflow.creatorName}</p>
+                          <p className="text-[10px] text-[#8a9a92] mt-0.5 capitalize">{workflow.category}</p>
+                        </div>
+                        {/* Price */}
+                        <div className="w-20 text-right flex-shrink-0">
+                          {workflow.price === 0 ? (
+                            <span className="text-sm font-black" style={{ color: GREEN }}>Free</span>
+                          ) : (
+                            <span className="text-sm font-black text-white">
+                              {(workflow.price / 1000).toFixed(0)}K
+                            </span>
+                          )}
+                        </div>
+                        {/* Remove */}
+                        <motion.button
+                          whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+                          onClick={() => removeFromCart(workflow.id)}
+                          className="w-8 h-8 flex items-center justify-center rounded-lg text-[#3a4a42] hover:text-red-400 hover:bg-red-400/10 transition-all flex-shrink-0">
+                          <Trash2 size={14} />
+                        </motion.button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+
+                  {/* Footer hint */}
+                  <div className="px-5 py-3 text-xs text-[#8a9a92] border-t flex items-center gap-1.5"
+                    style={{ borderColor: BORDER }}>
+                    <Lock size={10} style={{ color: GREEN }} />
+                    {isEn ? 'All purchases include lifetime access' : 'Tất cả giao dịch bao gồm truy cập trọn đời'}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ── RIGHT 1/3 — Order summary + checkout form ── */}
+            <div className="w-full lg:w-80 xl:w-96 flex-shrink-0">
+              <div className="sticky top-[4.5rem] rounded-2xl border overflow-hidden"
+                style={{ background: PANEL, borderColor: BORDER }}>
+
+                {/* Summary header */}
+                <div className="px-5 py-4 border-b" style={{ borderColor: BORDER }}>
+                  <h2 className="font-bold text-white flex items-center gap-2">
+                    <CreditCard size={15} style={{ color: GREEN }} />
+                    {isEn ? 'Order Summary' : 'Tóm tắt đơn hàng'}
+                  </h2>
+                </div>
+
+                <div className="px-5 py-4 space-y-4">
+                  {/* Line items */}
+                  {items.length > 0 && (
+                    <div className="space-y-2">
+                      {items.map(({ workflow }) => (
+                        <div key={workflow.id} className="flex justify-between text-sm">
+                          <span className="truncate text-[#cedde9] mr-3 text-xs">{workflow.titleEn || workflow.title}</span>
+                          <span className="font-semibold text-white flex-shrink-0 text-xs">
+                            {workflow.price === 0 ? 'Free' : `${(workflow.price / 1000).toFixed(0)}K`}
+                          </span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
+
+                  {/* Total */}
+                  <div className="flex justify-between items-center py-2 border-t border-b"
+                    style={{ borderColor: BORDER }}>
+                    <span className="font-bold text-white text-sm">{isEn ? 'Total' : 'Tổng'}</span>
+                    <span className="text-xl font-black" style={{ color: GREEN }}>
+                      {total === 0 ? 'Free' : `${(total / 1000).toFixed(0)}K VNĐ`}
+                    </span>
+                  </div>
+
+                  {/* Mock payment note */}
+                  <div className="flex items-center gap-1.5 text-[11px] text-[#8a9a92]">
+                    <Lock size={10} style={{ color: GREEN }} />
+                    {isEn ? 'Mock checkout – no real charge' : 'Giả lập – không trừ tiền thật'}
+                  </div>
+
+                  {/* Card form */}
+                  <div className="space-y-2.5">
+                    {([
+                      { key: 'name',   label: isEn ? 'Cardholder Name' : 'Tên chủ thẻ', ph: 'Nguyen Van A',        type: 'text',     fmt: (v: string) => v },
+                      { key: 'card',   label: isEn ? 'Card Number'     : 'Số thẻ',       ph: '1234 5678 9012 3456', type: 'text',     fmt: formatCard },
+                      { key: 'expiry', label: isEn ? 'Expiry'          : 'Ngày hết hạn', ph: 'MM/YY',               type: 'text',     fmt: formatExpiry },
+                      { key: 'cvv',    label: 'CVV',                                      ph: '123',                 type: 'password', fmt: (v: string) => v.replace(/\D/g,'').slice(0,3) },
+                    ] as const).map(({ key, label, ph, type, fmt }) => (
+                      <div key={key}>
+                        <label className="block text-[10px] font-bold text-[#8a9a92] uppercase tracking-wider mb-1">{label}</label>
+                        <input
+                          type={type}
+                          value={form[key]}
+                          onChange={e => { setForm(p => ({ ...p, [key]: fmt(e.target.value) })); setErrors(p => ({ ...p, [key]: '' })); }}
+                          placeholder={ph}
+                          className="w-full px-3 py-2.5 rounded-xl border text-sm text-white placeholder-[#3a4a42] outline-none transition-colors"
+                          style={{
+                            background: '#0b0f0c',
+                            borderColor: errors[key] ? '#ef4444' : form[key] ? 'rgba(146,230,0,0.5)' : 'rgba(146,230,0,0.15)',
+                          }}
+                        />
+                        {errors[key] && <p className="text-[10px] text-red-400 mt-0.5">{errors[key]}</p>}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pay button */}
+                  <motion.button
+                    whileHover={!paying && items.length > 0 ? { scale: 1.02, boxShadow: '0 0 24px rgba(146,230,0,0.4)' } : {}}
+                    whileTap={!paying && items.length > 0 ? { scale: 0.97 } : {}}
+                    onClick={handlePay}
+                    disabled={paying || items.length === 0}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-sm transition-all disabled:opacity-50"
+                    style={{ background: GREEN, color: '#0b0f0c' }}>
+                    {paying ? (
+                      <>
+                        <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 0.9 }}
+                          className="w-4 h-4 border-2 border-[#0b0f0c]/30 border-t-[#0b0f0c] rounded-full" />
+                        {isEn ? 'Processing...' : 'Đang xử lý...'}
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={15} />
+                        {items.length === 0
+                          ? (isEn ? 'Cart is empty' : 'Giỏ hàng trống')
+                          : `${isEn ? 'Pay' : 'Thanh toán'} ${total === 0 ? '(Free)' : `${(total/1000).toFixed(0)}K VNĐ`}`}
+                      </>
+                    )}
+                  </motion.button>
+
+                  {/* Continue shopping */}
+                  <Link to="/marketplace"
+                    className="flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors hover:text-white"
+                    style={{ color: '#8a9a92' }}>
+                    <ArrowRight size={11} />
+                    {isEn ? 'Continue Shopping' : 'Tiếp tục mua sắm'}
+                  </Link>
                 </div>
-                <div className="border-t pt-4 flex justify-between items-center" style={{ borderColor: 'rgba(146,230,0,0.1)' }}>
-                  <span className="font-bold text-white">{isEn ? 'Total' : 'Tổng cộng'}</span>
-                  <span className="text-xl font-black" style={{ color: '#92e600' }}>
-                    {total === 0 ? 'Free' : `${(total / 1000).toFixed(0)}K VNĐ`}
-                  </span>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(146,230,0,0.3)' }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/payment')}
-                  className="mt-4 w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-base transition-all"
-                  style={{ background: '#92e600', color: '#0b0f0c' }}>
-                  {isEn ? 'Proceed to Payment' : 'Tiến hành thanh toán'}
-                  <ArrowRight size={18} />
-                </motion.button>
               </div>
-            </>
-          )}
+            </div>
+
+          </div>
         </div>
       </div>
     </PageTransition>
