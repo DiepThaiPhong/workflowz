@@ -557,7 +557,9 @@
     "privacy": "Personal data protection",
     "safety": "AI content moderation",
     "wcag": "Inclusion & Fairness (WCAG 2.1 AA)",
-    "copyright": "© 2026 WorkFlowz · Powered by Google Gemini",
+    "copyright": "© 2026 WorkFlowz · Powered by team BAP. All copying is strictly prohibited.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
     "dataNote": "Data stored locally only · No personal data collected"
   }
 }

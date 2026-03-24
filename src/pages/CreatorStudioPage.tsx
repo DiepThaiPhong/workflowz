@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Zap, LayoutTemplate, CreditCard, ChevronLeft, ChevronRight,
   BarChart3, Play, CheckCircle, TrendingUp, Star, Clock, Sparkles, FolderOpen,
-  Edit, Copy, LayoutGrid,
+  Edit,
 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { TEMPLATE_WORKFLOWS } from '../data/workflowData';
@@ -13,7 +13,7 @@ import ManagePlanPanel from '../components/studio/ManagePlanPanel';
 import WorkflowEditorPanel from '../components/studio/WorkflowEditorPanel';
 import { useNavigate } from 'react-router-dom';
 
-type SidebarTab = 'dashboard' | 'editor' | 'workflows' | 'templates' | 'plan';
+type SidebarTab = 'dashboard' | 'editor' | 'workflows' | 'plan';
 
 const GREEN = '#92e600';
 const DARK = '#0b0f0c';
@@ -30,7 +30,6 @@ const CreatorStudioPage = () => {
     { id: 'dashboard',  icon: BarChart3,     label: 'Dashboard',      labelVi: 'Tổng quan' },
     { id: 'editor',     icon: LayoutTemplate, label: 'Workflow Editor', labelVi: 'Trình soạn thảo' },
     { id: 'workflows',  icon: FolderOpen,    label: 'My Workflows',    labelVi: 'Workflow của tôi' },
-    { id: 'templates',  icon: LayoutGrid,    label: 'Templates',       labelVi: 'Mẫu có sẵn' },
     { id: 'plan',       icon: CreditCard,    label: 'Manage Plan',     labelVi: 'Quản lý gói' },
   ];
 
@@ -134,12 +133,6 @@ const CreatorStudioPage = () => {
               <motion.div key="workflows" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }} className="h-full overflow-y-auto p-6">
                 <MyWorkflowsContent savedWorkflows={savedWorkflows} isEn={isEn} onEdit={() => setActiveTab('editor')} />
-              </motion.div>
-            )}
-            {activeTab === 'templates' && (
-              <motion.div key="templates" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }} className="h-full overflow-y-auto p-6">
-                <TemplatesContent isEn={isEn} savedWorkflows={savedWorkflows} onPublish={handlePublishTemplate} />
               </motion.div>
             )}
           </AnimatePresence>

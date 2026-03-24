@@ -1,6 +1,6 @@
 # SkillBridge AI – AI Mentor Kỹ Năng Số
 
-> Nền tảng học kỹ năng số **miễn phí** cho người Việt Nam, được hỗ trợ bởi Google Gemini AI.
+> Nền tảng học kỹ năng số **miễn phí** cho người Việt Nam, được phát triển bởi team BAP.
 
 ## ✨ Tính năng chính
 

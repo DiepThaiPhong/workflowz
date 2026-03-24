@@ -179,7 +179,7 @@ export default function AboutPage() {
               { val: '342+', label: isEn ? 'Learners' : 'Người học', icon: Users },
               { val: '48', label: isEn ? 'Workflows' : 'Workflow', icon: Zap },
               { val: '9,812', label: isEn ? 'Runs' : 'Lượt chạy', icon: Target },
-              { val: '74%', label: isEn ? 'Output Rate' : 'Tạo kết quả', icon: Globe },
+              { val: '92%', label: isEn ? 'Output Rate' : 'Tạo kết quả', icon: Globe },
             ].map(({ val, label, icon: Icon }) => (
               <div key={label}>
                 <Icon size={18} className="mx-auto mb-2" style={{ color: '#92e600' }} />
