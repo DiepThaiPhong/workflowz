@@ -6,31 +6,31 @@ import PageTransition from '../components/PageTransition';
 const TEAM = [
   {
     name: 'Do Quang Thai Binh',
-    title: 'Co-Founder & AI Engineer',
-    titleVi: 'Đồng sáng lập & Kỹ sư AI',
-    bio: 'Passionate about making AI accessible to everyone. Leads the technical vision of WorkFlowz.',
-    bioVi: 'Đam mê đưa AI đến với mọi người. Dẫn dắt tầm nhìn kỹ thuật của WorkFlowz.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
+    title: 'CEO & Product Management',
+    titleVi: 'CEO & Quản lý Sản phẩm',
+    bio: 'Drives product vision and strategy. Ensures WorkFlowz delivers real value to learners and creators across Vietnam.',
+    bioVi: 'Dẫn dắt tầm nhìn và chiến lược sản phẩm. Đảm bảo WorkFlowz mang lại giá trị thực cho người học và creator trên khắp Việt Nam.',
+    avatar: '/DQTB.jpg',
     initials: 'TB',
     color: '#92e600',
   },
   {
     name: 'Do Quang Thai An',
-    title: 'Co-Founder & Product Designer',
-    titleVi: 'Đồng sáng lập & Nhà thiết kế sản phẩm',
-    bio: 'Crafts seamless user experiences. Believes great design is invisible but impactful.',
-    bioVi: 'Thiết kế trải nghiệm người dùng tối ưu. Tin rằng thiết kế tốt là vô hình nhưng có tác động mạnh.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
+    title: 'CTO & AI Engineer',
+    titleVi: 'CTO & Kỹ sư AI',
+    bio: 'Architects the AI infrastructure and technical backbone. Makes intelligent features accessible and reliable.',
+    bioVi: 'Xây dựng hạ tầng AI và nền tảng kỹ thuật. Biến các tính năng thông minh thành dễ tiếp cận và đáng tin cậy.',
+    avatar: '/DQTA.jpg',
     initials: 'TA',
     color: '#60a5fa',
   },
   {
     name: 'Diep Thai Phong',
-    title: 'Co-Founder & Growth Lead',
-    titleVi: 'Đồng sáng lập & Trưởng bộ phận Tăng trưởng',
-    bio: 'Drives community growth and creator ecosystem. Connects WorkFlowz with learners across Vietnam.',
-    bioVi: 'Phát triển cộng đồng và hệ sinh thái creator. Kết nối WorkFlowz với người học trên khắp Việt Nam.',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80',
+    title: 'CGO & Dev Lead',
+    titleVi: 'CGO & Trưởng bộ phận Phát triển',
+    bio: 'Leads growth strategy and development team. Bridges technical excellence with market expansion.',
+    bioVi: 'Dẫn dắt chiến lược tăng trưởng và đội ngũ phát triển. Kết nối xuất sắc kỹ thuật với mở rộng thị trường.',
+    avatar: '/DTP.jpg',
     initials: 'DP',
     color: '#a78bfa',
   },
@@ -305,11 +305,20 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 + i * 0.08 }}
-                whileHover={{ y: -4 }}
-                className="rounded-2xl border overflow-hidden"
-                style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.12)' }}>
+                whileHover={{
+                  y: -4,
+                  borderColor: 'rgba(146, 230, 0, 0.4)',
+                  boxShadow: '0 4px 20px rgba(146, 230, 0, 0.15)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                className="rounded-2xl border overflow-hidden cursor-pointer"
+                style={{ 
+                  background: '#0e150d', 
+                  borderColor: 'rgba(146,230,0,0.12)',
+                  transition: 'border-color 0.12s ease, box-shadow 0.12s ease, transform 0.12s ease'
+                }}>
                 {/* Avatar */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   {avatar ? (
                     <img src={avatar} alt={name} className="w-full h-full object-cover object-top" />
                   ) : (
@@ -318,7 +327,6 @@ export default function AboutPage() {
                       {initials}
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0e150d] via-transparent to-transparent" />
                 </div>
                 {/* Info */}
                 <div className="p-5">
