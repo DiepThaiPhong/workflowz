@@ -10,6 +10,7 @@ import {
 import PageTransition from '../components/PageTransition';
 import WorkflowCard from '../components/WorkflowCard';
 import { ALL_WORKFLOWS } from '../data/workflowData';
+import { useCart } from '../context/CartContext';
 
 // Block type icons & labels
 const BLOCK_ICON: Record<string, string> = {
@@ -59,8 +60,10 @@ export default function CourseLandingPage() {
   const navigate = useNavigate();
 
   const [purchased, setPurchased] = useState(false);
+  const { addToCart, isInCart } = useCart();
 
   const workflow = ALL_WORKFLOWS.find(w => w.id === id);
+  const inCart = isInCart(workflow?.id || '');
 
   if (!workflow) {
     return (
@@ -258,13 +261,27 @@ export default function CourseLandingPage() {
 
                   {/* Secondary: preview for paid */}
                   {!isFree && (
-                    <button
-                      onClick={handleJoin}
-                      className="w-full py-3 rounded-xl border font-semibold text-sm transition-all hover:bg-white/5"
-                      style={{ borderColor: 'rgba(146,230,0,0.25)', color: '#92e600' }}>
-                      {isEn ? 'Preview for free' : 'Xem thử miễn phí'}
-                    </button>
+                    <div className="space-y-2">
+                      <motion.button
+                        whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }}
+                        onClick={() => { if (workflow) addToCart(workflow); }}
+                        disabled={inCart}
+                        className="w-full py-3 rounded-xl border font-semibold text-sm transition-all hover:bg-white/5 flex items-center justify-center gap-2"
+                        style={{ borderColor: 'rgba(146,230,0,0.35)', color: inCart ? '#4b7a00' : '#92e600' }}>
+                        <ShoppingCart size={14} />
+                        {inCart
+                          ? (isEn ? '✓ In Cart' : '✓ Đã vào giỏ')
+                          : (isEn ? 'Add to Cart' : 'Thêm vào giỏ')}
+                      </motion.button>
+                      <button
+                        onClick={handleJoin}
+                        className="w-full py-2.5 rounded-xl text-sm transition-all hover:text-white"
+                        style={{ color: '#8a9a92' }}>
+                        {isEn ? 'Preview for free →' : 'Xem thử miễn phí →'}
+                      </button>
+                    </div>
                   )}
+
 
                   {/* Guarantees */}
                   <div className="mt-5 space-y-2">

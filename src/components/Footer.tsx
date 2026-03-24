@@ -59,6 +59,24 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link to="/about"
+                  className="text-sm transition-all duration-200 hover:pl-1"
+                  style={{ color: '#e9eff5' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent-purple)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = '#e9eff5'; }}
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/affiliate"
+                  className="text-sm transition-all duration-200 hover:pl-1"
+                  style={{ color: '#92e600' }}
+                >
+                  💰 Affiliate
+                </Link>
+              </li>
             </ul>
           </div>
 

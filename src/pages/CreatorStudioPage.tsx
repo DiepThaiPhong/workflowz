@@ -4,14 +4,16 @@ import { useTranslation } from 'react-i18next';
 import {
   Zap, LayoutTemplate, CreditCard, ChevronLeft, ChevronRight,
   BarChart3, Play, CheckCircle, TrendingUp, Star, Clock, Sparkles, FolderOpen,
+  Edit, Copy, LayoutGrid,
 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
-import { ALL_WORKFLOWS } from '../data/workflowData';
+import { TEMPLATE_WORKFLOWS } from '../data/workflowData';
 import useLocalStorage from '../hooks/useLocalStorage';
 import ManagePlanPanel from '../components/studio/ManagePlanPanel';
 import WorkflowEditorPanel from '../components/studio/WorkflowEditorPanel';
+import { useNavigate } from 'react-router-dom';
 
-type SidebarTab = 'dashboard' | 'editor' | 'workflows' | 'plan';
+type SidebarTab = 'dashboard' | 'editor' | 'workflows' | 'templates' | 'plan';
 
 const GREEN = '#92e600';
 const DARK = '#0b0f0c';
@@ -22,14 +24,23 @@ const CreatorStudioPage = () => {
   const isEn = i18n.language === 'en';
   const [activeTab, setActiveTab] = useState<SidebarTab>('editor');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [savedWorkflows] = useLocalStorage<{ id: string; name: string }[]>('wfz-studio-workflows', []);
+  const [savedWorkflows, setSavedWorkflows] = useLocalStorage<{ id: string; name: string; published?: boolean }[]>('wfz-studio-workflows', []);
 
   const tabs: { id: SidebarTab; icon: typeof LayoutTemplate; label: string; labelVi: string }[] = [
-    { id: 'dashboard', icon: BarChart3,    label: 'Dashboard',      labelVi: 'Tổng quan' },
-    { id: 'editor',    icon: LayoutTemplate, label: 'Workflow Editor', labelVi: 'Trình soạn thảo' },
-    { id: 'workflows', icon: FolderOpen,   label: 'My Workflows',    labelVi: 'Workflow của tôi' },
-    { id: 'plan',      icon: CreditCard,   label: 'Manage Plan',    labelVi: 'Quản lý gói' },
+    { id: 'dashboard',  icon: BarChart3,     label: 'Dashboard',      labelVi: 'Tổng quan' },
+    { id: 'editor',     icon: LayoutTemplate, label: 'Workflow Editor', labelVi: 'Trình soạn thảo' },
+    { id: 'workflows',  icon: FolderOpen,    label: 'My Workflows',    labelVi: 'Workflow của tôi' },
+    { id: 'templates',  icon: LayoutGrid,    label: 'Templates',       labelVi: 'Mẫu có sẵn' },
+    { id: 'plan',       icon: CreditCard,    label: 'Manage Plan',     labelVi: 'Quản lý gói' },
   ];
+
+  const handlePublishTemplate = (wf: { id: string; name: string }) => {
+    setSavedWorkflows(prev => {
+      if (prev.some(w => w.id === wf.id)) return prev.map(w => w.id === wf.id ? { ...w, published: true } : w);
+      return [...prev, { ...wf, published: true }];
+    });
+    setActiveTab('workflows');
+  };
 
   return (
     <PageTransition>
@@ -122,7 +133,13 @@ const CreatorStudioPage = () => {
             {activeTab === 'workflows' && (
               <motion.div key="workflows" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }} className="h-full overflow-y-auto p-6">
-                <MyWorkflowsContent savedWorkflows={savedWorkflows} isEn={isEn} />
+                <MyWorkflowsContent savedWorkflows={savedWorkflows} isEn={isEn} onEdit={() => setActiveTab('editor')} />
+              </motion.div>
+            )}
+            {activeTab === 'templates' && (
+              <motion.div key="templates" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }} className="h-full overflow-y-auto p-6">
+                <TemplatesContent isEn={isEn} savedWorkflows={savedWorkflows} onPublish={handlePublishTemplate} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -132,24 +149,108 @@ const CreatorStudioPage = () => {
   );
 };
 
-// ── My Workflows Tab Content ────────────────────────────────────────────
-function MyWorkflowsContent({
-  savedWorkflows,
+// ── Templates Tab Content ────────────────────────────────────────────────────
+function TemplatesContent({
   isEn,
-}: { savedWorkflows: { id: string; name: string }[]; isEn: boolean }) {
-  const GREEN = '#92e600';
+  savedWorkflows,
+  onPublish,
+}: {
+  isEn: boolean;
+  savedWorkflows: { id: string; name: string; published?: boolean }[];
+  onPublish: (wf: { id: string; name: string }) => void;
+}) {
   const PANEL = '#0e150d';
   const BORDER = 'rgba(146,230,0,0.1)';
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-white">{isEn ? 'Templates' : 'Mẫu có sẵn'}</h1>
+        <p className="text-[#e9eff5] text-sm mt-1">
+          {isEn ? 'Start from a professionally designed template.' : 'Bắt đầu từ mẫu được thiết kế chuyên nghiệp.'}
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {TEMPLATE_WORKFLOWS.map((wf, i) => {
+          const title = isEn && wf.titleEn ? wf.titleEn : wf.title;
+          const desc  = isEn && wf.descriptionEn ? wf.descriptionEn : wf.description;
+          const alreadyPublished = savedWorkflows.some(s => s.id === wf.id && s.published);
+
+          return (
+            <motion.div
+              key={wf.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.07 }}
+              whileHover={{ y: -3 }}
+              className="rounded-2xl border overflow-hidden flex flex-col"
+              style={{ background: PANEL, borderColor: BORDER }}>
+              {/* Thumbnail */}
+              <div className="h-32 overflow-hidden relative flex-shrink-0">
+                <img src={wf.thumbnail} alt={title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0e150d]/80 to-transparent" />
+                <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full font-bold"
+                  style={{ background: wf.id === 'wf-chatbot' ? 'rgba(146,230,0,0.9)' : 'rgba(255,255,255,0.9)',
+                           color: '#0b0f0c' }}>
+                  {wf.id === 'wf-chatbot' ? '⭐ Featured' : wf.price === 0 ? 'Free' : `${(wf.price/1000).toFixed(0)}K`}
+                </span>
+              </div>
+              {/* Content */}
+              <div className="p-4 flex flex-col flex-1">
+                <p className="text-sm font-bold text-white mb-1">{title}</p>
+                <p className="text-[11px] text-[#8a9a92] leading-relaxed flex-1 mb-3">{desc}</p>
+                <div className="flex items-center gap-2 text-[11px] text-[#8a9a92] mb-3">
+                  <span>{wf.blocks.length} {isEn ? 'steps' : 'bước'}</span>
+                  <span>·</span>
+                  <span>{wf.estimatedMinutes} {isEn ? 'min' : 'phút'}</span>
+                </div>
+                {/* Buttons */}
+                <div className="flex gap-2">
+                  <motion.button
+                    whileHover={!alreadyPublished ? { scale: 1.03 } : {}}
+                    whileTap={!alreadyPublished ? { scale: 0.97 } : {}}
+                    onClick={() => !alreadyPublished && onPublish({ id: wf.id, name: title })}
+                    disabled={alreadyPublished}
+                    className="flex-1 py-2 rounded-lg font-bold text-xs transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                    style={{ background: alreadyPublished ? '#1a2119' : GREEN, color: alreadyPublished ? '#92e600' : '#0b0f0c' }}>
+                    {alreadyPublished
+                      ? <><CheckCircle size={12}/> {isEn ? 'Published' : 'Đã xuất bản'}</>
+                      : <><Zap size={12}/> {isEn ? 'Publish' : 'Xuất bản'}</>
+                    }
+                  </motion.button>
+                  <button className="px-3 py-2 rounded-lg border text-[11px] font-semibold transition-all hover:bg-[rgba(146,230,0,0.06)]"
+                    style={{ borderColor: BORDER, color: '#cedde9' }}>
+                    <Copy size={12}/>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── My Workflows Tab Content ────────────────────────────────────────────────
+function MyWorkflowsContent({
+  savedWorkflows,
+  isEn,
+  onEdit,
+}: { savedWorkflows: { id: string; name: string; published?: boolean }[]; isEn: boolean; onEdit: () => void }) {
+  const GREEN = '#92e600';
+  const PANEL = '#0e150d';
+  const BORDER = 'rgba(146,230,0,0.1)';
+  const navigate = useNavigate();
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white">{isEn ? 'My Workflows' : 'Workflow của tôi'}</h1>
         <p className="text-[#e9eff5] text-sm mt-1">{isEn ? 'Manage and organize your created workflows.' : 'Quản lý và sắp xếp các workflow đã tạo.'}</p>
       </div>
 
-      {/* Workflows list */}
       <div className="rounded-2xl border p-5" style={{ background: PANEL, borderColor: BORDER }}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-white flex items-center gap-2">
@@ -162,20 +263,62 @@ function MyWorkflowsContent({
           <div className="text-center py-12">
             <Sparkles size={40} className="mx-auto mb-3 text-[#cedde9]" />
             <p className="text-[#cedde9] text-sm mb-4">{isEn ? 'No workflows yet.' : 'Chưa có workflow nào.'}</p>
-            <p className="text-[#cedde9] text-xs">{isEn ? 'Go to Workflow Editor to create one!' : 'Vào Trình soạn thảo để tạo workflow!'}</p>
+            <p className="text-[#cedde9] text-xs">{isEn ? 'Go to Templates to get started!' : 'Vào Mẫu có sẵn để bắt đầu!'}</p>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {savedWorkflows.map((wf) => (
-              <div key={wf.id} className="flex items-center justify-between px-4 py-3 rounded-xl transition-all hover:bg-[rgba(146,230,0,0.06)]"
-                style={{ background: 'rgba(146,230,0,0.04)', border: '1px solid rgba(146,230,0,0.08)' }}>
-                <div className="flex items-center gap-3">
-                  <Play size={14} style={{ color: GREEN }} />
-                  <span className="text-sm text-[#e9eff5] font-medium">{wf.name}</span>
+              <motion.div key={wf.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                className="rounded-xl border p-4 transition-all"
+                style={{ background: 'rgba(146,230,0,0.03)', borderColor: 'rgba(146,230,0,0.1)' }}>
+                {/* Header row */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                      style={{ background: 'rgba(146,230,0,0.1)' }}>
+                      <Zap size={14} style={{ color: GREEN }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#e9eff5]">{wf.name}</p>
+                      <p className="text-[10px] text-[#8a9a92]">{isEn ? 'WorkFlowz Team' : 'WorkFlowz Team'}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full font-bold"
+                    style={{ background: wf.published ? 'rgba(146,230,0,0.15)' : 'rgba(255,165,0,0.15)',
+                             color: wf.published ? GREEN : '#fb923c' }}>
+                    {wf.published ? (isEn ? '✓ Published' : '✓ Đã xuất bản') : 'Draft'}
+                  </span>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold"
-                  style={{ background: 'rgba(146,230,0,0.1)', color: GREEN }}>Draft</span>
-              </div>
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-3 mb-3 text-center">
+                  {[
+                    { val: wf.published ? '0' : '—', label: isEn ? 'Runs' : 'Lượt chạy', color: '#60a5fa' },
+                    { val: wf.published ? '0%' : '—', label: isEn ? 'Completion' : 'Hoàn thành', color: GREEN },
+                    { val: wf.published ? '—' : '—', label: isEn ? 'Rating' : 'Đánh giá', color: '#facc15' },
+                  ].map(({ val, label, color }) => (
+                    <div key={label} className="rounded-lg py-2 px-1"
+                      style={{ background: '#0b0f0c', border: '1px solid rgba(146,230,0,0.06)' }}>
+                      <p className="text-sm font-black" style={{ color }}>{val}</p>
+                      <p className="text-[10px] text-[#8a9a92] mt-0.5">{label}</p>
+                    </div>
+                  ))}
+                </div>
+                {/* Action buttons */}
+                <div className="flex gap-2">
+                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate(`/workflow/${wf.id}`)}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg font-bold text-xs transition-all"
+                    style={{ background: GREEN, color: '#0b0f0c' }}>
+                    <Play size={11}/> {isEn ? 'Run' : 'Chạy'}
+                  </motion.button>
+                  <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                    onClick={onEdit}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg font-bold text-xs transition-all border"
+                    style={{ borderColor: 'rgba(146,230,0,0.3)', color: GREEN }}>
+                    <Edit size={11}/> {isEn ? 'Edit' : 'Chỉnh sửa'}
+                  </motion.button>
+                </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -184,7 +327,7 @@ function MyWorkflowsContent({
   );
 }
 
-// ── Creator Dashboard Tab Content ────────────────────────────────────────────
+// ── Creator Dashboard Tab Content ─────────────────────────────────────────────
 function CreatorDashboardContent({
   savedWorkflows,
   isEn,
@@ -208,13 +351,11 @@ function CreatorDashboardContent({
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white">{isEn ? 'Creator Dashboard' : 'Tổng quan Creator'}</h1>
         <p className="text-[#e9eff5] text-sm mt-1">{isEn ? 'Overview of your workflows, activity, and earnings.' : 'Tổng quan workflow, hoạt động và thu nhập của bạn.'}</p>
       </div>
 
-      {/* Quick stats */}
       <div className="grid grid-cols-3 gap-4">
         {stats.map(({ icon: Icon, val, label, color }) => (
           <motion.div key={label} whileHover={{ y: -2 }}
@@ -227,7 +368,6 @@ function CreatorDashboardContent({
         ))}
       </div>
 
-      {/* Recent Activity */}
       <div className="rounded-2xl border p-5" style={{ background: PANEL, borderColor: BORDER }}>
         <h2 className="font-bold text-white flex items-center gap-2 mb-4">
           <Clock size={16} style={{ color: GREEN }} />

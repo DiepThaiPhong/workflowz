@@ -38,7 +38,7 @@ export interface WorkflowEdge {
 
 // ─── Workflow ──────────────────────────────────────────────────────────────
 export type InteractionMode = 'workflow' | 'qa';
-export type WorkflowCategory = 'writing' | 'coding' | 'business' | 'design' | 'data' | 'personal';
+export type WorkflowCategory = 'writing' | 'coding' | 'business' | 'design' | 'data' | 'personal' | 'ai' | 'digital';
 
 export interface Workflow {
   id: string;

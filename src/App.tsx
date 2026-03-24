@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { AppProvider } from './context/AppContext';
+import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LandingPage from './pages/LandingPage';
@@ -16,10 +17,14 @@ import BuilderPage from './pages/BuilderPage';
 import MarketplacePage from './pages/MarketplacePage';
 import WorkflowDetailPage from './pages/WorkflowDetailPage';
 import CreatorDashboardPage from './pages/CreatorDashboardPage';
-import CourseLandingPage from './pages/CourseLandingPage';
 import CertificatePage from './pages/CertificatePage';
 import ProfilePage from './pages/ProfilePage';
 import CreatorStudioPage from './pages/CreatorStudioPage';
+import CourseLandingPage from './pages/CourseLandingPage';
+import AboutPage from './pages/AboutPage';
+import AffiliatePage from './pages/AffiliatePage';
+import CartPage from './pages/CartPage';
+import PaymentPage from './pages/PaymentPage';
 import useDarkMode from './hooks/useDarkMode';
 import { useTranslation } from 'react-i18next';
 
@@ -58,6 +63,12 @@ function AppInner() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/creator-studio" element={<CreatorStudioPage />} />
 
+            {/* New pages */}
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/affiliate" element={<AffiliatePage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/payment" element={<PaymentPage />} />
+
             {/* 404 */}
             <Route path="*" element={
               <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-4 pt-20">
@@ -79,7 +90,9 @@ function AppInner() {
 function App() {
   return (
     <AppProvider>
-      <AppInner />
+      <CartProvider>
+        <AppInner />
+      </CartProvider>
     </AppProvider>
   );
 }

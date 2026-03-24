@@ -212,6 +212,47 @@ export const WORKFLOW_DATA: Workflow = {
   outputArtifactFormat: 'text',
 };
 
+// ─── Workflow 6: Build Your First AI Chatbot ──────────────────────────────
+export const WORKFLOW_CHATBOT: Workflow = {
+  id: 'wf-chatbot',
+  title: 'Xây Dựng Chatbot AI Đầu Tiên',
+  titleEn: 'Build Your First AI Chatbot',
+  description: 'Học cách tạo chatbot thông minh với AI qua 6 bước tương tác. Không cần biết lập trình.',
+  descriptionEn: 'Learn to create a smart chatbot with AI in 6 interactive steps. No coding required.',
+  category: 'ai',
+  tags: ['chatbot', 'ai', 'no-code', 'beginner'],
+  blocks: [
+    makeBlock('cb1', 'instruction', 'Giới thiệu Chatbot AI', 'Chatbot AI là gì? Trong workflow này bạn sẽ thiết kế và thử nghiệm chatbot của mình từ A-Z!', 0, 0),
+    makeBlock('cb2', 'input', 'Mục đích chatbot', 'Chatbot của bạn phục vụ mục đích gì?', 0, 140, { placeholder: 'VD: Hỗ trợ khách hàng mua giày thể thao online' }),
+    makeBlock('cb3', 'input', 'Tính cách chatbot', 'Chatbot có phong cách giao tiếp như thế nào?', 300, 140, { placeholder: 'VD: Thân thiện, nhiệt tình, chuyên nghiệp' }),
+    makeBlock('cb4', 'aiPrompt', 'Thiết kế kịch bản', 'Tạo kịch bản hội thoại cho chatbot với mục đích: {{cb2}}, phong cách: {{cb3}}. Gồm: Greeting, 5 câu hỏi thường gặp, câu trả lời mẫu.', 150, 280, { aiModel: 'gemini' }),
+    makeBlock('cb5', 'input', 'Thử nghiệm câu hỏi', 'Nhập một câu hỏi khách hàng có thể hỏi:', 0, 420, { placeholder: 'VD: Size giày nào phù hợp với tôi?' }),
+    makeBlock('cb6', 'aiPrompt', 'Chatbot trả lời', 'Dựa trên thiết kế chatbot: {{cb4}}\nHãy trả lời câu hỏi sau theo đúng phong cách chatbot đã thiết kế: {{cb5}}', 300, 420, { aiModel: 'gemini' }),
+  ],
+  edges: [
+    edge('cbe1', 'cb1', 'cb2'), edge('cbe2', 'cb1', 'cb3'),
+    edge('cbe3', 'cb2', 'cb4'), edge('cbe4', 'cb3', 'cb4'),
+    edge('cbe5', 'cb4', 'cb5'),
+    edge('cbe6', 'cb5', 'cb6'),
+  ],
+  creatorId: 'creator-1',
+  creatorName: 'WorkFlowz Team',
+  thumbnail: 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=400&q=80',
+  price: 0,
+  currency: 'VND',
+  runCount: 0,
+  completionRate: 0,
+  rating: 0,
+  ratingCount: 0,
+  isDraft: true,
+  isPublished: false,
+  createdAt: '2026-03-24T00:00:00Z',
+  updatedAt: '2026-03-24T00:00:00Z',
+  estimatedMinutes: 15,
+  interactionMode: 'workflow',
+  outputArtifactFormat: 'text',
+};
+
 // ─── All Public Workflows ──────────────────────────────────────────────────
 export const ALL_WORKFLOWS: Workflow[] = [
   WORKFLOW_EMAIL,
@@ -220,6 +261,14 @@ export const ALL_WORKFLOWS: Workflow[] = [
   WORKFLOW_PYTHON,
   WORKFLOW_DATA,
 ];
+
+// ─── Template Workflows (for Creator Studio) ──────────────────────────────
+export const TEMPLATE_WORKFLOWS: Workflow[] = [
+  WORKFLOW_CHATBOT,
+  WORKFLOW_EMAIL,
+  WORKFLOW_CV,
+];
+
 
 // ─── Platform Metrics (PRD North Star) ───────────────────────────────────
 export const PLATFORM_METRICS: import('../types').PlatformMetrics = {

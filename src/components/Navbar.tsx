@@ -2,8 +2,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Zap, Menu, X, User, Compass, BookOpen, ChevronDown } from 'lucide-react';
+import { Zap, Menu, X, User, Compass, BookOpen, ChevronDown, ShoppingCart } from 'lucide-react';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useCart } from '../context/CartContext';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -27,6 +28,7 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { items } = useCart();
 
   const isActive = (path: string) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
@@ -139,6 +141,14 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               <BookOpen size={15} />
               {t('nav.myLearning')}
             </Link>
+
+            {/* About */}
+            <Link to="/about"
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                isActive('/about') ? 'text-primary' : 'text-[#e9eff5] hover:text-primary'
+              }`}>
+              {isEn ? 'About' : 'Về chúng tôi'}
+            </Link>
           </nav>
 
           {/* Right actions */}
@@ -155,6 +165,18 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
             </motion.button>
 
             <LanguageSwitcher />
+
+            {/* Cart icon */}
+            <Link to="/cart"
+              className="relative flex w-8 h-8 rounded-full items-center justify-center border border-[var(--border-hover)] text-primary hover:bg-primary/10 transition-all duration-200">
+              <ShoppingCart size={15} />
+              {items.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-[9px] font-black flex items-center justify-center"
+                  style={{ background: '#92e600', color: '#0b0f0c' }}>
+                  {items.length}
+                </span>
+              )}
+            </Link>
 
             {/* Profile */}
             <Link to="/profile"
@@ -192,14 +214,8 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                   <button key={cat.label} onClick={() => handleCategory(cat.category)}
                     className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 text-left"
                     style={{ color: '#e9eff5' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)';
-                      e.currentTarget.style.color = '#92e600';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '';
-                      e.currentTarget.style.color = '#e9eff5';
-                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(146, 230, 0, 0.08)'; e.currentTarget.style.color = '#92e600'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#e9eff5'; }}
                   >
                     <span>{cat.emoji}</span>
                     {isEn ? cat.label : cat.labelVi}
@@ -211,6 +227,18 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
                 style={{ color: '#e9eff5' }}
               >
                 <BookOpen size={16} /> {t('nav.myLearning')}
+              </Link>
+              <Link to="/about" onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold"
+                style={{ color: '#e9eff5' }}
+              >
+                {isEn ? 'About Us' : 'Về chúng tôi'}
+              </Link>
+              <Link to="/affiliate" onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold"
+                style={{ color: '#92e600' }}
+              >
+                💰 Affiliate
               </Link>
               <button onClick={() => { navigate('/creator-studio'); setMobileOpen(false); }}
                 className="btn btn-primary flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold mt-1 w-full justify-center">
