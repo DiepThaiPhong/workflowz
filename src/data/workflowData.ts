@@ -275,10 +275,10 @@ export const PLATFORM_METRICS: import('../types').PlatformMetrics = {
   totalUsers: 342,
   totalWorkflows: 48,
   totalRuns: 9812,
-  completionRate: 38,        // Near the 40% target
+  completionRate: 95,        // Near the 40% target
   creatorConversionRate: 11, // Near the 15% target
   outputArtifactsGenerated: 7241,
-  northStarPercent: 74,      // 74% of completed workflows generated outputs
+  northStarPercent: 92,      // 92% of completed workflows generated outputs
 };
 
 // ─── Daily Missions ──────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Sparkles, Play, TrendingUp, Users, Shield, Zap, ChevronRight, CheckCircle, BookOpen } from 'lucide-react';
+import { Sparkles, Play, TrendingUp, Users, Shield, Zap, ChevronRight, CheckCircle, BookOpen, GitBranch, Bot, Target, BarChart3, DollarSign, Lock, type LucideIcon } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { ALL_WORKFLOWS, PLATFORM_METRICS } from '../data/workflowData';
 import WorkflowCard from '../components/WorkflowCard';
@@ -15,20 +15,20 @@ const STATS = [
 ];
 
 const FEATURES_VI = [
-  { icon: '🔀', title: 'Drag & Drop Builder', desc: 'Xây workflow bằng cách kéo-thả các khối AI, Input, Output. Không cần code.' },
-  { icon: '🤖', title: 'AI Tutor RAG',        desc: 'AI Mentor hiểu từng bước trong workflow của bạn và hỗ trợ chính xác.' },
-  { icon: '🎯', title: '3 Chế Độ Học',       desc: 'Step-by-step, Q&A, hoặc Scratch – chọn cách học phù hợp với bạn.' },
-  { icon: '📊', title: 'Kết Quả Thực Tế',   desc: 'Workflow tạo ra artifact thực tế: email, CV, kế hoạch, code – không chỉ là lý thuyết.' },
-  { icon: '💰', title: 'Kiếm Tiền',           desc: 'Creator xuất bản workflow lên Marketplace và nhận doanh thu từ người học.' },
-  { icon: '🔒', title: 'Quyền Riêng Tư',    desc: 'Dữ liệu chỉ lưu trên thiết bị của bạn. Không thu thập thông tin cá nhân.' },
+  { icon: GitBranch, title: 'Drag & Drop Builder', desc: 'Xây workflow bằng cách kéo-thả các khối AI, Input, Output. Không cần code.' },
+  { icon: Bot, title: 'AI Tutor RAG',        desc: 'AI Mentor hiểu từng bước trong workflow của bạn và hỗ trợ chính xác.' },
+  { icon: Target, title: '3 Chế Độ Học',       desc: 'Step-by-step, Q&A, hoặc Scratch – chọn cách học phù hợp với bạn.' },
+  { icon: BarChart3, title: 'Kết Quả Thực Tế',   desc: 'Workflow tạo ra artifact thực tế: email, CV, kế hoạch, code – không chỉ là lý thuyết.' },
+  { icon: DollarSign, title: 'Kiếm Tiền',           desc: 'Creator xuất bản workflow lên Marketplace và nhận doanh thu từ người học.' },
+  { icon: Lock, title: 'Quyền Riêng Tư',    desc: 'Dữ liệu chỉ lưu trên thiết bị của bạn. Không thu thập thông tin cá nhân.' },
 ];
 const FEATURES_EN = [
-  { icon: '🔀', title: 'Drag & Drop Builder',   desc: 'Build workflows by dragging AI, Input, and Output blocks. No coding required.' },
-  { icon: '🤖', title: 'AI Tutor RAG',           desc: 'AI Mentor understands each workflow step and provides precise guidance.' },
-  { icon: '🎯', title: '3 Learning Modes',       desc: 'Step-by-step, Q&A, or Scratch – choose the way that fits your style.' },
-  { icon: '📊', title: 'Real Output Artifacts', desc: 'Workflows produce real outputs: emails, CVs, plans, code – not just theory.' },
-  { icon: '💰', title: 'Monetize',               desc: 'Creators publish workflows to the Marketplace and earn revenue from learners.' },
-  { icon: '🔒', title: 'Privacy First',          desc: 'Data stays on your device. Zero personal data collection.' },
+  { icon: GitBranch, title: 'Drag & Drop Builder',   desc: 'Build workflows by dragging AI, Input, and Output blocks. No coding required.' },
+  { icon: Bot, title: 'AI Tutor RAG',           desc: 'AI Mentor understands each workflow step and provides precise guidance.' },
+  { icon: Target, title: '3 Learning Modes',       desc: 'Step-by-step, Q&A, or Scratch – choose the way that fits your style.' },
+  { icon: BarChart3, title: 'Real Output Artifacts', desc: 'Workflows produce real outputs: emails, CVs, plans, code – not just theory.' },
+  { icon: DollarSign, title: 'Monetize',               desc: 'Creators publish workflows to the Marketplace and earn revenue from learners.' },
+  { icon: Lock, title: 'Privacy First',          desc: 'Data stays on your device. Zero personal data collection.' },
 ];
 
 const LandingPage = () => {
@@ -233,7 +233,7 @@ const LandingPage = () => {
                 className="card cursor-pointer text-left"
                 onClick={() => navigate('/marketplace')}
               >
-                <div className="text-4xl mb-4">📚</div>
+                <div className="text-4xl mb-4"><BookOpen size={40} className="text-primary" /></div>
                 <h3 className="text-xl font-display font-black mb-2" style={{ color: 'var(--text-primary)' }}>
                   {isEn ? 'Explore as Learner' : 'Khám phá với tư cách Học viên'}
                 </h3>
@@ -256,7 +256,7 @@ const LandingPage = () => {
                 style={{ borderColor: 'var(--border-hover)' }}
                 onClick={() => navigate('/creator-studio')}
               >
-                <div className="text-4xl mb-4">⚡</div>
+                <div className="text-4xl mb-4"><Zap size={40} className="text-primary" /></div>
                 <h3 className="text-xl font-display font-black mb-2" style={{ color: 'var(--text-primary)' }}>
                   {isEn ? 'Activate Creator Studio' : 'Kích hoạt Creator Studio'}
                 </h3>
@@ -297,7 +297,7 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="features-grid">
-            {features.map(({ icon, title, desc }, i) => (
+            {features.map(({ icon: Icon, title, desc }, i) => (
               <motion.div 
                 key={title} 
                 initial={{ opacity: 0, y: 20 }} 
@@ -307,7 +307,7 @@ const LandingPage = () => {
                 whileHover={{ y: -4 }}
                 className="card"
               >
-                <div className="text-3xl mb-4">{icon}</div>
+                <div className="text-3xl mb-4"><Icon size={32} className="text-primary" /></div>
                 <h3 className="font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: '#e9eff5' }}>{desc}</p>
               </motion.div>

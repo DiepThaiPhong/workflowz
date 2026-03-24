@@ -50,12 +50,38 @@ const MARKETING_RESOURCES = [
 ];
 
 const GUIDELINES = [
-  'Bạn nhận hoa hồng 20% cho mỗi giao dịch thành công qua link của bạn.',
-  'Hoa hồng được ghi nhận trong vòng 30 ngày kể từ lần click đầu tiên.',
-  'Thanh toán hoa hồng được thực hiện vào ngày 1 và ngày 15 hàng tháng.',
-  'Không sử dụng quảng cáo paid search với từ khoá branded của WorkFlowz.',
-  'Không giả mạo danh tính nhân viên WorkFlowz khi tiếp thị.',
-  'Mọi vi phạm sẽ dẫn đến chấm dứt tài khoản affiliate.',
+  {
+    en: 'Creators earn 50% revenue when purchases come through the platform\'s discovery and distribution.',
+    vi: 'Creators nhận 50% doanh thu khi mua hàng thông qua discovery và distribution của nền tảng.',
+  },
+  {
+    en: 'Creators earn 90% revenue through their own referral link.',
+    vi: 'Creators nhận 90% doanh thu thông qua link referral của họ.',
+  },
+  {
+    en: 'Regular referrers earn 5% revenue when invited users make purchases.',
+    vi: 'Người giới thiệu thường nhận 5% doanh thu khi người được mời mua hàng.',
+  },
+  {
+    en: 'Commission is tracked for 30 days from the first click.',
+    vi: 'Hoa hồng được ghi nhận trong vòng 30 ngày kể từ lần click đầu tiên.',
+  },
+  {
+    en: 'Payments are processed on the 1st and 15th of each month.',
+    vi: 'Thanh toán hoa hồng được thực hiện vào ngày 1 và ngày 15 hàng tháng.',
+  },
+  {
+    en: 'Do not use paid search ads with WorkFlowz branded keywords.',
+    vi: 'Không sử dụng quảng cáo paid search với từ khoá branded của WorkFlowz.',
+  },
+  {
+    en: 'Do not impersonate WorkFlowz staff when marketing.',
+    vi: 'Không giả mạo danh tính nhân viên WorkFlowz khi tiếp thị.',
+  },
+  {
+    en: 'Any violation will result in affiliate account termination.',
+    vi: 'Mọi vi phạm sẽ dẫn đến chấm dứt tài khoản affiliate.',
+  },
 ];
 
 export default function AffiliatePage() {
@@ -75,10 +101,7 @@ export default function AffiliatePage() {
     <PageTransition>
       <div className="min-h-screen bg-[#0b0f0c]" style={{ paddingTop: '4rem' }}>
         {/* Header */}
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, #92e600 0%, transparent 50%)' }} />
-          <div className="relative container-max px-4 sm:px-6 py-10">
+        <div className="container-max px-4 sm:px-6 py-10">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mb-4"
               style={{ background: 'rgba(146,230,0,0.1)', border: '1px solid rgba(146,230,0,0.3)', color: '#92e600' }}>
               ✨ {isEn ? 'Affiliate Program' : 'Chương trình Affiliate'}
@@ -88,10 +111,9 @@ export default function AffiliatePage() {
             </h1>
             <p className="text-[#cedde9] text-base">
               {isEn
-                ? 'Share your link, earn 20% commission on every sale. No setup needed — you\'re already in!'
-                : 'Chia sẻ link của bạn, nhận 20% hoa hồng cho mỗi giao dịch. Không cần thiết lập — bạn đã tự động tham gia!'}
+                ? 'Earn up to 90% revenue through your own link. No setup needed — you\'re already in!'
+                : 'Kiếm tới 90% doanh thu thông qua link của bạn. Không cần thiết lập — bạn đã tự động tham gia!'}
             </p>
-          </div>
         </div>
 
         <div className="container-max px-4 sm:px-6 pb-16 space-y-8">
@@ -164,7 +186,7 @@ export default function AffiliatePage() {
             {[
               { val: '0', label: isEn ? 'Referrals' : 'Lượt giới thiệu', color: '#60a5fa' },
               { val: '0₫', label: isEn ? 'Total Earned' : 'Tổng thu nhập', color: '#92e600' },
-              { val: '20%', label: isEn ? 'Commission Rate' : 'Tỷ lệ hoa hồng', color: '#a78bfa' },
+              { val: '90%', label: isEn ? 'Max Commission' : 'Hoa hồng cao nhất', color: '#a78bfa' },
             ].map(({ val, label, color }) => (
               <div key={label} className="rounded-2xl border p-4 text-center"
                 style={{ background: '#0e150d', borderColor: 'rgba(146,230,0,0.1)' }}>
@@ -228,7 +250,7 @@ export default function AffiliatePage() {
                 <li key={i} className="flex items-start gap-3 text-sm text-[#cedde9]">
                   <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black mt-0.5"
                     style={{ background: 'rgba(146,230,0,0.1)', color: '#92e600' }}>{i + 1}</span>
-                  {g}
+                  {isEn ? g.en : g.vi}
                 </li>
               ))}
             </ul>
@@ -255,11 +277,12 @@ export default function AffiliatePage() {
                 {isEn ? 'Affiliate Policy' : 'Chính sách Affiliate'}
               </h3>
               <div className="space-y-3 text-sm text-[#cedde9] leading-relaxed max-h-72 overflow-y-auto pr-2">
-                <p><strong className="text-white">1. Hoa hồng:</strong> 20% giá trị giao dịch, ghi nhận trong 30 ngày cookie.</p>
-                <p><strong className="text-white">2. Thanh toán:</strong> Ngày 1 và 15 hàng tháng, tối thiểu 200.000 VNĐ.</p>
-                <p><strong className="text-white">3. Cấm:</strong> Paid search branded keywords, spam, giả mạo nhân viên.</p>
-                <p><strong className="text-white">4. Chấm dứt:</strong> WorkFlowz có quyền chấm dứt tài khoản nếu vi phạm.</p>
-                <p><strong className="text-white">5. Điều chỉnh:</strong> Chính sách có thể thay đổi với thông báo 14 ngày trước.</p>
+                <p><strong className="text-white">{isEn ? '1. Revenue Share:' : '1. Chia sẻ doanh thu:'}</strong> {isEn ? 'Creators earn 50% via platform discovery, 90% via own link, and regular referrers earn 5%.' : 'Creators nhận 50% qua discovery của nền tảng, 90% qua link riêng, và người giới thiệu thường nhận 5%.'}</p>
+                <p><strong className="text-white">{isEn ? '2. Cookie Duration:' : '2. Thời gian cookie:'}</strong> {isEn ? 'Commission is tracked for 30 days from first click.' : 'Hoa hồng được ghi nhận trong 30 ngày từ lần click đầu tiên.'}</p>
+                <p><strong className="text-white">{isEn ? '3. Payment Schedule:' : '3. Lịch thanh toán:'}</strong> {isEn ? 'Payments on the 1st and 15th of each month, minimum 200,000 VNĐ.' : 'Thanh toán vào ngày 1 và 15 hàng tháng, tối thiểu 200.000 VNĐ.'}</p>
+                <p><strong className="text-white">{isEn ? '4. Prohibited:' : '4. Cấm:'}</strong> {isEn ? 'Paid search branded keywords, spam, impersonating staff.' : 'Paid search branded keywords, spam, giả mạo nhân viên.'}</p>
+                <p><strong className="text-white">{isEn ? '5. Termination:' : '5. Chấm dứt:'}</strong> {isEn ? 'WorkFlowz reserves the right to terminate accounts for violations.' : 'WorkFlowz có quyền chấm dứt tài khoản nếu vi phạm.'}</p>
+                <p><strong className="text-white">{isEn ? '6. Changes:' : '6. Điều chỉnh:'}</strong> {isEn ? 'Policy may change with 14 days notice.' : 'Chính sách có thể thay đổi với thông báo 14 ngày trước.'}</p>
               </div>
               <button onClick={() => setPolicyOpen(false)}
                 className="mt-5 w-full py-3 rounded-xl font-bold text-sm transition-all"

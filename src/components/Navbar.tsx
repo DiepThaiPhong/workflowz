@@ -142,13 +142,6 @@ const Navbar = ({ darkMode, toggleDarkMode }: NavbarProps) => {
               {t('nav.myLearning')}
             </Link>
 
-            {/* About */}
-            <Link to="/about"
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                isActive('/about') ? 'text-primary' : 'text-[#e9eff5] hover:text-primary'
-              }`}>
-              {isEn ? 'About' : 'Về chúng tôi'}
-            </Link>
           </nav>
 
           {/* Right actions */}
