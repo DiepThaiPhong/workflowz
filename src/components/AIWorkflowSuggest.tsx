@@ -220,9 +220,12 @@ const AIWorkflowSuggest = ({ onClose }: Props) => {
                     <ArrowRight size={18} className="rotate-180" />
                   </motion.button>
                   <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
-                    onClick={handleGenerate}
+                    onClick={() => {
+                      navigate('/marketplace?category=coding');
+                      onClose();
+                    }}
                     className="btn-primary flex-1">
-                    <Sparkles size={18} /> {isEn ? 'Generate Workflow' : 'Tạo Workflow'}
+                    <Sparkles size={18} /> {isEn ? 'Find Workflow' : 'Tìm Workflow'}
                   </motion.button>
                 </div>
               </motion.div>
