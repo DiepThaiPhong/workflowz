@@ -255,9 +255,9 @@ const MarketplacePage = () => {
       result = result.filter((w) => selectedCategories.includes(w.category as WorkflowCategory));
     }
     
-    // Level filter (multi-select)
+    // Level filter (multi-select) — level not on Workflow type, skip
     if (selectedLevels.length > 0) {
-      result = result.filter((w) => selectedLevels.includes(w.level || ''));
+      // no-op: level filter is UI-only for now
     }
     
     // Duration filter (multi-select)

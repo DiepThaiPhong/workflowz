@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Zap, LayoutTemplate, CreditCard, ChevronLeft, ChevronRight,
   BarChart3, Play, CheckCircle, TrendingUp, Star, Clock, Sparkles, FolderOpen,
-  Edit,
+  Edit, Copy,
 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { TEMPLATE_WORKFLOWS } from '../data/workflowData';
