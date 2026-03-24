@@ -138,31 +138,6 @@
     min-height: 100vh;
   }
 
-  /* Top-left accent glow — raised 1/3 screen height */
-  body::before {
-    content: '';
-    position: fixed;
-    top: calc(-20% - 33vh);
-    left: -10%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(circle, rgba(146,230,0,0.12) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Bottom-right teal glow — lowered 1/3 screen height */
-  body::after {
-    content: '';
-    position: fixed;
-    bottom: calc(-20% - 33vh);
-    right: -10%;
-    width: 50%;
-    height: 50%;
-    background: radial-gradient(circle, rgba(20,184,166,0.10) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold;
