@@ -1,11 +1,58 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   BookOpen, PenLine, Bot, GitBranch, FileOutput, 
-  ChevronRight, Check, AlertCircle, Loader2 
+  ChevronRight, Check, AlertCircle, Loader2, Play 
 } from 'lucide-react';
 import { WorkflowBlock } from '../../types';
 import InputBlock from './InputBlock';
 import FeedbackPanel from './FeedbackPanel';
+
+// Parse content with **bold** and • bullets
+const parseFormattedContent = (content: string) => {
+  const parts = content.split('\n');
+  
+  return parts.map((line, lineIndex) => {
+    // Check if line starts with a bullet (• or -)
+    const bulletMatch = line.match(/^[•\-]\s*/);
+    
+    if (bulletMatch) {
+      const textAfterBullet = line.slice(bulletMatch[0].length);
+      // Process bold text within the line
+      const boldParts = textAfterBullet.split(/(\*\*[^*]+\*\*)/g);
+      
+      return (
+        <div key={lineIndex} className="flex gap-2 items-start">
+          <span className="text-[#92e600] mt-1">•</span>
+          <span>
+            {boldParts.map((part, i) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return <strong key={i} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+              }
+              return <span key={i}>{part}</span>;
+            })}
+          </span>
+        </div>
+      );
+    }
+    
+    // Non-bullet lines - still process bold
+    const boldParts = line.split(/(\*\*[^*]+\*\*)/g);
+    if (boldParts.length > 1) {
+      return (
+        <p key={lineIndex}>
+          {boldParts.map((part, i) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return <strong key={i} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+            }
+            return <span key={i}>{part}</span>;
+          })}
+        </p>
+      );
+    }
+    
+    return line ? <p key={lineIndex}>{line}</p> : null;
+  });
+};
 
 type BlockPhase = 'objective' | 'action' | 'result';
 type FeedbackState = 'empty' | 'loading' | 'completed' | 'error';
@@ -209,8 +256,27 @@ const StepCard = ({
         <div className="p-6 space-y-4">
           {/* Instruction block */}
           {block.type === 'instruction' && (
-            <div className="bg-[#0b0f0c] rounded-xl p-5 border border-[#1a2119]">
-              <p className="text-gray-200 leading-relaxed">{block.content}</p>
+            <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10">
+              <div className="flex flex-col lg:flex-row gap-4">
+                {/* Video placeholder - left side */}
+                <div className="lg:w-1/2 flex-shrink-0">
+                  <div className="aspect-video bg-[#080a09] rounded-lg border border-[#1a2119] flex items-center justify-center overflow-hidden">
+                    <div className="flex flex-col items-center gap-3 text-[#4b5563]">
+                      <div className="w-12 h-12 rounded-full bg-[#1a2119] flex items-center justify-center">
+                        <Play size={20} className="text-[#64748b] ml-1" />
+                      </div>
+                      <span className="text-xs text-[#64748b]">Video placeholder</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Content - right side */}
+                <div className="lg:w-1/2">
+                  <div className="text-gray-200 leading-relaxed text-base space-y-2">
+                    {parseFormattedContent(block.content)}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
