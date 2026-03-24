@@ -25,6 +25,7 @@ export interface WorkflowBlock {
   options?: string[];        // For decision blocks
   outputFormat?: 'text' | 'json' | 'markdown'; // For output blocks
   aiModel?: string;          // 'gemini' for AI prompt blocks
+  videoUrl?: string;         // Optional YouTube/video embed URL for instruction blocks
   position: { x: number; y: number };
   userValue?: string;        // Filled at runtime
 }

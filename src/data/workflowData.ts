@@ -262,9 +262,17 @@ export const WORKFLOW_CURSOR: Workflow = {
   descriptionEn: 'Complete guide to install and setup Openclaw AI assistant on VPS. 6 simple steps – bot runs 24/7.',
   category: 'coding',
   tags: ['ai', 'vps', 'telegram-bot', 'openclaw', 'automation'],
-  level: 'intermediate',
   blocks: [
-    makeBlock('oc1', 'instruction', 'Bước 1: Chuẩn bị thông tin cơ bản', 'Trước khi bắt đầu, chuẩn bị sẵn:\n• **Thông tin VPS:** IP, Username, Password (nhận qua email sau khi mua)\n• **Telegram Token:** Vào @BotFather, tạo bot mới để lấy token\n• **API Key:** Khuyên dùng Open Router vì tích hợp nhiều model AI (Claude, GPT, Gemini...) và không bị giới hạn tier', 0, 0),
+    makeBlock('oc1', 'instruction', '🛠️ Bước 1: Chuẩn bị thông tin cơ bản',
+      `**Trước khi bắt đầu, chuẩn bị sẵn:**
+
+**Thông tin VPS:** IP, Username, Password (nhận qua email sau khi mua)
+
+**Telegram Token:** Vào @BotFather, tạo bot mới để lấy token
+
+**API Key:** Khuyên dùng Open Router vì tích hợp nhiều model AI (Claude, GPT, Gemini...) và không bị giới hạn tier`,
+    0, 0, { videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }),
+
     makeBlock('oc2', 'instruction', 'Bước 2: Cài đặt trên VPS (Terminal)', 'Kết nối và cài đặt:\n1. **Kết nối:** ssh root@<IP_VPS> rồi nhập password\n2. **Tạo user mới:** Không nên chạy trực tiếp trên root. Tạo user (VD: m), set mật khẩu và cấp quyền sudo\n3. **Chạy cài đặt:** Chuyển sang user mới (su - m), lấy script từ tài liệu Openclaw và chạy', 0, 180),
     makeBlock('oc3', 'instruction', 'Bước 3: Cấu hình ban đầu (Onboarding)', 'Trong quá trình cài đặt, nhập:\n• **API Key:** Dán mã từ Open Router hoặc Anthropic\n• **Model:** Nên chọn Claude 3.5 Sonnet để ổn định\n• **Telegram Token:** Dán mã từ @BotFather\n• **Skills:** Cài Cloud Hub (bỏ qua Google, Notion, 11Labs - cài sau)', 0, 360),
     makeBlock('oc4', 'instruction', 'Bước 4: Kích hoạt Giao diện và Kết nối Telegram', 'Hoàn tất kết nối:\n1. **Mở cổng:** Chạy `open-claw gateway --verbose`\n2. **Truy cập Web UI:** Copy link + token từ terminal vào trình duyệt\n3. **Thiết lập Soul:** Chat trên web để định hình tính cách, vai trò cho bot\n4. **Pairing Telegram:** Lấy Pairing Code từ web, chat với bot Telegram và dán vào', 0, 540),

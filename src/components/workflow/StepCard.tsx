@@ -256,29 +256,55 @@ const StepCard = ({
         <div className="p-6 space-y-4">
           {/* Instruction block */}
           {block.type === 'instruction' && (
-            <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10">
-              <div className="flex flex-col lg:flex-row gap-4">
-                {/* Video placeholder - left side */}
-                <div className="lg:w-1/2 flex-shrink-0">
-                  <div className="aspect-video bg-[#080a09] rounded-lg border border-[#1a2119] flex items-center justify-center overflow-hidden">
-                    <div className="flex flex-col items-center gap-3 text-[#4b5563]">
-                      <div className="w-12 h-12 rounded-full bg-[#1a2119] flex items-center justify-center">
-                        <Play size={20} className="text-[#64748b] ml-1" />
+            <div className="bg-[#0b0f0c] rounded-xl border border-[#92e600]/10 overflow-hidden">
+              {/* If block has a videoUrl → full-width video on top, text below */}
+              {block.videoUrl ? (
+                <>
+                  {/* YouTube / video embed */}
+                  <div className="w-full aspect-video bg-black">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={block.videoUrl}
+                      title={block.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="w-full h-full"
+                    />
+                  </div>
+                  {/* Text content below video */}
+                  <div className="p-5">
+                    <div className="text-gray-200 leading-relaxed text-base space-y-3">
+                      {parseFormattedContent(block.content)}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Default layout: placeholder video left + text right */
+                <div className="p-4">
+                  <div className="flex flex-col lg:flex-row gap-4">
+                    <div className="lg:w-1/2 flex-shrink-0">
+                      <div className="aspect-video bg-[#080a09] rounded-lg border border-[#1a2119] flex items-center justify-center overflow-hidden">
+                        <div className="flex flex-col items-center gap-3 text-[#4b5563]">
+                          <div className="w-12 h-12 rounded-full bg-[#1a2119] flex items-center justify-center">
+                            <Play size={20} className="text-[#64748b] ml-1" />
+                          </div>
+                          <span className="text-xs text-[#64748b]">Video placeholder</span>
+                        </div>
                       </div>
-                      <span className="text-xs text-[#64748b]">Video placeholder</span>
+                    </div>
+                    <div className="lg:w-1/2">
+                      <div className="text-gray-200 leading-relaxed text-base space-y-2">
+                        {parseFormattedContent(block.content)}
+                      </div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Content - right side */}
-                <div className="lg:w-1/2">
-                  <div className="text-gray-200 leading-relaxed text-base space-y-2">
-                    {parseFormattedContent(block.content)}
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           )}
+
 
           {/* Input block */}
           {(block.type === 'input' || block.type === 'decision') && (

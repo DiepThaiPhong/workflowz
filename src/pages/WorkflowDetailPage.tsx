@@ -410,8 +410,56 @@ export default function WorkflowDetailPage() {
 
                 {/* Instruction */}
                 {block.type === 'instruction' && (
-                  <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10">
-                    <p className="text-gray-200 leading-relaxed text-base">{block.content}</p>
+                  <div className="bg-[#0b0f0c] rounded-xl border border-[#92e600]/10 overflow-hidden">
+                    {/* YouTube embed if videoUrl present */}
+                    {block.videoUrl && (
+                      <div className="w-full aspect-video bg-black">
+                        <iframe
+                          width="100%" height="100%"
+                          src={block.videoUrl}
+                          title={block.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                          className="w-full h-full"
+                        />
+                      </div>
+                    )}
+                    {/* Content with bold + line-break support */}
+                    <div className={block.videoUrl ? 'p-5' : 'p-4'}>
+                      <div className="text-gray-200 leading-relaxed text-base space-y-2">
+                        {block.content.split('\n').map((line, i) => {
+                          if (!line.trim()) return <div key={i} className="h-1" />;
+                          const parts = line.split(/(\*\*[^*]+\*\*)/g);
+                          if (parts.length > 1) {
+                            return (
+                              <p key={i}>
+                                {parts.map((p, j) =>
+                                  p.startsWith('**') && p.endsWith('**')
+                                    ? <strong key={j} className="font-bold text-white">{p.slice(2,-2)}</strong>
+                                    : <span key={j}>{p}</span>
+                                )}
+                              </p>
+                            );
+                          }
+                          const bullet = line.match(/^[•\-]\s*/);
+                          if (bullet) {
+                            const rest = line.slice(bullet[0].length).split(/(\*\*[^*]+\*\*)/g);
+                            return (
+                              <div key={i} className="flex gap-2 items-start">
+                                <span className="text-[#92e600] mt-0.5">•</span>
+                                <span>{rest.map((p, j) =>
+                                  p.startsWith('**') && p.endsWith('**')
+                                    ? <strong key={j} className="font-bold text-white">{p.slice(2,-2)}</strong>
+                                    : <span key={j}>{p}</span>
+                                )}</span>
+                              </div>
+                            );
+                          }
+                          return <p key={i}>{line}</p>;
+                        })}
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -477,12 +525,116 @@ export default function WorkflowDetailPage() {
                   )
                 )}
 
-                {/* Output */}
+                {/* Output — Celebration screen */}
                 {block.type === 'output' && (
-                  <div className="bg-[#0b0f0c] rounded-xl p-4 border border-[#92e600]/10 text-sm text-[#e9eff5] italic">
-                    {isEn ? 'Output will appear once all steps are complete...' : 'Kết quả sẽ xuất hiện sau khi hoàn thành tất cả bước...'}
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-[#0b150a] to-[#0b0f0c] border border-[#92e600]/20 p-6">
+                    {/* Confetti particles */}
+                    {[...Array(18)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 rounded-full pointer-events-none"
+                        initial={{ 
+                          x: `${20 + Math.random() * 60}%`, 
+                          y: '-10%', 
+                          opacity: 1,
+                          rotate: 0,
+                          scale: 0.5 + Math.random() * 1,
+                        }}
+                        animate={{ 
+                          y: '110%', 
+                          opacity: [1, 1, 0], 
+                          rotate: 360 * (Math.random() > 0.5 ? 1 : -1),
+                          x: `${15 + Math.random() * 70}%`,
+                        }}
+                        transition={{ 
+                          duration: 2 + Math.random() * 2, 
+                          delay: Math.random() * 1.5,
+                          repeat: Infinity,
+                          repeatDelay: Math.random() * 3,
+                          ease: 'easeIn'
+                        }}
+                        style={{ 
+                          background: ['#92e600','#ffffff','#fbbf24','#60a5fa','#f472b6'][i % 5],
+                          left: 0, top: 0,
+                        }}
+                      />
+                    ))}
+
+                    {/* Celebration text */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      className="text-center mb-4"
+                    >
+                      <div className="text-4xl mb-1">🎉</div>
+                      <h3 className="text-2xl font-black text-[#92e600] mb-1">
+                        {isEn ? 'Mission Complete!' : 'Hoàn thành xuất sắc!'}
+                      </h3>
+                      <p className="text-[#a8c090] text-sm">
+                        {isEn
+                          ? 'Openclaw is now running 24/7 on your VPS. You crushed it!'
+                          : 'Openclaw đã chạy 24/7 trên VPS của bạn. Bạn đã làm được rồi!'}
+                      </p>
+                    </motion.div>
+
+                    {/* Success Kid meme */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2, duration: 0.5 }}
+                      className="flex justify-center mb-4"
+                    >
+                      <div className="relative">
+                        <img
+                          src="/success-kid.png"
+                          alt="Success Kid meme"
+                          className="w-64 h-44 object-cover rounded-2xl shadow-2xl"
+                          style={{ boxShadow: '0 0 40px rgba(146,230,0,0.3), 0 8px 32px rgba(0,0,0,0.5)' }}
+                        />
+                        {/* Meme caption overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/70 rounded-b-2xl px-3 py-2 text-center">
+                          <p className="text-white font-black text-sm uppercase tracking-wide" style={{ textShadow: '1px 1px 0 #000' }}>
+                            {isEn ? 'BOT IS LIVE. RUNNING 24/7.' : 'BOT ĐÃ CHẠY. 24/7. NGON!'}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* XP reward badge */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5, type: 'spring', stiffness: 300 }}
+                      className="flex justify-center gap-3 flex-wrap"
+                    >
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#92e600]/15 border border-[#92e600]/40">
+                        <Sparkles size={14} className="text-[#92e600]" />
+                        <span className="text-[#92e600] font-bold text-sm">+315 XP {isEn ? 'Earned' : 'Kiếm được'}</span>
+                      </div>
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#fbbf24]/10 border border-[#fbbf24]/30">
+                        <span className="text-[#fbbf24] font-bold text-sm">🏆 {isEn ? 'VPS Master Badge' : 'Huy hiệu VPS Master'}</span>
+                      </div>
+                    </motion.div>
+
+                    {/* To Certificate button */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.8, duration: 0.4 }}
+                      className="flex justify-center mt-4"
+                    >
+                      <Link
+                        to="/certificate"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-[#0b0f0c] transition-all hover:scale-105 active:scale-95"
+                        style={{ background: 'linear-gradient(135deg, #92e600 0%, #7ed321 100%)', boxShadow: '0 4px 20px rgba(146,230,0,0.35)' }}
+                      >
+                        🎓 {isEn ? 'View Certificate' : 'Xem Chứng Chỉ'}
+                      </Link>
+                    </motion.div>
                   </div>
                 )}
+
               </motion.div>
             </AnimatePresence>
 
